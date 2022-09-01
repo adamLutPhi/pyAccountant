@@ -1,13 +1,6 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Sep  1 07:01:04 2022
-
-@author: Ahmad Lutfi
-"""
-
 # accountingLog
 
-9-1-2022
+## 9-1-2022
 
 
 added `resetAccount` to reset the state of account, after each Debit or Credit 
