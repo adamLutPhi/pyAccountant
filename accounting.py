@@ -42,12 +42,7 @@ think of at least `3 ` conditions that make an amount `Invalid`, which are:
 
 """
 # Static Functions
-#Unused
-# source: https://www.w3resource.com/python-exercises/lambda/python-lambda-exercise-9.php
 
-def is1Digit(d):
-    isDigit = d.replace('.', '', 1).isdigit()
-    return isDigit
 #================================================================================
 # Amount Functions
 
@@ -92,14 +87,14 @@ print("Is `None` Nullable? ", amountIsNullable(None))  # True
 #===============================================================================
 # AccountTypeCheck
 
-
+    # valid
 def notNullorEmptyPositive(amount):
     if not amountIsNullable(amount) and not amountIsEmptyString(amount) and not amountIsNegative(amount):
         return True
     elif amountIsNullable(amount) or amountIsEmptyString(amount) or amountIsNegative(amount):
         return False
 
-
+    #Invalid
 def NullorEmptyorNegative(amount):
     if amountIsNullable(amount) or amountIsEmptyString(amount) or amountIsNegative(amount):
         return True
@@ -108,25 +103,77 @@ def NullorEmptyorNegative(amount):
         return False
 
 #===============================================================================
-
-# @unique
+# Account Class 
 
 
 class Account:
- #   id
- #   Name
+    """
+        an account class 
+         any account can be 
+         1. stateful: when value flows (from an account, in-flow our out of account , out-flow )
+         two states:
+             1. Debit
+             2. Credit 
+             
+         1.1. debited (Dr)
+ 
+         1.2. Credited (Cr)
+
+
+        2. stateless:
+            has a reset feature
+            it has to be called, after each transaction
+            
+        after each transaction, the account returns back to its natural state of being 
+        Into a state of `None`
+        
+       Note: the intent of this behavior is that 
+        the account would only behave in an expected manner :
+            when there is a flow: then it's either a debit 
+        
+        
+        
+    """
+
     # pass
     # The following Naming attributes solves "inherited child does not have this attribute" AttributeError
+    # iniitally, an account has as neutral Nullable state (Dr or Cr) set 
+   
+    # stateful-actions:
     Dr = None
     Cr = None
+    
+    #state-less action 
+    def resetAccountState(self):
+        """
+        after having an action, account, should return to `None`
 
-   # amountIsNullable =  lambda _ : _ == None
-   # amountIsEmptyString = lambda _  : _ == ""
-   # W amountIsNegative = lambda _ : _ < 0.0
+        Returns
+        -------
+        None.
 
-   # total
+        """
+        self.Dr = None
+        self.Cr = None 
+        
+    def __init__(self, Name="N/A", total=0.0 ):
+        
+        """
 
-    def __init__(self, Name="N/A", total=0.0):
+        Parameters
+        ----------
+        Name : TYPE, optional
+            the Account's Name . The default is "N/A".
+            
+            
+        total : TYPE, optional
+            the Account's value. The default is 0.0 : float.
+
+        Returns
+        -------
+        None. # TODO: return an inflow (or outflow), or None 
+
+        """
 
         self.Name = Name
         #self.Dr = None
@@ -184,7 +231,7 @@ class Account:
             self.Cr = None
             self.total = np.round(total, 2)
     """
-
+    #depreciate 
     def incrementId(self):
 
         if self.Id != None:
@@ -204,7 +251,16 @@ class Account:
 
     # amount Is Negative
     """ #applying deMorgans law for logic (and ->or , or -> and) (inverting and to or, not or without (to be or not to be ))"""
-
+    
+    def calcFlow(self,amount, operator):
+        if operator == self.Cr:
+            pass
+            #check accountType 
+        elif operator == self.Dr:
+            pass 
+        elif operator == None :
+            pass 
+        
     def amountIsNegative(amount):
         # NullorEmptyorNegative(amount) or amountIsEmptyString(amount) or amountIsNegative(amount): #amountIsNullable or amountIsEmptyString or amountIsNegative:
         if NullorEmptyorNegative(amount):
@@ -239,14 +295,14 @@ class Account:
       #  elif not  amountIsNullable and not amountIsEmptyString and not amountIsNegative: # 0 is also a valid number, indeed
         #    return True #True
         else:
-            raise Exception("an unknown error Occured, ")
+            raise Exception("an unknown error Occured ")
 
     def increment(self, amount=0.0):
         """ increments an an account, by a value """
         # if not  amount == None and not amount == "" and amount >=0.0: # 0 is also a valid number, indeed
         total = 0.0
-
-        # not amountIsNullable(amount) and not amountIsEmptyString(amount) and :
+        
+        # 1 check amount not amountIsNullable(amount) and not amountIsEmptyString(amount) and :
         if notNullorEmptyPositive(amount):
 
             tmp = self.total + amount  # store value temprarily
@@ -257,7 +313,7 @@ class Account:
         return total
 
     def decrement(self, amount=0.0):
-
+        """ decrements an amount, by a value """
         total = 0.0
 
         if notNullorEmptyPositive(amount):
@@ -320,7 +376,7 @@ Otherwise, you have to use the Account.__init__ form.
 
 docs.python.org/library/functions.html#super indicates that super() is only supported on new-style classes, which in Python 2.x are those that inherit from object
 `@chepner` Thanks. I did not realize 
-  *python classes do not automatically inherit from a common base class the way they do in Java. I have fixed my code.*
+  *`python classes do not automatically inherit from a common base class` the way they do in Java. I have fixed my code.*
 """
 
 
@@ -337,29 +393,35 @@ class DebitAccount(Account):  # inherits Account (corrrect)
     Account.__init__(Name=Name, total=total)
     self.Dr = 1 
     """
-
+    """
     def __init1__(self, *args, **kwargs):  # same
         # self.website=kwargs.pop('website')
         # the thing Dr is not given directly thru the  parameter
         #  self.Dr=kwargs.pop('Dr') # pop the required attribute
-
+        
+        
         super(DebitAccount, self).__init__(*args, **kwargs)
         # super().Dr = 1  #N.D
         # self.Cr = 1 # assign it
-        self.Dr = 1  # True #1 # assign it  #N.D
-        self.Cr = None
+       # self.Dr = 1  # True #1 # assign it  #N.D
+        #self.Cr = None
         #super.Dr = 1
         print("Debit Finished")
-
+    """
+    
     def __init__(self, Name, total):  # same
 
         # super().Dr = 1      #N.D
-        super(DebitAccount, self).__init__(Name, total)
-        self.Dr = 1  # N.D
-        self.Cr = None
+        super(DebitAccount, self).__init__(Name, total) # sets account w
+      #  self.Dr = 1  # N.D
+      #  self.Cr = None
+        self.setDebit() # sets account to be a DebitAccount 
 
         print("Debit(2) Finished")
 
+        #now reset account's state
+        self.resetAccountState()
+        
     def setCredit(self):
         self.Cr = 1
         self.Dr = None
@@ -367,15 +429,35 @@ class DebitAccount(Account):  # inherits Account (corrrect)
     def setDebit(self):
         self.Dr = 1
         self.Cr = None
-
+        
+    
+    def finalize(self):
+        self.resetAccountState()
+       
+    def calculateFlow(self,amount): #  se:
+        # 1 checks if amount is valid 
+            self.checkAmountIsValid(amount)
+                
+            #TODO: 
+                
+       #self.total -  
+        #pass
+        
+    
+    # Stateful- Actions: debit , credit     
+    
     def credit(self, amount=100):  # 0.0): # same
-        self.setCredit()
-        if self.Cr == 1:
-            if amount > 0:
+       
+        self.calculateFlow(amount) # TODO <---------
+        
+        self.setCredit()    # set a credit state 
+        if self.Cr == 1: # checks if credit operation 
+            #if amount > 0:
                 # self.cr
-                super(DebitAccount, self).decrement(amount)
-
-                """
+            super(DebitAccount, self).decrement(amount)
+            self.resetAccountState()
+            
+            """
                     if self.Dr == 1:
                         self.decrement(amount)
         
@@ -392,6 +474,7 @@ class DebitAccount(Account):  # inherits Account (corrrect)
             if amount > 0:
                 # self.decrement(amount)
                 super(DebitAccount, self).increment(amount)
+                self.resetAccountState()
             """
                     if self.Cr == 1:
                         self.increment(amount)
@@ -424,16 +507,20 @@ class DebitAccount(Account):  # inherits Account (corrrect)
         """
 
     def checkDrCondition(self, amount: float):
-
+        """checks current Dr Condition """ 
+        
         if self.Dr == 1:
             # increment , if Dr (Debit)
             #super.increment(self.total, amount)
             super(DebitAccount, self).increment(amount)
-
+            
+            self.finalize()
         elif self.Cr == 1:
             # decrement , if Cr (Credit)
             #super.decrement(self.total, amount)
             super(DebitAccount, self).decrement(amount)
+            self.finalize()
+            
         # (potential 2-faced loophole)
         elif self.Dr == None and self.Cr == None:
             pass
@@ -460,6 +547,24 @@ class DebitAccount(Account):  # inherits Account (corrrect)
         """
 
     def increment(self, amount):
+        """
+            increments by an amount 
+
+        Parameters
+        ----------
+        amount : float 
+            DESCRIPTION.
+
+        Raises
+        ------
+        Exception
+            DESCRIPTION.
+
+        Returns
+        -------
+        None.
+
+        """
         if self.Dr == 1:
 
             # increment , if Cr (Credit)
@@ -469,7 +574,8 @@ class DebitAccount(Account):  # inherits Account (corrrect)
             # decrement , if Dr (Debit)
             #        decrement(self.total, amount)
 
-        elif self.Dr == None and self.Cr == None:
+        #Otherwise, if nothing is set, then do Nothing
+        elif self.Dr == None and self.Cr == None: 
             pass
 
         else:
@@ -520,9 +626,11 @@ class CreditAccount(Account):  # , Enum):
         # self.website=kwargs.pop('website')
         # the thing Dr is not given directly thru the  parameter
         #  self.Dr=kwargs.pop('Dr') # pop the required attribute
+       
         super(CreditAccount, self).__init__(*args, **kwargs)
+        self.resetAccountState()
         # self.Cr = 1 # assign it
-        self.Cr = 1  # True #1 # assign it
+        #self.Cr = 1  # True #1 # assign it
         #super.Dr = 1
         print("Credit Finished")
 
@@ -536,24 +644,25 @@ class CreditAccount(Account):  # , Enum):
         if self.Dr == 1:
             # increment , if Dr (Debit)
             #super.increment(self.total, amount)
-            super(CreditAccount, self).decrement(amount)
-
+            super(CreditAccount, self).decrement(amount) # Account decrements
+            self.resetAccountState() # followed by a reset state, back to `None`
         elif self.Cr == 1:
             # decrement , if Cr (Credit)
             #super.decrement(self.total, amount)
             super(CreditAccount, self).increment(amount)
+            self.resetAccountState() # followed by a reset state, back to `None`
         elif self.Dr == None and self.Cr == None:
             pass
         else:
             raise Exception(
                 "Unexpected Error Occured , please try again later")
 
-    def credit(self, amount=100):  # 0.0):
-        if self.Cr == 1:
+    def credit(self, amount=100):  # 0.0): # # cr CreditAccount [+] 
+        if self.Cr == 1: # 
             if amount > 0:
                 # self.cr
                 super(CreditAccount, self).increment(amount)
-
+                self.resetAccountState() # reset state, back to `None`
                 """
                     if self.Dr == 1:
                         self.decrement(amount)
@@ -565,11 +674,12 @@ class CreditAccount(Account):  # , Enum):
             else:
                 raise Exception("ERROR: `amount` must be positive")
 
-    def debit(self, amount=100):  # 0.0):
+    def debit(self, amount=100):  # 0.0): # dr CreditAccount [-] 
         if self.Dr == 1:
             if amount > 0:
                 # self.decrement(amount)
                 super(CreditAccount, self).decrement(amount)
+                self.resetAccountState() # reset state
                 """
                     if self.Cr == 1:
                         self.increment(amount)
@@ -658,7 +768,10 @@ class transaction():
 
             # self.Acc1 = Acc1
             # self.Acc2 = Acc2
-            Acc1.credit(amount)
+            Acc1.debit(amount)
+            Acc2.credit(amount)
+            
+            Acc1.credit(amount) # 
             Acc2.debit(amount)
 
         elif Acc1.Cr == 1 and Acc2.Dr == 1:
@@ -755,4 +868,116 @@ bank.increment(100)
 
 print("cash's total = ", cash.total)
 print("Bank's total = ", bank.total)
+
+
+"""pip's Debt is am expense for pip i.e. he has topay for it  ( in turn of serice rendered i.e. the liquor at 
+Barnett's Inn)
+
+mean While Barnett's Inn is the Account Payable'
+it is a liability on pip, it surely is , thus it's a Liability Account 
+(Liability is an account of burden on the account owner, that sooner pr later pip has to pay back 
+ )
+timing: there are 2 types of a Liability : 
+    
+    Short-Term : within 1 year (this account belings to, as it's of a small sum, for the dew beers offered )
+    Long-Term Liability : returnable  with a period of more than 1 year 
+    
+    
+    Liabilities normally have a `fee` (for carrying the liability)
+    (in which is a crucial feature: has to be fulfilled  #TODO ) 
+    
+"""
+#----------------
+
+# Transaction 1 : pip writes down Debt of 100 shillings to barrerttInn (creditAccount )
+#Instantiate  DebitAccount 100 (pip's Debt) amount pip should pay 
+#instantiate a CreditAccount 100 barnettInn's Inn 100 
+
+pipDebt = DebitAccount("pip's Debt", 100)
+barnettInn = CreditAccount("Barnett's Inn", 100)
+
+#------------------
+#pip lower down his debt, by paying it back to barnettInn , say for the same starting amount, 100 
+
+#pip pays off his amount 
+
+#transaction   1: 
+#an in-flow to barnettInn of (100 ) shillings matches up with an out-flow of a 
+barnettInn.debit(100) # closing account for Mr. Pip
+pipDebt.credit(100) # 
+
+
+# Adding a debt Account for Mr. Herbert
+herbertDebt = DebitAccount("Herbert's Debt", 100)
+barnettInn = CreditAccount("Barnett's Inn", 100)
+
+#now, Mr. Herbert had fallen int some issues, & is unable to pay
+# for helping a friend out, Mr. pip steps in & offers barnettInn to pay for herbert's Debt
+
+"""
+#what can barnettInn do , in this case?
+first, they have to close the account for `Mr. Herbert`
+(the only way to fully close the (liability) account is to set to back to 0 
+but to do that , they have 'somehow' to transform the Burden (liability) to his friend 
+Mr. pip )
+
+thus, lowering down Mr.Herbert, & increasing the Liability, again, for pious `Mr. Pip`
+
+recall, increasing a Debit account is by debiting it, 
+increasing a Credit Account is by crediting it 
+(just remember, like attracts like)
+"""
+#1 barnettInn has to `close` herbertDebt & transform Liability to `Mr. Pip`
+
+# closing Herbert Debt: 
+
+barnettInn.debit(100) # closing the account in barnett's Inn book, as well 
+herbertDebt.credit(100) # his account goes back to 0 [ as cr debitAccount(100) = -1 * 100]
+
+# note: the two sided accounting formula makes everything in the clear `somehow`
+# it has been constructed to be like this, in such a way, no tampering could exist 
+# as a lie is easily detectable, by only checking whether the sums of 2 equations 
+# are equal (or not)
+"""
+Now, BarnettInn has closed the account, but they are yet to recieve a (100 ) from Mr.pip
+
+to completely transfer liability, 
+Barnett Inn's has  to open up Mr.pip's Debt account again : 
+    [as if pip was he ower]
+  
+dr pip's Debt 100 
+    cr barnettIn 100 
+
+"""
+# debit 
+# credit 
+
+# pipDebt.Dr(100)
+# barnettInn.Cr(100)
+
+pipDebt.debit(100)
+barnettInn.credit(100)
+
+
+"""  
+# this ends the transfer of liability 
+
+Finally, now the manager at barnett Inn could ask Mr. Pip to finally pay his dues
+-"that'll be a 100, alright, sir"
+-" with pleasure "
+
+To reiterate, Mr. Pip pays off the manager his now dues, a 100, Manager recieves the sum 
+& closes pip's Debt Account , accordingly
+
+"""
+
+
+# barnettInn.Dr(100) 
+# pipDebt.cr(100)
+
+barnettInn.debit(100)
+pipDebt.credit(100)
+
+
+
 
