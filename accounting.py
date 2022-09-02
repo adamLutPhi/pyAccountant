@@ -14,6 +14,7 @@ this version is prefered, to continue to work on, & further develop:
     (Correction: transation returns total instead of self.total)
 """
 import numpy as np
+from math import *
 """
 from datetime import date, time, timedelta  # fixes
 from pytz import timezone
@@ -105,6 +106,64 @@ def NullorEmptyorNegative(amount):
 #===============================================================================
 # Account Class 
 
+#debugging 
+#static methods 
+tot =1000
+def increment(total, amount): #now works 
+        
+        """ increments an an account, by a value """
+        # if not  amount == None and not amount == "" and amount >=0.0: # 0 is also a valid number, indeed
+        #total = 0.0
+        
+        # 1 check amount not amountIsNullable(amount) and not amountIsEmptyString(amount) and :
+        #if notNullorEmptyPositive(amount):
+        
+        inflow = + amount 
+        
+        tmp = total + abs( inflow)  # amount  # store value temporarily
+        
+        
+        #tmp = total 
+        
+        #inflow = abs(amount)
+         
+            # total += amount
+            # Check Failure Condition
+        if tmp >= 0:  # and amount > 0: # amount already is positive
+            total = tmp
+       
+        return total # instead of total, should calculate & return the flow (the difference between  total and new amount)
+        #return inflow
+        
+def decrement(total, amount):
+        """ decrements an amount, by a value """
+        #total = 0.0
+        
+        #1000 
+        
+        #if notNullorEmptyPositive(amount):
+        tmp = total 
+        outflow = -  abs( amount) #always negative 
+        
+        tmp += outflow #+ outflow #total + outflow #- amount
+        
+        #tmp = total
+            # total -= amount
+            # Check Failure Condition
+        if tmp>=0 : #amount >= 0:
+            total = tmp #assign tmp to total 
+        
+        return total
+        #return outflow
+        
+tot = increment(tot, 100)
+    
+print("increment(100) = ",tot) #hmm this is wrong ! #  100.0  (+1000 = 1100)) #correct 
+tot = decrement(tot, 1100) # -1100
+print("decrement(1100) = ",tot) #mmm it misses a 100 , correctly decrements a 1000, [but misses out on the last 100] #incorrect
+
+#this is the core issue of this part of program
+
 
 class Account:
     """
@@ -131,6 +190,13 @@ class Account:
         the account would only behave in an expected manner :
             when there is a flow: then it's either a debit 
         
+    Hence, we start with 4 flags
+    
+    2 Account flags: describe what the account would be about (credit or debit Account)
+    
+    2 Transaction flags: describe what transaction, & which part of the accounting equation 
+    the account would be at 
+    
         
         
     """
@@ -143,6 +209,14 @@ class Account:
     Dr = None
     Cr = None
     
+    drAcc = None
+    crAcc = None
+    
+    #transaction flags (stateless)
+    drTransaction = None
+    crTransaction = None 
+    
+    
     #state-less action 
     def resetAccountState(self):
         """
@@ -153,6 +227,10 @@ class Account:
         None.
 
         """
+        #reset the transaction flags 
+        self.drTransaction = None
+        self.crTransaction = None 
+        
         self.Dr = None
         self.Cr = None 
         
@@ -253,10 +331,10 @@ class Account:
     """ #applying deMorgans law for logic (and ->or , or -> and) (inverting and to or, not or without (to be or not to be ))"""
     
     def calcFlow(self,amount, operator):
-        if operator == self.Cr:
+        if operator == self.crTransaction: #self.Cr:
             pass
             #check accountType 
-        elif operator == self.Dr:
+        elif operator == self.drTransaction:
             pass 
         elif operator == None :
             pass 
@@ -280,12 +358,12 @@ class Account:
         elif NullorEmptyorNegative(amount):
             return False
 
-    def amountIsPositive(amount=0.0):
+    def amountIsPositive(amount ):
         # amountIsNullable(amount) and  amountIsEmptyString(amount) and  amountIsNegative(amount) = amount < 0.0 :
         if amountIsPositive(amount):
             # = amount == "" # =  if amount == None
             return True
-        elif not amount < 0:  # amountIsPositive(amount): #<0 :
+        elif amountIsNegative(amount):  # amountIsPositive(amount): #<0 :
             return False
 
         # amountIsNullable or amountIsEmptyString or amountIsNegative:
@@ -296,35 +374,76 @@ class Account:
         #    return True #True
         else:
             raise Exception("an unknown error Occured ")
-
-    def increment(self, amount=0.0):
+    
+    def increment(self, amount):
+        
         """ increments an an account, by a value """
         # if not  amount == None and not amount == "" and amount >=0.0: # 0 is also a valid number, indeed
-        total = 0.0
+        #total = 0.0
         
         # 1 check amount not amountIsNullable(amount) and not amountIsEmptyString(amount) and :
-        if notNullorEmptyPositive(amount):
-
-            tmp = self.total + amount  # store value temprarily
+        #if notNullorEmptyPositive(amount):
+        #inflow = + amount 
+        #tmp = self.total + abs( inflow)  # amount  # store value temporarily
             # total += amount
             # Check Failure Condition
-            if tmp >= 0:  # and amount > 0: # amount already is positive
-                self.total = tmp
-        return total
+        #if tmp >= 0:  # and amount > 0: # amount already is positive
+       #     self.total = tmp
+            
+        inflow = + amount 
+            
+        tmp = self.total + abs( inflow)  # amount  # store value temporarily
+            
+            
+        #tmp = total 
+            
+            #inflow = abs(amount)
+             
+                # total += amount
+                # Check Failure Condition
+        if tmp >= 0:  # and amount > 0: # amount already is positive
+            self.total = tmp
+           
+            return self.total # instead of total, should calculate & return the flow (the difference between  total and new amount)
+       
+        return self.total # instead of total, should calculate & return the flow (the difference between  total and new amount)
+        #return inflow
 
-    def decrement(self, amount=0.0):
+    def decrement(self, amount):
         """ decrements an amount, by a value """
-        total = 0.0
 
-        if notNullorEmptyPositive(amount):
-
-            self.total = self.total - amount
-            tmp = self.total
+                #total = 0.0
+                
+                #1000 
+                
+            #if notNullorEmptyPositive(amount):
+        tmp = self.total 
+        outflow = -  abs( amount) #always negative 
+                
+        tmp += outflow #+ outflow #total + outflow #- amount
+                
+        #tmp = total
+                    # total -= amount
+                    # Check Failure Condition
+        if tmp>=0 : #amount >= 0:
+            self.total = tmp #assign tmp to total 
+                
+        return self.total
+                #return outflow
+        #total = 0.0
+        """
+        #if notNullorEmptyPositive(amount):
+        outflow = - abs( amount) #always negative 
+        self.total = self.total + outflow #- amount
+        tmp = self.total
             # total -= amount
             # Check Failure Condition
-            if amount >= 0:
-                self.total = tmp
-        return total
+        if amount >= 0:
+            self.total = tmp
+        
+        return self.total
+        #return outflow
+        """
 
     """
     def decrement(total, amount=0.0):
@@ -338,26 +457,54 @@ class Account:
 
     # set Credit Debit
     def setCredit(self):
+        """
+        sets the account would be a credit account 
+
+        Returns
+        -------
+        None.
+
+        """
         self.Cr = 1
         self.Dr = None
-
+        
+        self.crTransaction = 1
+        self.drTransaction = None 
+        #self.crAcc = 1
+        #self.drAcc = None
+        
     def setDebit(self):
+        """
+        sets account would be a debit account 
+
+        Returns
+        -------
+        None.
+
+        """
+        
         self.Dr = 1
         self.Cr = None
+        
+        self.drTransaction = 1 
+        self.crTransaction = None 
+        
+       ## self.drAcc = 1 
+       ##self.crAcc = None 
 
     def debit(self, amount):  # ):
-        self.setDebit()
+        self.setDebit() # prepares for a debit account
 
         # pass
 
     def credit(self, amount):
-        self.setCredit()
+        self.setCredit() # prepares for a credit account
         # if self.__account
         # pass
     # TODO: add here
 
 
-"""stackoverflow 
+"""stackoverflow
 The inheritance of attributes using __init__
 https://stackoverflow.com/questions/8853966/the-inheritance-of-attributes-using-init
 
@@ -385,6 +532,47 @@ class DebitAccount(Account):  # inherits Account (corrrect)
     # Dr = 1 # dr ==1
     # Cr = None
 
+    def calcFlow(self,amount, operator):
+        """
+        for a DebitAccount 
+        a crTransaction renders flow as an out-flow 
+        a drTransaction renders flow as an in-flow 
+
+        Parameters
+        ----------
+        amount : TYPE
+            DESCRIPTION.
+        operator : TYPE
+            DESCRIPTION.
+
+        Returns
+        -------
+        None.
+
+        """
+        flow =0
+        if operator == self.crTransaction: #self.Cr:
+               flow = -1 * amount   #  pass #representing an out-flow (with a minus sign)
+                #check accountType 
+        elif operator == self.drTransaction:
+                flow = 1 * amount
+                #pass 
+        elif operator == None : #if no operator, then do nothing at all 
+                pass 
+        return flow
+    
+    def flowHandling(flow):
+        _stringFlow = ""
+        if flow < 0:
+            _stringFlow = "Out-Flow"
+        elif flow >0: 
+            _stringFlow = "In-Flow"
+        elif flow ==0: # at 0 
+            "No-Change" # N.C 
+            
+        else: #there must've been a mistake
+            raise Exception("an error in amount")
+        return _stringFlow
     """
     def __init__(self, Name, total):
 
@@ -423,12 +611,22 @@ class DebitAccount(Account):  # inherits Account (corrrect)
         self.resetAccountState()
         
     def setCredit(self):
+        
+        self.crTransaction= 1 
+        self.drTransaction = None 
+        
         self.Cr = 1
         self.Dr = None
 
     def setDebit(self):
+        
+        self.drTransaction = 1 
+        self.Cr = None 
+        
         self.Dr = 1
         self.Cr = None
+        
+        
         
     
     def finalize(self):
@@ -509,7 +707,7 @@ class DebitAccount(Account):  # inherits Account (corrrect)
     def checkDrCondition(self, amount: float):
         """checks current Dr Condition """ 
         
-        if self.Dr == 1:
+        if self.drTransaction == 1: #self.Dr == 1:
             # increment , if Dr (Debit)
             #super.increment(self.total, amount)
             super(DebitAccount, self).increment(amount)
@@ -549,23 +747,25 @@ class DebitAccount(Account):  # inherits Account (corrrect)
     def increment(self, amount):
         """
             increments by an amount 
-
+            (only way of incrementing a dr Account is by debiting it or 
+             by having a drTransaction ==1)
         Parameters
         ----------
         amount : float 
-            DESCRIPTION.
+            amount should be positive
+        DESCRIPTION.
 
         Raises
         ------
         Exception
-            DESCRIPTION.
+        if amount is negative, null, or an empty string
 
-        Returns
+        Returns [should return the flow ]
         -------
         None.
 
         """
-        if self.Dr == 1:
+        if self.drTransaction == 1:  #self.Dr == 1:
 
             # increment , if Cr (Credit)
             super(DebitAccount, self).increment(amount)  # <-----------
@@ -596,8 +796,25 @@ class DebitAccount(Account):  # inherits Account (corrrect)
         """
 
     def decrement(self, amount):
-        if self.Cr == 1:
+        """
+        decrements amount, if amount is negative 
 
+        Parameters
+        ----------
+        amount : TYPE
+            DESCRIPTION.
+
+        Raises
+        ------
+        Exception
+            DESCRIPTION.
+
+        Returns
+        -------
+        None.
+
+        """
+        if self.crTransaction==1:  #and self.drAcc == 1: #self.Cr == 1:
             # increment , if Cr (Credit)
 
             super(DebitAccount, self).decrement(self.total, amount)
@@ -641,27 +858,28 @@ class CreditAccount(Account):  # , Enum):
 
     def checkCrCondition(self, amount: float):
         # if Dr value is set to 1
-        if self.Dr == 1:
+        if self.drTransaction == 1: #self.Dr == 1:
             # increment , if Dr (Debit)
             #super.increment(self.total, amount)
             super(CreditAccount, self).decrement(amount) # Account decrements
             self.resetAccountState() # followed by a reset state, back to `None`
-        elif self.Cr == 1:
+        elif self.crTransaction ==1: #self.Cr == 1:
             # decrement , if Cr (Credit)
             #super.decrement(self.total, amount)
             super(CreditAccount, self).increment(amount)
             self.resetAccountState() # followed by a reset state, back to `None`
-        elif self.Dr == None and self.Cr == None:
+        elif self.Dr == None and self.Cr == None: # If both none, then do nothing
             pass
         else:
             raise Exception(
                 "Unexpected Error Occured , please try again later")
 
-    def credit(self, amount=100):  # 0.0): # # cr CreditAccount [+] 
-        if self.Cr == 1: # 
-            if amount > 0:
+#bank.credit [crAccount.credit] [+]
+    
+    def credit(self, amount=100):  # 0.0): # # cr CreditAccount [+]  #<------
+        if self.crTransaction ==1: #and amountIsPositive(amount): #self.Cr == 1: # amountIsPositive(amount): #amount > 0:
                 # self.cr
-                super(CreditAccount, self).increment(amount)
+                super(CreditAccount, self).increment(amount)  #<-------
                 self.resetAccountState() # reset state, back to `None`
                 """
                     if self.Dr == 1:
@@ -671,12 +889,12 @@ class CreditAccount(Account):  # , Enum):
                         self.increment(amount)
                     """
 
-            else:
+        else:
                 raise Exception("ERROR: `amount` must be positive")
 
     def debit(self, amount=100):  # 0.0): # dr CreditAccount [-] 
-        if self.Dr == 1:
-            if amount > 0:
+        if  self.drTransaction ==1 and amountIsPositive(amount):  #self.Dr == 1:            #amount > 0:
+
                 # self.decrement(amount)
                 super(CreditAccount, self).decrement(amount)
                 self.resetAccountState() # reset state
@@ -865,6 +1083,14 @@ print("Bank's total = ", bank.total)
 print("try 2:")
 cash.increment(100)
 bank.increment(100)
+
+print("cash's total = ", cash.total)
+print("Bank's total = ", bank.total)
+
+# try 3 : ( functioning)
+print("try 3:")
+cash.decrement(100)
+bank.decrement(100)
 
 print("cash's total = ", cash.total)
 print("Bank's total = ", bank.total)
