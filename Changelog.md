@@ -1,15 +1,15 @@
 # accountingLog
 
-9-1-2022
+## 9-1-2022
 
 
-## Added 
+### Added 
 A `resetAccount`:  to reset the state of account, after each Debit or Credit, 
 as each state the account assumes. The flags `Cr` & `Dr` are only temporary
 *( that,when appled correctly, works fluently in a transaction)* 
 
 
-### Elaboration: 
+#### Elaboration: 
 it's a two-way system: 
 - the account could be debited:
     set account to debit
@@ -22,7 +22,7 @@ it's a two-way system:
 `resetAccount`
 Made callable, to enforce the reset of accounts' transaction flags : `drTransaction`, `crTransaction`
 
-#### Perspective
+##### Perspective
 
 `Transaction 1` always is a success 
 However, I am afraid to say so , about  the others.
@@ -60,8 +60,8 @@ Thus, on a higher level, we have:
  After each state ,  the account should be able to return to `None` 
  *(Where no action happens )*
  
- #--------
- ## Added 
+
+### Added 
  #1.1. flowHandling 
  Returns a user-friendly string about the cash flow : `in-flow`, `out-flow`, or `No change` (i.e. n.c)
  
@@ -87,7 +87,7 @@ Thus, on a higher level, we have:
  
  this kind of seperation removes confusing part of the current state of an account 
  
- # Changed 
+### Changed 
  
  `drTransaction` instead of `Dr`
  `crTransaction` instead of `Cr`
@@ -109,17 +109,16 @@ Those describe what a paticular `account` is (i.e. a DebitAccount or a CreditAcc
  function **dynamically & organically**
  Once logic has been set , an update would be the best, by that time.
  
- #--------
- # 9-2-2022
+ ## 9-2-2022
  
- # Added 
+ ### Added 
  
  Static methods for 
  
  1. `Increment` 
  2. `decrement` 
  
- # Changed 
+ ### Changed 
  Decrement, fixed return, so that it exatly ,after subtraction, the total of account balances 
  (goes back to 0, successfulling )
  
