@@ -1,24 +1,15 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Sep  1 07:01:04 2022
-
-@author: Ahmad Lutfi
-"""
-
 # accountingLog
 
 9-1-2022
 
 
-#added 
+## Added 
 A `resetAccount`:  to reset the state of account, after each Debit or Credit, 
 as each state the account assumes. The flags `Cr` & `Dr` are only temporary
 *( that,when appled correctly, works fluently in a transaction)* 
 
- 
- 
 
-# How: 
+### Elaboration: 
 it's a two-way system: 
 - the account could be debited:
     set account to debit
@@ -29,20 +20,22 @@ it's a two-way system:
 
 
 `resetAccount`
+Made callable, to enforce the reset of accounts' transaction flags : `drTransaction`, `crTransaction`
 
+#### Perspective
 
-Transaction 1 always is a success 
-however,  I am afraid to say so , about  the others.
+`Transaction 1` always is a success 
+However, I am afraid to say so , about  the others.
 
-reset would set things straight, by  returning the debit or credit into the None State - original state of being 
+the `resetAccount` would set things straight, by  returning the **debit flag** `drTransaction` , **credit flag** `crTransaction`or returning the `None` State - **the Original state of Being** , where nothingness exists
  
- Thus, on a higher level, we have: 
+Thus, on a higher level, we have: 
  
- 1. stateful: 
+ 1. **stateful**: 
  - an Action of flow is happening
  -  can describe an `Account` as `Debit` or `Credit`
 - 2 types of flow can be summarized
- 2. stateless:
+ 2. **stateless**:
  
  Required to be , as states need to return to their original default state `None`
  
@@ -50,13 +43,13 @@ reset would set things straight, by  returning the debit or credit into the None
      for the account to free `free flowing`
      it must transition, between `statefulness` , then retreats back int `statelessness`
  
-a state has: 
+- A `state` has: 
     1. Debit 
     2. Credit 
 
     it describes an action, that occurs.
         
-a non-state:
+- A `Non-state` has:
     3. None
     describes the stillness.
     
@@ -64,23 +57,35 @@ a non-state:
  1. Debit : whenever one requires to `debit` the account 
  this depends on the accounts type : 
  
- after each state ,  the account should be able to return to `None` 
- where no action happens 
+ After each state ,  the account should be able to return to `None` 
+ *(Where no action happens )*
  
  #--------
  ## Added 
  #1.1. flowHandling 
- retu rns a strong about 
+ Returns a user-friendly string about the cash flow : `in-flow`, `out-flow`, or `No change` (i.e. n.c)
  
  # 
- 1.2. calcFlow
+ 1.2. calcFlow: serves as a better alternative of a return, for any account
+ (after all accounting is about being accountable on cash-flows)
+ calculates the cash flow:
+
+ 1. if increasing: returns a positive amount 
+ 2. if decreasing: returns a negative amount 
+ 3. if it's equal to 0: retunrs `No Change` (i.e. n.c)
  
- Updated 
- instead of Dr or Cr ( flags with a great level of confusion)
+ **Updated**
+ Instead of Dr or Cr ( flags with a great level of confusion)
  I have extended Account properties to include:
  
  #Transaction flags
- #descrives the flags of a current transaction , in a `stateful` manner 
+ Describes the flags of a current `transaction` , in a `stateful` manner 
+ (i.e. in relation to the accounts current state : 
+ 1. is it Debiting mode i.e. `drTransaction`
+ 2. is it Crediting mode i.e. `crTransaction`
+ 3. or is it stateless , where no action is required i.e. `None`
+ 
+ this kind of seperation removes confusing part of the current state of an account 
  
  # Changed 
  
@@ -94,7 +99,9 @@ a non-state:
 1.  `drAcc`
 2. ` crAcc `
 
- Those describe what a paticular `account` is (i.e. a DebitAccount or a CreditAccount) # TODO: ensure this feature is implemented, as well 
+Note: it only requires to be called but account objects
+
+Those describe what a paticular `account` is (i.e. a DebitAccount or a CreditAccount) # TODO: ensure this feature is implemented, as well 
  Hence, helps in promoting an `account` (into a `DebitAccount` or a `CreditAccount` )
  
  
