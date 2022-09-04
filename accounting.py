@@ -1170,8 +1170,22 @@ print("Bank's total = ", bank.total)
 
 #=====================
 # Demo
+#note: only in Demo , 
 """pip's Debt is am expense for **Barnett's Inn** or `barnettInn` i.e. 
 he has to pay for it  ( in  return of service rendered i.e. the liquor had at Barnett's Inn)
+
+Accounting Equation 
+DebitAccount = CreditAccount 
+Assets =  Liabilities + capital 
+       
+types of reports
+Balance Sheet: most important report , with it we (accountant)  can verify & Test  accounting is balanced (& correct)
+
+SOCI (Statement of Comprehensive Income)
+
+Payment Players:
+    a `payer` who pays, & a payee: who recieves the payment (in exchange of 
+a `product` or a service)
 
 # payment 
 
@@ -1234,9 +1248,6 @@ DebitAccount = CreditAccount
 
 ## Capital  
 
-
-
-
  
 Barnett Inn's , too, writes the following in their records: 
  
@@ -1245,7 +1256,7 @@ Barnett Inn's , too, writes the following in their records:
 # transaction 1: 
 
 Dr AccountsRecievable [pip] 100  payer 
-    Cr 
+    Cr ServiceRendered 100 
     
 # payment in full 
 
@@ -1267,28 +1278,35 @@ Because of a certain `Action` performed (a sell of a `product` or a `service` te
 
 payment type 
 
-# both sides :
+# both sides : the debit & the credit are incremented 
     
-    
-    a `payer` who pays, & a payee: who recieves the payment (in exchange of 
-a `product` or a service)
-    
-    
-    
+
+Dr Accounts Recievable (from) Pip 100
+
+	Cr Serice Rendered 100
+
+(Being Serice Rendered to Mr. pip, on account) 
 
 """
 
 print("Transaction 1")
 """
 # pip writes down a Debt of 100 shillings to `barrerttInn` (creditAccount )
-he is
-# Instantiate  DebitAccount 100 (pip's Debt) amount pip should pay
-# instantiate a CreditAccount 100 barnettInn's Inn 100
+ in exchange of service rendered 
+Note: service rendered in an 'abstract' accounting object, a 'CreditAccount'
+# Instantiate  DebitAccount 100 (accountRecievable) amount pip should pay
+# instantiate a CreditAccount 100 (sericeRendered) 100
 from a BarnettInn Perspective, they write the following 
 
+Note: for pips debt is it accountRecievable (for current player's Perspective: Barnett's Int)
+from now on  It will stay the same (but it's okay to write whatever helps adding clarity clearing confusions ')
 """
 pipDebt = DebitAccount("pip's Debt", 100) # Dr Expense Account   by 100 [+100]
-barnettInn = CreditAccount("Barnett's Inn", 100) #Cr Credit Account  by 100 [+100]
+#serviceRendered = CreditAccount("Service Rendered", 100) #Cr Credit Account  by 100 [+100]
+
+accountRecievable = DebitAccount( "pip's Debt (Accounts Recievable)",100) # increment [100] 
+
+sericeRendered = CreditAccount("Service Rendered",100) # increment [100] (to SOCI report )
 
 
 # Initialize transaction by adding pipsDebt (as Expense)
@@ -1301,8 +1319,10 @@ increment(barnettInn.total, 100) # Cr B. Inn 100
 # Transaction 2 # decrementing Transaction 
 #pip pays back his debt , to Barnett's Inn
 # 
-decrement(barnettInn.total, 100) #down by 100 #  Dr barnettInn 100
-decrement(pipDebt.total, 100) # down by 100  # Cr pipDebt 100
+cashbarnettInn = DebitAccount("Cash", 0) # degine Cash [as `cashbarnettInn`]
+
+increment (cashbarnettInn.total, 100) #down by 100 #  Dr barnettInn 100
+decrement(accountRecievable.total, 100) # down by 100  # Cr pipDebt 100
 
 #--------------------
 

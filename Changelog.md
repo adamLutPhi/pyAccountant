@@ -212,3 +212,10 @@ operations , as expected
  as a whole, rendering it functioning. That for sure does exist, but is of a *rare kind*
  
   
+  
+## 9-4-2022
+
+### Added 
+
+`serviceRendered ` a CreditAccount Object, to model the service rendered 
+it can be product purchased `purchases`
