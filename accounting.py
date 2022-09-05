@@ -1216,13 +1216,50 @@ payee: who recieves the payment
     (in which is a crucial feature: has to be fulfilled  #TODO ) 
 
      
-# back to the story, we would take the role of Barnett Inn's, to see how to write accounts 
+# back to the story: from Barnett Inn's Perspective,we'd see how to write accounts 
 #Note : A/c is a short-hand for Account
-#curcial note : each transaction happens at a specific time specified , 
-won't be of a concern, temporarily , for now 
+#curcial note : each transaction happens at a specific time specified, 
+`Date` won't be of a concern ( temporarily , for now )
   
-" pip writing down in his book "  means pip , the payer, hasn't payed, yet , thus 
+#================
+"""
 
+import accounting 
+
+class AccountRecievable(DebitAccount):
+
+    def __init__(self, entityName,amount):
+        super().__init__(entityName, amount)
+		#self.Name = entityName  #Debtor's Name
+		#Object , of type DebitAccount	
+		#self.AccountRecievable = AccountRecievable #unsure about this 
+		# amount (decimal, to 2 places)
+		#self.amount =  round(amount,2)  
+		
+        self.DebtorName = entityName #new 
+
+#here's an account and it's 
+#  RevenueAccount
+class RevenueAccount(CreditAccount):
+    """ RevenueAccount not an income, to calculate it
+    find the difference between this account's total, & it's counter-account , loss account """
+    def __init__(self, entityName,amount):
+    		super().__init__(entityName, amount)
+            
+    
+class LossAccount(DebitAccount):
+    """
+        
+    """
+    def __init__(self, entityName,amount):
+    		super().__init__(entityName, amount)
+            
+    
+    """
+    def __init__(name,total):
+        super().__init(name,total)
+        
+#==============
 #accounting Objects: 
 
 #accounting formula     
@@ -1232,124 +1269,138 @@ DebitAccount = CreditAccount
 
 ## Assets 
 
-### cash          # when paid in-full
+### cash (cashBarnettInn)        # when paid in-full
+#================================
+## Expenses 
 ### AccountsRecievable[PayerName]  # when payment will be recieved later 
 
-## Expenses 
- 
-### herbertBadDebt 
+#### herbertBadDebt : an instance of AccountsRecievable
 
+#CreditAccounts
 
 ## Liabilities 
 
 ### accountsPayable 
-
-#  
+ 
 
 ## Capital  
+#barnettInn  Barnett Inn's
+"""
+#=======================
+# Transaction 1 
+"""
+Transaction 1 : the Value Increasing Transaction 
+Because of a 
+certain `Action` performed (sell of a `product` or `service` tendered)
+# Debit & Credit are incremented , by a 100
+    
+"""
+"""
+Dr Accounts Recievable (from Pip) 100
 
+	Cr Service Rendered 100
+
+commment: (Being Serice Rendered to Mr. pip, on account) 
+
+"""
+
+print("Transaction 1:\n")
+"""
+# pip promises to return back his Debt 
+  of 100 shillings to `barrerttInn` [CreditAccount]  (in exchange of service rendered )
  
-Barnett Inn's , too, writes the following in their records: 
- 
-6 transactions: 
-    
-# transaction 1: 
-
-Dr AccountsRecievable [pip] 100  payer 
-    Cr ServiceRendered 100 
-    
-# payment in full 
-
-# Transaction 2: 
-
-Dr Cash 100                      # in-flow (to business)   increment
-    Cr AccountsRecievable [pip] A/c 100  # decrement Account 
-    
-comment: payment Recieved by Mr. Pip 
-    
-"""
-
-
-# ----------------
-# Transaction 1 : the Incrementing Transaction 
-
-"""
-Because of a certain `Action` performed (a sell of a `product` or a `service` tendered)
-
-payment type 
-
-# both sides : the debit & the credit are incremented 
-    
-
-Dr Accounts Recievable (from) Pip 100
-
-	Cr Serice Rendered 100
-
-(Being Serice Rendered to Mr. pip, on account) 
-
-"""
-
-print("Transaction 1")
-"""
-# pip writes down a Debt of 100 shillings to `barrerttInn` (creditAccount )
- in exchange of service rendered 
 Note: service rendered in an 'abstract' accounting object, a 'CreditAccount'
-# Instantiate  DebitAccount 100 (accountRecievable) amount pip should pay
+# Instantiate accountRecievable by 100 ( is a  DebitAccount) that pip should pay
 # instantiate a CreditAccount 100 (sericeRendered) 100
-from a BarnettInn Perspective, they write the following 
 
-Note: for pips debt is it accountRecievable (for current player's Perspective: Barnett's Int)
-from now on  It will stay the same (but it's okay to write whatever helps adding clarity clearing confusions ')
+Note: pipdebt is an instance of  AccountRecievable class
+ It will stay the same, for the rst of the demoo (but it helps adding clarity, clearing confusion )
+
+From the BarnettInn's Perspective, they must the following: 
+    
 """
-pipDebt = DebitAccount("pip's Debt", 100) # Dr Expense Account   by 100 [+100]
-#serviceRendered = CreditAccount("Service Rendered", 100) #Cr Credit Account  by 100 [+100]
+#pipDebt = DebitAccount("pip's Debt", 100) # Dr Expense Account   by 100 [+100]
+#serviceRendered = CreditAccount("Service Rendered", 100) #Cr Credit Account  by 100 [+100] 
 
-accountRecievable = DebitAccount( "pip's Debt (Accounts Recievable)",100) # increment [100] 
+##accountRecievable = DebitAccount( "pip's Debt (Accounts Recievable)",100) # increment [100] 
+##sericeRendered = CreditAccount("Service Rendered",100) # increment [100] (to SOCI report )
 
-sericeRendered = CreditAccount("Service Rendered",100) # increment [100] (to SOCI report )
+##Instantiate pipDebt, from AccountsRecievable[Dr] , serviceRendered from RevenueAccount [Cr]
+pipDebt = AccountRecievable("Pip's Debt", 100) # increment [+100] (to Balance Sheet) [Dr ]
+serviceRendered = RevenueAccount("Service Rendered",100) # increment [+100] (to SOCI report ) [Cr]
 
 
-# Initialize transaction by adding pipsDebt (as Expense)
-#-----------------
-# Transaction 2
+print("pipDebt = ",pipDebt.total) 
+print("serviceRendered = ",serviceRendered.total)
+
+## **note :** Revene is not Income ( equals to serviceRendered)
+# Comment: Being Payment of Service Rendered, by Mr. Pip, on Account 
+print("Comment: Being Payment of Service Rendered, by Mr. Pip, on Account ")
+
+#============================
+# Transaction 2:
 """
 decrement(pipDebt.total, 100)  # Dr pipDebt 100
 increment(barnettInn.total, 100) # Cr B. Inn 100
 """
-# Transaction 2 # decrementing Transaction 
-#pip pays back his debt , to Barnett's Inn
-# 
-cashbarnettInn = DebitAccount("Cash", 0) # degine Cash [as `cashbarnettInn`]
+# Transaction 2: `Balancing  Transaction` 
+#  `pip` pays back his debt , to `Barnett's Inn, in full [or BarnettInn recieves cash from Mr. Pip ]
+# Crucial Note: Use `cashBarnettInn` instead of cash already used [ Demo, only]
 
-increment (cashbarnettInn.total, 100) #down by 100 #  Dr barnettInn 100
-decrement(accountRecievable.total, 100) # down by 100  # Cr pipDebt 100
+cashBarnettInn = DebitAccount("Cash", 100) # used instead of  Cash [as `cashBarnettInn`] # [+100] #up by 100 [+100] #  Dr barnettInn 100
+pipDebt.total = decrement(pipDebt.total, 100) # down by 100 [-100]  # Cr pipDebt 100 # [-100]
 
-#--------------------
+print("cashBarnettInn = ", cashBarnettInn.total) # [100] # Dr  cashBarnettInn
+print("pipDebt = ", pipDebt.total) # [-100] # 
 
+#Comment: Being Payment by Mr. Pip in full, by cash
+print("Comment: Being Payment by Mr. Pip in full, by cash") # [-100] # 
 
-#barnettInn.debit(100)  # closing account for Mr. Pip
+#============================
+# Transaction 3 
+#
+# Description: 
+#-------------
+# Debt becoming an Expense (badDebtExpense)
+# closing account for `Mr. Herbert` (with a loss incurred )
 #pipDebt.credit(100)
 
 
-# transaction   3:
-# initialize accounts, by  Adding a debt Account (Expense) for Mr. Herbert
-herbertDebt = DebitAccount("Herbert's Debt", 100) # up 100
-barnettInn = CreditAccount("Barnett's Inn", 100) #creditAcc up by 100
+
+#Initialize accounts, by  Adding a debt Account (Expense) for Mr. Herbert
+herbertDebt = DebitAccount("Herbert's Debt", 100) # up 100 [+100]
+serviceRendered = RevenueAccount("Service Rendered", 100) #creditAcc up by 100
 
 
-# Transaction 4 # decrementing Transaction 
-#pip pays back his debt , to Barnett's Inn
-# 
-decrement(barnettInn.total, 100) #down by 100 #  Dr barnettInn 100
-decrement(herbertDebt.total, 100) # down by 100  # Cr herbertDebt 100
 
+#======
+
+#Bad Debt Example:
+    
+# Transaction 4 # Balancing Transaction 
+#Herbert is unable to payback his Debt
+badDebtExpense = LossAccount("Bad Debt Expense", 100) #   [+100]
+
+
+#decrement(barnettInn.total, 100) #down by 100 #  Dr barnettInn 100
+decrement(herbertDebt.total, 100) # down by 100  # Cr herbertDebt 100 [-100]
+
+#Transaction 5 (helping transaction )
+#move the badDebt Expense to Losses Account 
+"""
+transfers badDebtExpense from BalanceSheet to Statement of Comprehenisve Income [SOCI]
+at the end of the Accounting Period 
+"""
+#we don't have LossAccount , yet, 
 #------------------
 #pipDebt = DebitAccount("pip's Debt", 100)
 #barnettInn = CreditAccount("Barnett's Inn", 100)
 
 # Transaction 5 # increment Transaction 
+#pip pays back his debt , to Barnett's Inn
 
-increment(pipDebt.total,100)
+
+##increment(pipDebt.total,100)
 increment(barnettInn.total,100)
 
 
@@ -1359,82 +1410,14 @@ decrement(pipDebt.total,100)
 decrement(barnettInn.total,100)
 print("successfully finished the accounting usecase")
 
-# ------------------
-# pip lower down his debt, by paying it back to barnettInn , say for the same starting amount, 100
 
-# pip pays off his amount
 
-# transaction   3:
-# an in-flow to barnettInn of (100 ) shillings matches up with an out-flow of a
-#barnettInn.debit(100)  # closing account for Mr. Pip
-#pipDebt.credit(100)
 
-# transaction   3:
-# initialize accounts, by  Adding a debt Account (Expense) for Mr. Herbert
-#herbertDebt = DebitAccount("Herbert's Debt", 100)
-#barnettInn = CreditAccount("Barnett's Inn", 100)
-
-# now, Mr. Herbert had fallen int some issues, & is unable to pay
-# for helping a friend out, Mr. pip steps in & offers barnettInn to pay for herbert's Debt
-
-"""
-#what can barnettInn do , in this case?
-first, they have to close the account for `Mr. Herbert`
-(the only way to fully close the (liability) account is to set to back to 0 
-but to do that , they have 'somehow' to transform the Burden (liability) to his friend 
-Mr. pip )
-
-thus, lowering down Mr.Herbert, & increasing the Liability, again, for pious `Mr. Pip`
-
-recall, increasing a Debit account is by debiting it, 
+"""increasing a Debit account is by debiting it, 
 increasing a Credit Account is by crediting it 
-(just remember, like attracts like)
+(just remember, ""like"" attracts like)""
 """
-# 1 barnettInn has to `close` herbertDebt & transform Liability to `Mr. Pip`
 
-# closing Herbert Debt:
-# transaction   4:
-##barnettInn.debit(100)  # closing the account in barnett's Inn book, as well
-# his account goes back to 0 [ as cr debitAccount(100) = -1 * 100]
-##herbertDebt.credit(100)
-
-# note: the two sided accounting formula makes everything in the clear `somehow`
-# it has been constructed to be like this, in such a way, no tampering could exist
-# as a lie is easily detectable, by only checking whether the sums of 2 equations
-# are equal (or not)
-"""
-Now, BarnettInn has closed the account, but they are yet to recieve a (100 ) from Mr.pip
-
-to completely transfer liability, 
-Barnett Inn's has  to open up Mr.pip's Debt account again : 
-    [as if pip was he ower]
-  
-dr pip's Debt 100 
-    cr barnettIn 100 
-
-"""
-# Always order transaction operations as 
-# 1. debit, then followed by 
-# 2. credit
-
-# pipDebt.Dr(100)
-# barnettInn.Cr(100)
-
-##pipDebt.debit(100)
-## barnettInn.credit(100)
-
-
-"""  
-# this ends the transfer of liability 
-
-Finally, now the manager at barnett Inn could ask Mr. Pip to finally pay his dues
--"that'll be a 100, alright, sir"
--" with pleasure "
-
-To reiterate, Mr. Pip pays off the manager his now dues, a 100, Manager recieves the sum 
-& closes pip's Debt Account , accordingly
-
-"""
 # transaction   6:
 
 # barnettInn.Dr(100)
