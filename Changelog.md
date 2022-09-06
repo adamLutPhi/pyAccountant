@@ -224,5 +224,5 @@ it can be product purchased `purchases`
 ## 9-4-2022
 
 ## Updated 
-`RevenueAccount`
-`ExpenditureAccount`
+`RevenueAccount` which is a `+ Capital[Cr]` or a  `CreditAccount`
+`ExpenditureAccount` which is a `- Capital[Cr] = [Dr]` a `DebitAccount`
