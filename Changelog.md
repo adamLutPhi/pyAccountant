@@ -219,3 +219,10 @@ operations , as expected
 
 `serviceRendered ` a CreditAccount Object, to model the service rendered 
 it can be product purchased `purchases`
+
+
+## 9-4-2022
+
+## Updated 
+`RevenueAccount`
+`ExpenditureAccount`
