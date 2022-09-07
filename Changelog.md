@@ -226,3 +226,13 @@ it can be product purchased `purchases`
 ## Updated 
 `RevenueAccount` which is a `+ Capital[Cr]` or a  `CreditAccount`
 `ExpenditureAccount` which is a `- Capital[Cr] = [Dr]` a `DebitAccount`
+
+## 9-7-2022
+
+## fixed 
+
+The 5  account transactions, and checked their output. Everything seems to be working as expected,  
+in an orderly manner. further improvements would be to coat & wrap increment decrement 
+into its respective  `Debit` or `Credit` static account.
+- now can focus on the accounts difference: the `cash Flows`: `cash-inflows`, `cash-outflows`
+

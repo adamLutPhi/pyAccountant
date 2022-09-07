@@ -954,13 +954,19 @@ class Liability(CreditAccount):
     def __init__(self, Name, total):
         super(Liability, self).__init__(Name, total)
         self.tag = "Liability"
+#==========================================
+class Capital(CreditAccount):
+
+    def __init__(self, Name, total):
+        super(Capital, self).__init__(Name, total)
+        self.tag = "Capital"
 
 # ===============================================================================
 
 # Revenue [Statement of Comprehensive Income (SOCI ) object ]
 
 
-class Revenue(CreditAccount):
+class Revenue(Capital): #  Revenue is a Capital account 
 
     def __init__(self, Name, total):
         super(Revenue, self).__init__(Name, total)
@@ -988,7 +994,7 @@ class Asset(DebitAccount):
 ##  Expense : DebitAccount
 
 
-class Expense(DebitAccount):
+class Expense(Asset): # Expense is a
     """ an Expense shows a `Value Outflow` of an account, for a given period of time """
 
     def __init__(self, Name, total):
@@ -1101,8 +1107,12 @@ dr cash 100                 # increment 100 [+100]
     cr acRecievablePip 100 # decrement  [ -100]
 
 
-transaction 3 
+transaction 3 : BadDebt Expense 
 
+
+dr BadDebt Expense 
+
+cr 
 
 
 """
@@ -1287,21 +1297,21 @@ Loss:  is total expense, difference  between expense in this
      #note: Expenditure always negative, hence it's the opposite of a Credit ( a Debit)
      # acts  the same way as an Expense 
      
-
-class RevenueAccount(CreditAccount):
+# capital classes 
+class RevenueAccount(Capital): #CreditAccount):
     """ RevenueAccount is not an income, to calculate it:
     find the difference between this account's total, & it's counter-account , loss account """
     def __init__(self, entityName,amount):
-    		super().__init__(entityName, amount)
-            
+        super().__init__(entityName, amount)
+        self.tag = "Revenue"
 
-class ExpenditureAccount(DebitAccount):
+class ExpenditureAccount(DebitAccount): # 
     """
         
     """
     def __init__(self, entityName,amount):
-    		super().__init__(entityName, amount)
-            
+        super().__init__(entityName, amount)
+        self.tag = "Expenditure"
 # in the US GAAP: the counter accounts are called `Contra`    
     """
     def __init__(name,total):
@@ -1343,6 +1353,7 @@ certain `Action` performed (sell of a `product` or `service` tendered)
 # Debit & Credit are incremented , by a 100
     
 """
+
 """
 Dr Accounts Recievable (from Pip) 100
 
@@ -1354,14 +1365,14 @@ commment: (Being Serice Rendered to Mr. pip, on account)
 
 print("Transaction 1:\n")
 """
-# pip promises to return back his Debt 
-  of 100 shillings to `barrerttInn` [CreditAccount]  (in exchange of service rendered )
+# pip makes a promise, to return back his Debt 
+  of 100 shillings to `barrerttInn` as serviceRendered [CreditAccount]  (in exchange of service rendered )
  
 Note: service rendered in an 'abstract' accounting object, a 'CreditAccount'
 # Instantiate accountRecievable by 100 ( is a  DebitAccount) that pip should pay
 # instantiate a CreditAccount 100 (serviceRendered) 100
 
-Note: pipdebt is an instance of  AccountRecievable class
+Note: pipdebt is an instance of  AccountRecievable class (an Asset for Proprietor, Barnett Inn's)
  It will stay the same, for the rst of the demoo (but it helps adding clarity, clearing confusion )
 
 From the BarnettInn's Perspective, they must the following: 
@@ -1387,6 +1398,7 @@ print("Comment: Being Payment of Service Rendered, by Mr. Pip, on Account ")
 
 #============================
 # Transaction 2:
+print("Transaction 2:\n")
 """
 decrement(pipDebt.total, 100)  # Dr pipDebt 100
 increment(barnettInn.total, 100) # Cr B. Inn 100
@@ -1398,8 +1410,8 @@ increment(barnettInn.total, 100) # Cr B. Inn 100
 cashBarnettInn = DebitAccount("Cash", 100) # used instead of  Cash [as `cashBarnettInn`] # [+100] #up by 100 [+100] #  Dr barnettInn 100
 pipDebt.total = decrement(pipDebt.total, 100) # down by 100 [-100]  # Cr pipDebt 100 # [-100]
 
-print("cashBarnettInn = ", cashBarnettInn.total) # [100] # Dr  cashBarnettInn
-print("pipDebt = ", pipDebt.total) # [-100] # 
+print("cashBarnettInn.total = ", cashBarnettInn.total) # [100] # Dr  cashBarnettInn
+print("pipDebt.total = ", pipDebt.total) # [-100] # 
 
 #Comment: Being Payment by Mr. Pip in full, by cash
 print("Comment: Being Payment by Mr. Pip in full, by cash") # [-100] # 
@@ -1407,33 +1419,47 @@ print("Comment: Being Payment by Mr. Pip in full, by cash") # [-100] #
 #============================
 # Transaction 3 
 #
-# Description: 
-#-------------
-# Debt becoming an Expense (badDebtExpense)
-# closing account for `Mr. Herbert` (with a loss incurred )
+print("Transaction 3:\n")
 #pipDebt.credit(100)
 
 # RevenueAccount increments the Capital `Owner's Equity`
 
+#acccount for debt for Mr. Hurbert, for service rendered
+
 #Initialize accounts, by  Adding a debt Account (Expense) for Mr. Herbert
 herbertDebt = AccountRecievable("Herbert's Debt","Herbert", 100) # up 100 [+100]
 serviceRendered = RevenueAccount("Service Rendered", 100) #creditAcc up by 100
+print("herbertDebt.total", herbertDebt.total , " open") # 100
+print("serviceRendered.total",serviceRendered.total)
 
-
-
+print("Comment: being payment on service rendered, on Account ")
+#===============================
 #======
-
+# Transaction 4 
 #Bad Debt Example:
 # ExpenditureAccount decreases the Capital  
 
 # Transaction 4 # Balancing Transaction 
-#Herbert is unable to payback his Debt
-badDebtExpense = ExpenditureAccount("Bad Debt Expense", 100) #   [+100]
+print("Transaction 4:\n")
+
+# Description: 
+#-------------
+# Herbert is unable to payback his Debt
+# Debt becoming an Expenditure (badDebtExpense)
+# closing account for `Mr. Herbert` (with a loss incurred )
+badDebtExpense = ExpenditureAccount("Bad Debt Expense", 100) #   [+100] #[Expenditure, to SOCI]
 
 
 #decrement(barnettInn.total, 100) #down by 100 #  Dr barnettInn 100
-decrement(herbertDebt.total, 100) # down by 100  # Cr herbertDebt 100 [-100]
+herbertDebt.total = decrement(herbertDebt.total, 100) # down by 100  # Cr herbertDebt 100 [-100] # # [now Closed ]
 
+print("badDebtExpense",badDebtExpense.total)
+print("herbertDebt.total",herbertDebt.total, "<Closed>")
+
+print("Comment: Being Debt as a badDebt Expense\n")
+
+#===============================
+print("Transaction 5\n")
 #Transaction 5 (helping transaction )
 #move the badDebt Expense to Losses Account 
 """
@@ -1447,28 +1473,23 @@ at the end of the Accounting Period
 
 # Transaction 5 # increment Transaction 
 #pip pays back his debt ,in cash, to Barnett's Inn
+# pip pays off the transfered account, out of pocket 
+
+cashBarnettInn.total = increment(cashBarnettInn.total, 100) # dr cashBarnettInn 100  [+100]
+herbertRepayment = RevenueAccount("Herbert's Debt repayment ",100)  # [+100] (to SOCI)
+
+print("cashBarnettInn.total =",cashBarnettInn.total ) # cash = 200 
+print("herbertRepayment.total = ",herbertRepayment.total)
 
 
+print("Comment: Being Herbert's Debt repayment, by Mr. Pip in full\n")
 ##increment(pipDebt.total,100)
 increment(cashBarnettInn.total,100) # Dr[cashBarnettInn : DebitAccount] 
 
-
-# Transaction 6 # decrementing Transaction 
-# pip pays off the transfered account, out of pocket 
-#decrement(pipDebt.total,100)
-#decrement(cashBarnettInn.total,100) # Cr[]
+#=====================
 print("successfully finished the accounting usecase")
-
-
-
 
 """increasing a Debit account is by debiting it, 
 increasing a Credit Account is by crediting it 
 (just remember, ""like"" attracts like)""
 """
-
-# transaction   6:
-# barnettInn.Dr(100)
-# pipDebt.cr(100)
-#barnettInn.debit(100)
-#pipDebt.credit(100)
