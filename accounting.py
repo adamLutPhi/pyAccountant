@@ -1090,30 +1090,42 @@ both transactions
 [Asset] (on Right Side) = [Capital] CreditAccount (on LeftSide )
 
 
-acRecievablePip = DebitAccount("Mr.pip A/c Recievable ",100)
+AccountReceivable  = DebitAccount("Mr.pip A/c Recievable ","Pip",100) #Pip [+100] 
 
-cash = DebitAccount("cash ", 100)
+cash = DebitAccount("cash ", 100)   # 100 [+100]
+
+#============
+1.3 Herbert's
+Account Receivable Herbert = DebitAccount("Mr. Herbert's A/c Receivable ",100)
 
 
-1.2 
-acRecievableHerbert = DebitAccount("Mr. Herbert's A/c Recievable ",100)
 
-
-
-#transaction 2  
+#transaction 3  
 
 dr cash 100                 # increment 100 [+100]
 
-    cr acRecievablePip 100 # decrement  [ -100]
+    cr AccountReceivable Pip 100 # decrement  [ -100]
 
+Comment: Being Herbert's Debt A/R for Service Rendered, 100 shillings")
 
-transaction 3 : BadDebt Expense 
+#Initialize accounts, by  Adding a debt Account (Expense) for Mr. Herbert
+
+    herbertDebt = AccountRecievable("Herbert's Debt","Herbert", 100)  [+100]
+    serviceRendered = RevenueAccount("Service Rendered", 100)  [+100]
+
+    Comment: Being Herbert's Debt A/R for Service Rendered, 100 shillings
+#===================
+
+transaction 4 : BadDebt Expense 
 
 
 dr BadDebt Expense 
 
 cr 
 
+dr BadDebt Expense 100 [+100] #[Expenditure, to SOCI]
+
+cr herbertDebt [-100] # [now Closed ]
 
 """
 
@@ -1236,7 +1248,7 @@ payee: who recieves the payment
 
 import accounting 
 
-class AccountRecievable(DebitAccount): #Inherits DebitAccount
+class AccountReceivable(DebitAccount): #Inherits DebitAccount
 
     # takes 
     def __init__(self, entityName,DebtorName,amount):
@@ -1260,7 +1272,7 @@ class AccountRecievable(DebitAccount): #Inherits DebitAccount
         super().__init__(entityName, amount)
 		#self.Name = entityName  #Debtor's Name
 		#Object , of type DebitAccount	
-		#self.AccountRecievable = AccountRecievable #unsure about this 
+		#self.Receivable = AccountReceivable #unsure about this 
 		# amount (decimal, to 2 places)
 		#self.amount =  round(amount,2)  
 		
@@ -1330,7 +1342,7 @@ DebitAccount = CreditAccount
 ### cash (cashBarnettInn)        # when paid in-full
 #================================
 ## Expenses 
-### AccountsRecievable[PayerName]  # when payment will be recieved later 
+### AccountsReceivable [PayerName]  # when payment will be recieved later 
 
 #### herbertBadDebt : an instance of AccountsRecievable
 
@@ -1355,7 +1367,7 @@ certain `Action` performed (sell of a `product` or `service` tendered)
 """
 
 """
-Dr Accounts Recievable (from Pip) 100
+Dr Accounts Receivable (from Pip) 100
 
 	Cr Service Rendered 100
 
@@ -1369,7 +1381,7 @@ print("Transaction 1:\n")
   of 100 shillings to `barrerttInn` as serviceRendered [CreditAccount]  (in exchange of service rendered )
  
 Note: service rendered in an 'abstract' accounting object, a 'CreditAccount'
-# Instantiate accountRecievable by 100 ( is a  DebitAccount) that pip should pay
+# Instantiate accountReceivable by 100 ( is a  DebitAccount) that pip should pay
 # instantiate a CreditAccount 100 (serviceRendered) 100
 
 Note: pipdebt is an instance of  AccountRecievable class (an Asset for Proprietor, Barnett Inn's)
@@ -1381,11 +1393,13 @@ From the BarnettInn's Perspective, they must the following:
 #pipDebt = DebitAccount("pip's Debt", 100) # Dr Expense Account   by 100 [+100]
 #serviceRendered = CreditAccount("Service Rendered", 100) #Cr Credit Account  by 100 [+100] 
 
-##accountRecievable = DebitAccount( "pip's Debt (Accounts Recievable)",100) # increment [100] 
+##accountReceivable = DebitAccount( "pip's Debt (Accounts Recievable)",100) # increment [100] 
 ##sericeRendered = CreditAccount("Service Rendered",100) # increment [100] (to SOCI report )
 
 ##Instantiate pipDebt, from AccountsRecievable[Dr] , serviceRendered from RevenueAccount [Cr]
-pipDebt = AccountRecievable("Pip's Debt","Pip", 100) # increment [+100] (to Balance Sheet) [Dr ]
+
+pipDebt = AccountReceivable("Pip's Debt","Pip", 100) # increment [+100] (to Balance Sheet) [Dr ]
+
 serviceRendered = RevenueAccount("Service Rendered",100) # increment [+100] (to SOCI report ) [Cr]
 
 
@@ -1404,7 +1418,7 @@ decrement(pipDebt.total, 100)  # Dr pipDebt 100
 increment(barnettInn.total, 100) # Cr B. Inn 100
 """
 # Transaction 2: `Balancing  Transaction` 
-#  `pip` pays back his debt , to `Barnett's Inn, in full [or BarnettInn recieves cash from Mr. Pip ]
+#  `pip` pays back his debt , to `Barnett's Inn, in full [or BarnettInn Receives cash from Mr. Pip ]
 # Crucial Note: Use `cashBarnettInn` instead of cash already used [ Demo, only]
 
 cashBarnettInn = DebitAccount("Cash", 100) # used instead of  Cash [as `cashBarnettInn`] # [+100] #up by 100 [+100] #  Dr barnettInn 100
@@ -1427,7 +1441,7 @@ print("Transaction 3:\n")
 #acccount for debt for Mr. Hurbert, for service rendered
 
 #Initialize accounts, by  Adding a debt Account (Expense) for Mr. Herbert
-herbertDebt = AccountRecievable("Herbert's Debt","Herbert", 100) # up 100 [+100]
+herbertDebt = AccountReceivable("Herbert's Debt","Herbert", 100) # up 100 [+100]
 serviceRendered = RevenueAccount("Service Rendered", 100) #creditAcc up by 100
 print("herbertDebt.total", herbertDebt.total , " open") # 100
 print("serviceRendered.total",serviceRendered.total)
@@ -1466,7 +1480,10 @@ print("Transaction 5\n")
 transfers badDebtExpense from BalanceSheet to Statement of Comprehenisve Income [SOCI]
 at the end of the Accounting Period 
 """
-#we don't have LossAccount , but a Expenditure 
+#we don't have LossAccount, but an Expenditure (account, which at the end of a period, 
+# the account is calculated, & checked :
+# (1) Expenditure Account < 0:  *Loss Incurred*
+# (2) Expenditure Account == 0:  & the account is henceforth, closed . 
 #------------------
 #pipDebt = DebitAccount("pip's Debt", 100)
 #barnettInn = CreditAccount("Barnett's Inn", 100)
@@ -1484,7 +1501,7 @@ print("herbertRepayment.total = ",herbertRepayment.total)
 
 print("Comment: Being Herbert's Debt repayment, by Mr. Pip in full\n")
 ##increment(pipDebt.total,100)
-increment(cashBarnettInn.total,100) # Dr[cashBarnettInn : DebitAccount] 
+#increment(cashBarnettInn.total,100) # Dr[cashBarnettInn : DebitAccount] 
 
 #=====================
 print("successfully finished the accounting usecase")
