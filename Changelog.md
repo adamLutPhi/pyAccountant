@@ -236,3 +236,11 @@ in an orderly manner. further improvements would be to coat & wrap increment dec
 into its respective  `Debit` or `Credit` static account.
 - now can focus on the accounts difference: the `cash Flows`: `cash-inflows`, `cash-outflows`
 
+
+## Updated 
+
+`Account.credit` now works , as expected 
+note: only debugged, until got it working  (hence, though things I looked at looks good 
+
+I am Unsure if there are other hidden aspects  that got, somehow, `overlooked`)
+
