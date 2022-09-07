@@ -77,6 +77,15 @@ def amountIsPositive(amount):
     elif amount < 0:
         return False
 
+def amountIsValid(amount):
+    if amountIsPositive(amount) and not amountIsEmptyString(amount) and not amountIsNullable(amount):
+        return True
+    elif  \
+       amountIsNegative(amount) or amountIsEmptyString(amount) or amountIsNullable(amount):
+        return False 
+    else: raise Exception("unexpected Error Occured")
+    
+    
 #   def amountIsNegative(amount):
 
 #      return  amount < 0
@@ -106,16 +115,20 @@ def NullorEmptyorNegative(amount):
         return False
 
 # ===============================================================================
+def calcDifference(_first, _second):
+        
+    return max(_first, _second) - min(_first, _second )
+        
+# ===============================================================================
 # Account Class
 
 
 # debugging
 # static methods
-tot = 1000
-
+#tot = 1000
 
 def increment(total, amount):  # now works
-    """ increments an an account, by a value """
+    """ increments an an account total balance , by a value equal to an amount """
     # if not  amount == None and not amount == "" and amount >=0.0: # 0 is also a valid number, indeed
     #total = 0.0
 
@@ -500,17 +513,27 @@ class Account:
        ## self.drAcc = 1
        ##self.crAcc = None
 
-    def debit(self, amount):  # ):
+
+    
+    def _debit(self):#, amount):  # ):
         self.setDebit()  # prepares for a debit account
 
         # pass
-
-    def credit(self, amount):
+    def _credit(self): # , amount):
         self.setCredit()  # prepares for a credit account
         # if self.__account
         # pass
     # TODO: add here
+    
+    """ Do Not Implement it , out of the bat 
+    def debit(self, amount):  # ):
+        self.setDebit()  # prepares for a debit account
 
+        # pass
+    
+    def credit(self,amount ): # , amount):
+        self.setCredit() 
+   """
 
 """stackoverflow
 The inheritance of attributes using __init__
@@ -608,12 +631,15 @@ class DebitAccount(Account):  # inherits Account (corrrect)
 
     def __init__(self, Name, total):  # same
 
+   
+        super(DebitAccount, self)._debit()
         # super().Dr = 1      #N.D
         super(DebitAccount, self).__init__(Name, total)  # sets account w
-      #  self.Dr = 1  # N.D
-      #  self.Cr = None
+        #  self.Dr = 1  # N.D
+        #  self.Cr = None
         # sets account to be a DebitAccount  #incrementing initial balance of drAccount [Dr]
-        self.setDebit()
+        # self.setDebit()
+
 
         print("Debit(2) Finished")
 
@@ -625,6 +651,7 @@ class DebitAccount(Account):  # inherits Account (corrrect)
         self.crTransaction = 1
         self.drTransaction = None
 
+    #TODO: depreciate the following 
         self.Cr = 1
         self.Dr = None
 
@@ -651,15 +678,18 @@ class DebitAccount(Account):  # inherits Account (corrrect)
     # Stateful- Actions: debit , credit
 
     def debit(self, amount=100):  # 0.0): # same
-        super().setDebit()
-        if self.Dr == 1:  # problem self.Dr == None (not 1 [Expected ])
+        super()._debit() #setDebit() Set dr transaction flag 
+        if self.drTransaction == 1: #.Dr == 1:  # problem self.Dr == None (not 1 [Expected ])
             if amount > 0:
-                # self.decrement(amount)
-                # super(DebitAccount, self).increment(amount)
-                # debitAccount =  super(DebitAccount, self)
-                increment(self.total, amount)  # debitAccount.total, amount)
-
-                self.resetAccountState()
+               # self.decrement(amount)
+               # super(DebitAccount, self).increment(amount)
+               # debitAccount =  super(DebitAccount, self)
+               newTotal= increment(self.total, amount)  # debitAccount.total, amount)
+               self.cashflow = calcDifference(newTotal, self.total)
+               self.total = newTotal 
+                
+               self.resetAccountState()
+               
             """
                     if self.Cr == 1:
                         self.increment(amount)
@@ -673,21 +703,23 @@ class DebitAccount(Account):  # inherits Account (corrrect)
         #    raise  Exception("ERROR: `amount` must be positive")
 
     def credit(self, amount=100):  # 0.0): # same
-
-        self.calculateFlow(amount)  # TODO <---------
-
-        self.setCredit()    # set a credit state
-        if self.Cr == 1:  # checks if credit operation
+        super()._credit() # sets credit flag  #self.setCredit()    # set a credit state
+        
+        # self.calculateFlow(amount)  # TODO <--------- # unsure 
+        print("entering credit ")
+        print("amount = ", amount)
+        
+        if self.crTransaction == 1:  #Cr == 1:  # checks if credit operation
             # if amount > 0:
             # self.cr
             #super(DebitAccount, self).decrement(amount)
             #debitAccount =  super(DebitAccount, self)
             #decrement(debitAccount.total, amount)
 
-            decrement(self.total, amount)
-
-            self.resetAccountState()
-
+            newTotal = decrement(self.total, amount)
+            self.cashflow = calcDifference(newTotal, self.total)
+            self.total = newTotal 
+               
             """
                     if self.Dr == 1:
                         self.decrement(amount)
@@ -695,9 +727,9 @@ class DebitAccount(Account):  # inherits Account (corrrect)
                     elif self.Cr == 1:
                         self.increment(amount)
                     """
-
-        else:
-            raise Exception("ERROR: `amount` must be positive")
+      #UncommentMe
+      #  else:
+      #      raise Exception("ERROR: `amount` must be positive")
 
     """
         def debit(amount):
@@ -876,7 +908,7 @@ class CreditAccount(Account):  # , Enum):
         super(CreditAccount, self).__init__(Name, total)
 
     # Domain functions:
-
+    #Unused
     def checkCrCondition(self, amount: float):
         # if Dr value is set to 1
         if self.drTransaction == 1:  # self.Dr == 1:
@@ -895,10 +927,13 @@ class CreditAccount(Account):  # , Enum):
             raise Exception(
                 "Unexpected Error Occured , please try again later")
 
+    #Behaviors:
 # bank.credit [crAccount.credit] [+]
     def debit(self, amount=100):  # 0.0): # dr CreditAccount [-]
         # self.Dr == 1:            #amount > 0:
-        if self.drTransaction == 1 and amountIsPositive(amount):
+        super()._debit() # set debit flags 
+        
+        if self.drTransaction == 1  and amountIsPositive(amount):
 
             # self.decrement(amount)
             #super(CreditAccount, self).decrement(amount)
@@ -907,8 +942,11 @@ class CreditAccount(Account):  # , Enum):
             # TODO: should return the cash-flow
 
             #decrement(creditAccount.total, amount)
-            decrement(self.total, amount)
-
+            newTotal = decrement(self.total, amount)
+            self.cashFlow  = calcDifference(self.total, newTotal) # max(self.total, newTotal ) -    min(self.total, newTotal) 
+            
+            self.total = newTotal
+            
             self.resetAccountState()  # reset state
             """
                     if self.Cr == 1:
@@ -921,6 +959,7 @@ class CreditAccount(Account):  # , Enum):
 
     def credit(self, amount=100):  # 0.0): # # cr CreditAccount [+]  #<------
         # and amountIsPositive(amount): #self.Cr == 1: # amountIsPositive(amount): #amount > 0:
+        super()._credit() # added _credit 
         if self.crTransaction == 1:
             # self.cr
             # .increment(amount)  #<-------
@@ -929,8 +968,11 @@ class CreditAccount(Account):  # , Enum):
             # TODO: should return the cash-flow
             #increment(creditAccount.total, amount)
 
-            increment(self.total, amount)
+            newTotal = increment(self.total, amount)
 
+            self.cashFlow  = calcDifference(self.total, newTotal) # max(self.total, newTotal ) -    min(self.total, newTotal) 
+            self.total = newTotal 
+            
             self.resetAccountState()  # reset state, back to `None`
 
             """
@@ -941,8 +983,8 @@ class CreditAccount(Account):  # , Enum):
                         self.increment(amount)
                     """
 
-        else:
-            raise Exception("ERROR: `amount` must be positive")
+     #   else:
+     #       raise Exception("ERROR: `amount` must be positive")
 
     # The end # Correct function implementation
 
@@ -1510,3 +1552,14 @@ print("successfully finished the accounting usecase")
 increasing a Credit Account is by crediting it 
 (just remember, ""like"" attracts like)""
 """
+print("demo2:\n")
+
+cashSales = RevenueAccount("cashSales",100) # Cr Account
+print("cashSales = ", cashSales.total)
+
+cashSales.debit(50) # = 50 # [-50]
+print("cashSales = ", cashSales.total )
+cashSales.credit(150)
+
+print("cashSales = ", cashSales.total )
+    
