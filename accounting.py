@@ -123,9 +123,10 @@ def calcDifference(_first, _second):
 # Account Class
 
 
-# debugging
+#debugging
+
 # static methods
-#tot = 1000
+
 
 def increment(total, amount):  # now works
     """ increments an an account total balance , by a value equal to an amount """
@@ -174,7 +175,7 @@ def decrement(total, amount):
     return total
     # return outflow
 
-
+tot = 1000
 tot = increment(tot, 100)
 
 # hmm this is wrong ! #  100.0  (+1000 = 1100)) #correct
