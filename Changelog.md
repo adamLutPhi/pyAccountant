@@ -1,4 +1,4 @@
-# accountingLog
+# AccountingLog
 
 ## 9-1-2022
 
@@ -120,14 +120,14 @@ Hence, helps in promoting an `account` (into a `DebitAccount` or a `CreditAccoun
  
 # 9-2-2022
  
-## Added 
+### Added 
  
  Static methods for 
  
  1. `Increment`  an account, by an **amount**
  2. `decrement` an account, by an **amount**
  
-## Updated
+### Updated
  
  `decrement`:  fixed its **return**, so that it's *precise* ,after subtraction, 
  Upon checking, the total of account balances **goes back to 0, successfully, as expected
@@ -253,3 +253,17 @@ I am Unsure if there are other hidden aspects  that got, somehow, `overlooked`)
 - By now, file is debugged, & running, alng with accounts of type
 `Account.credit` & `account.debit` . with a *humble*
 debugging demo, at the end   
+
+## 9-09-2022
+
+### Action Plan 
+To contemplate upon counter Accounts.
+There are accounts that must complement existing Accounts 
+`accountReceivable`, for example, should be complemented by `accountPayable`
+for the other party 
+in the Great Expectations example: that would be 
+pip on describing his debt to **Barnett Inn's** `barnettInn` would be reflected in his **Book**
+as `acccountPayable` as a counter-part of `accountReceivable` in the **book** of
+ `barnettInn`
+- That would be `money owed` to vendors (or supplier) [or a bar, a restaurant, or a Bank],
+ for `Service Rendered`  (or seemingly `Product Purchased`)

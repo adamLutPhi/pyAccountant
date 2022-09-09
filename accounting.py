@@ -14,7 +14,7 @@ this version is prefered, to continue to work on, & further develop:
     (Correction: transation returns total instead of self.total)
 """
 import numpy as np
-from math import *
+#from math import *
 """
 from datetime import date, time, timedelta  # fixes
 from pytz import timezone
@@ -1289,19 +1289,19 @@ payee: who recieves the payment
 #================
 """
 
-import accounting 
+# import accounting  # correctly imported [But other files (in the same Dir) cannot read it, on Windows ]
 
-class AccountReceivable(DebitAccount): #Inherits DebitAccount
+class AccountReceivable(DebitAccount): #Inherits DebitAccount #TODO: apply `Personal Account`
 
-    # takes 
-    def __init__(self, entityName,DebtorName,amount):
+    # takes
+    def __init__(self, entityDesc, DebtorName ,amount):
         """
         
 
         Parameters
         ----------
-        entityName : str
-            Describes .
+        entityDesc : str
+            Provides an account Description, user-friendly
         DebtorName : TYPE
             DESCRIPTION.
         amount : TYPE
@@ -1312,7 +1312,7 @@ class AccountReceivable(DebitAccount): #Inherits DebitAccount
         None.
 
         """
-        super().__init__(entityName, amount)
+        super().__init__(entityDesc, amount)
 		#self.Name = entityName  #Debtor's Name
 		#Object , of type DebitAccount	
 		#self.Receivable = AccountReceivable #unsure about this 
@@ -1321,6 +1321,37 @@ class AccountReceivable(DebitAccount): #Inherits DebitAccount
 		
         # Debit For DebtorName
         self.DebtorName = DebtorName #new 
+
+class AccountPayable(CreditAccount): #Inherits DebitAccount #TODO: apply `Personal Account` [as it should be ]
+
+    # takes
+    def __init__(self, entityDesc, CreditorName ,amount):
+        """
+        
+
+        Parameters
+        ----------
+        entityDesc : str
+            Describes the 
+        CreditorName : TYPE
+            A name of the creditor, providing credit (by cash , or other mediums, accepted upon by both parties )
+        amount : TYPE
+            DESCRIPTION.
+
+        Returns
+        -------
+        None.
+
+        """
+        super().__init__(entityDesc, amount)
+		#self.Name = entityName  #Debtor's Name
+		#Object , of type DebitAccount	
+		#self.Receivable = AccountReceivable #unsure about this 
+		# amount (decimal, to 2 places)
+		#self.amount =  round(amount,2)  
+		
+        # Debit For DebtorName
+        self.CreditorName = CreditorName #new 
 
 """
 #============================
