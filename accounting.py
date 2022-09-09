@@ -1352,7 +1352,7 @@ class AccountPayable(CreditAccount): #Inherits DebitAccount #TODO: apply `Person
 		
         # Debit For DebtorName
         self.CreditorName = CreditorName #new 
-
+# 
 """
 #============================
 #Tangible Expense: 
@@ -1594,4 +1594,90 @@ print("cashSales = ", cashSales.total )
 cashSales.credit(150)
 
 print("cashSales = ", cashSales.total )
-    
+#=============
+
+
+
+#===============
+# Transaction 1
+# Pip writes in his `book` the creditor name 
+
+"""
+The entity for whom he owes money to 
+
+Dr service rendered  100  [+100 ]
+	Cr Account Payable [Barnett Inn's] [+100] 
+"""
+#----------------
+	
+# Transaction 2 
+"""
+
+Pip pays back Barnett Inn's , in full 
+
+Dr Account Payable [to Barnett Inn's] 100 [-100]
+
+Cr cash 100  [-100]
+
+
+"""
+#----------------
+
+# Transaction 3 : 
+"""
+Herbert's debt :
+
+Dr service rendered  100  [+100 ]
+	Cr Account Payable [Barnett Inn's] [+100] 
+
+"""
+#---------------
+# transaction 4 : 
+"""
+Bad Debt Expense entry: 
+
+Where Herbert cannot pay back 
+
+
+Dr Account Payable [Barnett Inn's]  100 [-100]
+
+Cr Default Amount unpaid [Barnett Inn's] 100 [+100] #note: this must refer the the creditor 
+
+
+#Imagine: a scenario with full of creditors , each wants their piece 
+# to distinguish between them , you must have a credotpr name in there,
+as well 
+
+Thus , a personal name (for debitor/ creditor ) 
+is necessary to clearly distinguish them 
+
+"""
+#----------------
+
+# Transaction 5: 
+"""
+Pip pays off herbert's debt 
+
+pip's account: 
+Pays money sum, back to Barnett Inn's 
+
+Dr Expenditure  (payment to barnettInn) 100 [+100]
+Cr cash  100 [- 100] 
+"""
+
+#--------------
+# Happens simultaneously, as pip pays off his friend's debt:
+
+#Herbert's account: 
+"""
+Dr Default Amount unpaid [Barnett Inn's] 100 [-100] # money owed to barnettInns is paid 
+Cr  Debt [pip] 100  #liability to payback Mr.pip 
+
+# 1. removes the default amount , on Mr. Herbert 
+#2.  move the liability to pip
+
+#----------------------
+Observation: an account could affect 1 or more accounts 
+(like domnios, falling because of on that caused them to move ) 
+
+"""
