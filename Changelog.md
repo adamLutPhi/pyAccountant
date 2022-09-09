@@ -267,3 +267,12 @@ as `acccountPayable` as a counter-part of `accountReceivable` in the **book** of
  `barnettInn`
 - That would be `money owed` to vendors (or supplier) [or a bar, a restaurant, or a Bank],
  for `Service Rendered`  (or seemingly `Product Purchased`)
+ 
+### Observation 
+As trivial as it could be , & simpler as it can be represented
+things could get messy quickly, hence, there is a need to precisely model 
+the `interactions between accounts` , with **Pristine diamond clarity**, as possible
+
+ 
+ 
+ 
