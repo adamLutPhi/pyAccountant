@@ -11,8 +11,10 @@ this version is prefered, to continue to work on, & further develop:
     *(other minor issues may exist, accordingly)* 
     
     3 account transaction is functioning as expected
-    (Correction: transation returns total instead of self.total)
+    (Correction: transation returns totalBalance instead of self.totalBalance)
 """
+import copy
+#from Date import relativedelta, date
 import numpy as np
 #from math import *
 """
@@ -42,6 +44,13 @@ think of at least `3 ` conditions that make an amount `Invalid`, which are:
     
 
 """
+# Static variables
+msg = "ERROR! Unexpected Value Occured "
+
+# class Account:
+#    pass
+
+
 # Static Functions
 
 # ================================================================================
@@ -77,15 +86,17 @@ def amountIsPositive(amount):
     elif amount < 0:
         return False
 
+
 def amountIsValid(amount):
     if amountIsPositive(amount) and not amountIsEmptyString(amount) and not amountIsNullable(amount):
         return True
     elif  \
-       amountIsNegative(amount) or amountIsEmptyString(amount) or amountIsNullable(amount):
-        return False 
-    else: raise Exception("unexpected Error Occured")
-    
-    
+            amountIsNegative(amount) or amountIsEmptyString(amount) or amountIsNullable(amount):
+        return False
+    else:
+        raise Exception("unexpected Error Occured")
+
+
 #   def amountIsNegative(amount):
 
 #      return  amount < 0
@@ -115,65 +126,68 @@ def NullorEmptyorNegative(amount):
         return False
 
 # ===============================================================================
+
+
 def calcDifference(_first, _second):
-        
-    return max(_first, _second) - min(_first, _second )
-        
+
+    return max(_first, _second) - min(_first, _second)
+
 # ===============================================================================
 # Account Class
 
 
-#debugging
+# debugging
 
 # static methods
 
 
-def increment(total, amount):  # now works
-    """ increments an an account total balance , by a value equal to an amount """
+def increment(totalBalance, amount):  # now works
+    """ increments an an account totalBalance balance , by a value equal to an amount """
     # if not  amount == None and not amount == "" and amount >=0.0: # 0 is also a valid number, indeed
-    #total = 0.0
+    #totalBalance = 0.0
 
     # 1 check amount not amountIsNullable(amount) and not amountIsEmptyString(amount) and :
     # if notNullorEmptyPositive(amount):
 
     inflow = + amount
 
-    tmp = total + abs(inflow)  # amount  # store value temporarily
+    tmp = totalBalance + abs(inflow)  # amount  # store value temporarily
 
-    #tmp = total
+    #tmp = totalBalance
 
     #inflow = abs(amount)
 
-    # total += amount
+    # totalBalance += amount
     # Check Failure Condition
     if tmp >= 0:  # and amount > 0: # amount already is positive
-        total = tmp
+        totalBalance = tmp
 
-    # instead of total, should calculate & return the flow (the difference between  total and new amount)
-    return total
+    # instead of totalBalance, should calculate & return the flow (the difference between  totalBalance and new amount)
+    return totalBalance
     # return inflow
 
 
-def decrement(total, amount):
+def decrement(totalBalance, amount):
     """ decrements an amount, by a value """
-    #total = 0.0
+    #totalBalance = 0.0
 
     # 1000
 
     # if notNullorEmptyPositive(amount):
-    tmp = total
+    tmp = totalBalance
     outflow = -  abs(amount)  # always negative
 
-    tmp += outflow  # + outflow #total + outflow #- amount
+    tmp += outflow  # + outflow #totalBalance + outflow #- amount
 
-    #tmp = total
-    # total -= amount
+    #tmp = totalBalance
+    # totalBalance -= amount
     # Check Failure Condition
     if tmp >= 0:  # amount >= 0:
-        total = tmp  # assign tmp to total
+        totalBalance = tmp  # assign tmp to totalBalance
 
-    return total
+    return totalBalance
     # return outflow
+
 
 tot = 1000
 tot = increment(tot, 100)
@@ -228,8 +242,8 @@ class Account:
     # iniitally, an account has as neutral Nullable state (Dr or Cr) set
 
     # stateful-actions:
-    Dr = None
-    Cr = None
+    #Dr = None
+    #Cr = None
 
     drAcc = None
     crAcc = None
@@ -253,10 +267,10 @@ class Account:
         self.drTransaction = None
         self.crTransaction = None
 
-        self.Dr = None
-        self.Cr = None
+        # self.Dr = None
+        # self.Cr = None
 
-    def __init__(self, Name="N/A", total=0.0):
+    def __init__(self, Name="N/A", totalBalance=0.0):
         """
 
         Parameters
@@ -265,7 +279,7 @@ class Account:
             the Account's Name . The default is "N/A".
 
 
-        total : TYPE, optional
+        totalBalance : TYPE, optional
             the Account's value. The default is 0.0 : float.
 
         Returns
@@ -277,7 +291,7 @@ class Account:
         self.Name = Name
         #self.Dr = None
         #self.Cr = None
-        self.total = np.round(total, 2)
+        self.totalBalance = np.round(totalBalance, 2)
 
     """
     def __init__(self):
@@ -286,7 +300,7 @@ class Account:
         self.Name = "N/A"
         self.Dr = None
         self.Cr = None
-        self.total = np.round(0.0, 2)
+        self.totalBalance = np.round(0.0, 2)
 
     
     def __init__(self, Counter=intCounter):
@@ -295,7 +309,7 @@ class Account:
             self.Name = "N/A"
             self.Dr = None
             self.Cr = None
-            self.total = np.round(0.0, 2)
+            self.totalBalance = np.round(0.0, 2)
 
 
         def __init__(self, Name="N/A"):
@@ -303,7 +317,7 @@ class Account:
             self.Name = Name
             self.Dr = None
             self.Cr = None
-            self.total = np.round(0.0, 2)
+            self.totalBalance = np.round(0.0, 2)
     
 
     def __init__(self, Name="N/A", Counter=intCounter):
@@ -312,7 +326,7 @@ class Account:
             self.Name = Name
             self.Dr = None
             self.Cr = None
-            self.total = np.round(0.0, 2)
+            self.totalBalance = np.round(0.0, 2)
   
     def __init__(self, Name="N/A", Counter=intCounter):
         if self.id == None:
@@ -320,15 +334,15 @@ class Account:
             self.Name = Name
             self.Dr = None
             self.Cr = None
-            self.total = np.round(0.0, 2)
+            self.totalBalance = np.round(0.0, 2)
 
-    def __init__(self, Name="N/A", total=0.0, Counter=intCounter):
+    def __init__(self, Name="N/A", totalBalance=0.0, Counter=intCounter):
         if self.id == None:
             self.id = Counter
             self.Name = Name
             self.Dr = None
             self.Cr = None
-            self.total = np.round(total, 2)
+            self.totalBalance = np.round(totalBalance, 2)
     """
     # depreciate
 
@@ -338,13 +352,13 @@ class Account:
             self.Id += 1
 
     """
-    def increment(total, amount=0.0):
-         tmp = total + amount
-         # total += amount
+    def increment(totalBalance, amount=0.0):
+         tmp = totalBalance + amount
+         # totalBalance += amount
          # Check Failure Condition
          if tmp >= 0 and amount > 0:
-             total = tmp
-         return total
+             totalBalance = tmp
+         return totalBalance
      """
 
     # amount condition specification
@@ -352,11 +366,12 @@ class Account:
     # amount Is Negative
     """ #applying deMorgans law for logic (and ->or , or -> and) (inverting and to or, not or without (to be or not to be ))"""
 
+    #TODO: fill
     def calcFlow(self, amount, operator):
         if operator == self.crTransaction:  # self.Cr:
             pass
             # check accountType
-        elif operator == self.drTransaction:
+        elif operator == self.drTransaction:  # self.drAcc: #self.drTransaction:
             pass
         elif operator == None:
             pass
@@ -400,81 +415,82 @@ class Account:
     def increment(self, amount):
         """ increments an an account, by a value """
         # if not  amount == None and not amount == "" and amount >=0.0: # 0 is also a valid number, indeed
-        #total = 0.0
+        #totalBalance = 0.0
 
         # 1 check amount not amountIsNullable(amount) and not amountIsEmptyString(amount) and :
         # if notNullorEmptyPositive(amount):
         #inflow = + amount
-        # tmp = self.total + abs( inflow)  # amount  # store value temporarily
-        # total += amount
+        # tmp = self.totalBalance + abs( inflow)  # amount  # store value temporarily
+        # totalBalance += amount
         # Check Failure Condition
         # if tmp >= 0:  # and amount > 0: # amount already is positive
-       #     self.total = tmp
+       #     self.totalBalance = tmp
 
         inflow = + amount
 
-        tmp = self.total + abs(inflow)  # amount  # store value temporarily
+        # amount  # store value temporarily
+        tmp = self.totalBalance + abs(inflow)
 
-        #tmp = total
+        #tmp = totalBalance
 
         #inflow = abs(amount)
 
-        # total += amount
+        # totalBalance += amount
         # Check Failure Condition
         if tmp >= 0:  # and amount > 0: # amount already is positive
-            self.total = tmp
+            self.totalBalance = tmp
 
-            # instead of total, should calculate & return the flow (the difference between  total and new amount)
-            return self.total
+            # instead of totalBalance, should calculate & return the flow (the difference between  totalBalance and new amount)
+            return self.totalBalance
 
-        # instead of total, should calculate & return the flow (the difference between  total and new amount)
-        return self.total
+        # instead of totalBalance, should calculate & return the flow (the difference between  totalBalance and new amount)
+        return self.totalBalance
         # return inflow
 
     def decrement(self, amount):
         """ decrements an amount, by a value """
 
-        #total = 0.0
+        #totalBalance = 0.0
 
         # 1000
 
         # if notNullorEmptyPositive(amount):
-        tmp = self.total
+        tmp = self.totalBalance
         outflow = -  abs(amount)  # always negative
 
-        tmp += outflow  # + outflow #total + outflow #- amount
+        tmp += outflow  # + outflow #totalBalance + outflow #- amount
 
-        #tmp = total
-        # total -= amount
+        #tmp = totalBalance
+        # totalBalance -= amount
         # Check Failure Condition
         if tmp >= 0:  # amount >= 0:
-            self.total = tmp  # assign tmp to total
+            self.totalBalance = tmp  # assign tmp to totalBalance
 
-        return self.total
+        return self.totalBalance
         # return outflow
-        #total = 0.0
+        #totalBalance = 0.0
         """
         #if notNullorEmptyPositive(amount):
         outflow = - abs( amount) #always negative 
-        self.total = self.total + outflow #- amount
-        tmp = self.total
-            # total -= amount
+        self.totalBalance = self.totalBalance + outflow #- amount
+        tmp = self.totalBalance
+            # totalBalance -= amount
             # Check Failure Condition
         if amount >= 0:
-            self.total = tmp
+            self.totalBalance = tmp
         
-        return self.total
+        return self.totalBalance
         #return outflow
         """
 
     """
-    def decrement(total, amount=0.0):
-         tmp = total - amount
-         # total -= amount
+    def decrement(totalBalance, amount=0.0):
+         tmp = totalBalance - amount
+         # totalBalance -= amount
          # Check Failure Condition
          if tmp >= 0:
-             total = tmp
-         return total
+             totalBalance = tmp
+         return totalBalance
      """
 
     # set Credit Debit
@@ -487,10 +503,10 @@ class Account:
         None.
 
         """
-        self.Cr = 1
-        self.Dr = None
+        #self.Cr = 1
+        #self.Dr = None
 
-        self.crTransaction = 1
+        self.crTransaction = True  # = 1
         self.drTransaction = None
         #self.crAcc = 1
         #self.drAcc = None
@@ -505,27 +521,25 @@ class Account:
 
         """
 
-        self.Dr = 1
-        self.Cr = None
+        #self.Dr = 1
+        #self.Cr = None
 
-        self.drTransaction = 1
+        self.drTransaction = True  # 1
         self.crTransaction = None
 
        ## self.drAcc = 1
        ##self.crAcc = None
 
-
-    
-    def _debit(self):#, amount):  # ):
+    def _debit(self):  # , amount):  # ):
         self.setDebit()  # prepares for a debit account
 
         # pass
-    def _credit(self): # , amount):
+    def _credit(self):  # , amount):
         self.setCredit()  # prepares for a credit account
         # if self.__account
         # pass
     # TODO: add here
-    
+
     """ Do Not Implement it , out of the bat 
     def debit(self, amount):  # ):
         self.setDebit()  # prepares for a debit account
@@ -535,6 +549,7 @@ class Account:
     def credit(self,amount ): # , amount):
         self.setCredit() 
    """
+
 
 """stackoverflow
 The inheritance of attributes using __init__
@@ -583,12 +598,12 @@ class DebitAccount(Account):  # inherits Account (corrrect)
 
         """
         flow = 0
-        if operator == self.crTransaction:  # self.Cr:
+        if operator == self.crTransaction:  # self.crTransaction:  # self.Cr: #If Credit Transaction
             # pass #representing an out-flow (with a minus sign)
-            flow = -1 * amount
+            flow = -1 * amount  # then it's a negative flow [Out-Flow]
             # check accountType
-        elif operator == self.drTransaction:
-            flow = 1 * amount
+        elif operator == self.drTransaction:  # self.drTransaction:  # If Debit
+            flow = 1 * amount  # then it's a Positive Flow [In-Flow]
             # pass
         elif operator == None:  # if no operator, then do nothing at all
             pass
@@ -597,21 +612,21 @@ class DebitAccount(Account):  # inherits Account (corrrect)
     def flowHandling(flow):
         _stringFlow = ""
         if flow < 0:
-            _stringFlow = "Out-Flow"
+            _stringFlow = "Out-Flow (-)"
         elif flow > 0:
-            _stringFlow = "In-Flow"
+            _stringFlow = "In-Flow (+)"
         elif flow == 0:  # at 0
-            "No-Change"  # N.C
+            "No-Change (n.c) "  # N.C
 
         else:  # there must've been a mistake
             raise Exception("an error in amount")
         return _stringFlow
     """
-    def __init__(self, Name, total):
+    def __init__(self, Name, totalBalance):
 
-    #super().__init__(Name=Name, total=total)
-    #super(DebitAccount, self).__init__(Name=Name, total=total)
-    Account.__init__(Name=Name, total=total)
+    #super().__init__(Name=Name, totalBalance=totalBalance)
+    #super(DebitAccount, self).__init__(Name=Name, totalBalance=totalBalance)
+    Account.__init__(Name=Name, totalBalance= totalBalance)
     self.Dr = 1 
     """
     """
@@ -624,23 +639,24 @@ class DebitAccount(Account):  # inherits Account (corrrect)
         super(DebitAccount, self).__init__(*args, **kwargs)
         # super().Dr = 1  #N.D
         # self.Cr = 1 # assign it
-       # self.Dr = 1  # True #1 # assign it  #N.D
+       # self.drTransaction = 1  # True #1 # assign it  #N.D
         #self.Cr = None
-        #super.Dr = 1
+        #super.drTransaction = 1
         print("Debit Finished")
     """
 
-    def __init__(self, Name, total):  # same
+    def __init__(self, Name, totalBalance):  # same
 
-   
         super(DebitAccount, self)._debit()
         # super().Dr = 1      #N.D
-        super(DebitAccount, self).__init__(Name, total)  # sets account w
-        #  self.Dr = 1  # N.D
-        #  self.Cr = None
+        # sets account (with name, totalBalance  specified)
+        super(DebitAccount, self).__init__(Name, totalBalance)
+
+        # Intent: initialize account, with a sum `totalBalance`
+        #  self.drTransaction = 1  # N.D
+        #  self.CrTransaction = None
         # sets account to be a DebitAccount  #incrementing initial balance of drAccount [Dr]
         # self.setDebit()
-
 
         print("Debit(2) Finished")
 
@@ -649,20 +665,30 @@ class DebitAccount(Account):  # inherits Account (corrrect)
 
     def setCredit(self):
 
-        self.crTransaction = 1
+        self.crTransaction = True  # 1
         self.drTransaction = None
 
-    #TODO: depreciate the following 
-        self.Cr = 1
-        self.Dr = None
+    # TODO: depreciate the following
+        #self.Cr = 1
+        #self.Dr = None
 
     def setDebit(self):
+        """
+        sets accounts 
 
-        self.drTransaction = 1
-        self.Cr = None
+        Returns
+        -------
+        None.
 
-        self.Dr = 1
-        self.Cr = None
+        """
+        #self.drTransaction = 1
+        #self.crTransaction = None
+        self.drTransaction = True  # 1
+        self.crTransaction = None
+
+        # TODO: depreciate the following
+        #self.Dr = 1
+        #self.Cr = None
 
     def finalize(self):
         self.resetAccountState()
@@ -673,28 +699,31 @@ class DebitAccount(Account):  # inherits Account (corrrect)
 
         # TODO:
 
-       # self.total -
+       # self.totalBalance -
         # pass
 
     # Stateful- Actions: debit , credit
 
     def debit(self, amount=100):  # 0.0): # same
-        super()._debit() #setDebit() Set dr transaction flag 
-        if self.drTransaction == 1: #.Dr == 1:  # problem self.Dr == None (not 1 [Expected ])
+        super()._debit()  # setDebit() Set dr transaction flag
+        # self.drTransaction == 1: #.Dr == 1:  # problem self.Dr == None (not 1 [Expected ])
+        if self.drTransaction:
             if amount > 0:
-               # self.decrement(amount)
-               # super(DebitAccount, self).increment(amount)
-               # debitAccount =  super(DebitAccount, self)
-               newTotal= increment(self.total, amount)  # debitAccount.total, amount)
-               self.cashflow = calcDifference(newTotal, self.total)
-               self.total = newTotal 
-                
-               self.resetAccountState()
-               
-            """
+                # self.decrement(amount)
+                # super(DebitAccount, self).increment(amount)
+                # debitAccount =  super(DebitAccount, self)
+                # debitAccount.totalBalance, amount)
+                newTotalBalance = increment(self.totalBalance, amount)
+                self.cashflow = calcDifference(
+                    newTotalBalance, self.totalBalance)
+                self.totalBalance = newTotalBalance
+
+                self.resetAccountState()
+
+                """
                     if self.Cr == 1:
                         self.increment(amount)
-                    elif self.Dr == 1:
+                    elif self.drTransaction == 1:
                         self.decrement(amount)
                 """
 
@@ -704,23 +733,24 @@ class DebitAccount(Account):  # inherits Account (corrrect)
         #    raise  Exception("ERROR: `amount` must be positive")
 
     def credit(self, amount=100):  # 0.0): # same
-        super()._credit() # sets credit flag  #self.setCredit()    # set a credit state
-        
-        # self.calculateFlow(amount)  # TODO <--------- # unsure 
+        super()._credit()  # sets credit flag  #self.setCredit()    # set a credit state
+
+        # self.calculateFlow(amount)  # TODO <--------- # unsure
         print("entering credit ")
         print("amount = ", amount)
-        
-        if self.crTransaction == 1:  #Cr == 1:  # checks if credit operation
+
+        if self.crTransaction:  # == 1:  #Cr == 1:  # checks if credit operation
             # if amount > 0:
             # self.cr
             #super(DebitAccount, self).decrement(amount)
             #debitAccount =  super(DebitAccount, self)
-            #decrement(debitAccount.total, amount)
+            #decrement(debitAccount.totalBalance, amount)
 
-            newTotal = decrement(self.total, amount)
-            self.cashflow = calcDifference(newTotal, self.total)
-            self.total = newTotal 
-               
+            newTotalBalance = decrement(self.totalBalance, amount)
+            self.cashflow = calcDifference(newTotalBalance, self.totalBalance)
+            self.totalBalance = newTotalBalance
+            self.resetAccountState()
+            return newTotalBalance
             """
                     if self.Dr == 1:
                         self.decrement(amount)
@@ -728,46 +758,46 @@ class DebitAccount(Account):  # inherits Account (corrrect)
                     elif self.Cr == 1:
                         self.increment(amount)
                     """
-      #UncommentMe
+      # UncommentMe
       #  else:
       #      raise Exception("ERROR: `amount` must be positive")
 
     """
         def debit(amount):
-           #fetches total, increments it by amount, returns updated total
-            tmp = self.total +amount
+           #fetches totalBalance, increments it by amount, returns updated totalBalance
+            tmp = self.totalBalance +amount
             if ampunt >0 and tmp>0:
-                self.total = tmp
-            return self.total
+                self.totalBalance = tmp
+            return self.totalBalance
     
     
         def credit(amount):
-                #fetches total, decrements it by amount, returns updated total
+                #fetches totalBalance, decrements it by amount, returns updated totalBalance
                 # super().debit(amount)
-                tmp = self.total - amount
+                tmp = self.totalBalance - amount
                 if ampunt >0 and tmp>0:
-                    self.total = tmp
-                return self.total
+                    self.totalBalance = tmp
+                return self.totalBalance
     
         """
 
     def checkDrCondition(self, amount: float):
         """checks current Dr Condition """
 
-        if self.drTransaction == 1:  # self.Dr == 1:
+        if self.drTransaction:  # self.drTransaction == 1:  # self.Dr == 1:
             # increment , if Dr (Debit)
-            #super.increment(self.total, amount)
+            #super.increment(self.totalBalance, amount)
             super(DebitAccount, self).increment(amount)
 
             self.finalize()
-        elif self.Cr == 1:
+        elif self.crTransaction:  # self.CrTransaction == 1:
             # decrement , if Cr (Credit)
-            #super.decrement(self.total, amount)
+            #super.decrement(self.totalBalance, amount)
             super(DebitAccount, self).decrement(amount)
             self.finalize()
 
         # (potential 2-faced loophole)
-        elif self.Dr == None and self.Cr == None:
+        elif self.drTransaction == None and self.crTransaction == None:
             pass
         else:
             raise Exception(
@@ -779,13 +809,13 @@ class DebitAccount(Account):  # inherits Account (corrrect)
             checkDrCondition(amount)
        
 
-        def __init__(self, Name: str, total: float):
-            super(DebitAccount,self).__init__(Name, total)  # call the default function
+        def __init__(self, Name: str, totalBalance: float):
+            super(DebitAccount,self).__init__(Name, totalBalance)  # call the default function
 
         
         def __init__(self, Name="N/A",  amount=0.0):
     
-            super().__init__(Name, total, amount)  # call the default function
+            super().__init__(Name, totalBalance, amount)  # call the default function
             checkDrCondition(amount)
     
     
@@ -812,17 +842,17 @@ class DebitAccount(Account):  # inherits Account (corrrect)
         None.
 
         """
-        if self.drTransaction == 1:  # self.Dr == 1:
+        if self.drTransaction:  # == 1:  # self.Dr == 1:
 
             # increment , if Cr (Credit)
-            super(DebitAccount, self).increment(amount)  # <-----------
+            super(DebitAccount, self).increment(amount)  # compiles
 
             #     elif Dr  ==1:
             # decrement , if Dr (Debit)
-            #        decrement(self.total, amount)
+            #        decrement(self.totalBalance, amount)
 
         # Otherwise, if nothing is set, then do Nothing
-        elif self.Dr == None and self.Cr == None:
+        elif self.drTransaction == None and self.crTransaction == None:
             pass
 
         else:
@@ -832,12 +862,12 @@ class DebitAccount(Account):  # inherits Account (corrrect)
     
         def increment(self, amount=0.0):
             if self.Dr == 1:
-                #super.increment(self.total, amount)
+                #super.increment(self.totalBalance, amount)
                 super.increment(amount)
     
         def decrement(self, amount=0.0):
             if.:
-                # super.decrement(self.total, amount)
+                # super.decrement(self.totalBalance, amount)
                 super.decrement(amount)
     
         """
@@ -861,10 +891,10 @@ class DebitAccount(Account):  # inherits Account (corrrect)
         None.
 
         """
-        if self.crTransaction == 1:  # and self.drAcc == 1: #self.Cr == 1:
+        if self.crTransaction:  # == 1:  # and self.drAcc == 1: #self.Cr == 1:
             # increment , if Cr (Credit)
 
-            super(DebitAccount, self).decrement(self.total, amount)
+            super(DebitAccount, self).decrement(self.totalBalance, amount)
             # reset cr flag, assign to None
 
             #self.crTransaction = None
@@ -872,10 +902,10 @@ class DebitAccount(Account):  # inherits Account (corrrect)
 
             #     elif Dr  ==1:
             # decrement , if Dr (Debit)
-            #        decrement(self.total, amount)
+            #        decrement(self.totalBalance, amount)
 
         # Evaluate the passing condition (both bool flags are equal to None )
-        elif self.Dr == None and self.Cr == None:
+        elif self.drTransaction == None and self.crTransaction == None:
             pass
         # otherwise, something unexpected Occured
         else:
@@ -890,13 +920,13 @@ class CreditAccount(Account):  # , Enum):
     #   Cr = 1
     #   Dr = None
     # ""
-    def __init__(self, Name, total):  # same #*args, **kwargs): #changed
+    def __init__(self, Name, totalBalance):  # same #*args, **kwargs): #changed
         # self.website=kwargs.pop('website')
         # the thing Dr is not given directly thru the  parameter
         #  self.Dr=kwargs.pop('Dr') # pop the required attribute
 
-        # sets up the account with name & total
-        super(CreditAccount, self).__init__(Name, total)
+        # sets up the account with name & totalBalance
+        super(CreditAccount, self).__init__(Name, totalBalance)
 
         self.resetAccountState()
 
@@ -905,36 +935,36 @@ class CreditAccount(Account):  # , Enum):
         #super.Dr = 1
         print("Credit Finished")
 
-    def __init(self, Name, total):
-        super(CreditAccount, self).__init__(Name, total)
+    def __init(self, Name, totalBalance):
+        super(CreditAccount, self).__init__(Name, totalBalance)
 
     # Domain functions:
-    #Unused
+    # Unused
     def checkCrCondition(self, amount: float):
         # if Dr value is set to 1
-        if self.drTransaction == 1:  # self.Dr == 1:
+        if self.drTransaction:  # self.Dr == 1:
             # increment , if Dr (Debit)
-            #super.increment(self.total, amount)
+            #super.increment(self.totalBalance, amount)
             super(CreditAccount, self).decrement(amount)  # Account decrements
             self.resetAccountState()  # followed by a reset state, back to `None`
-        elif self.crTransaction == 1:  # self.Cr == 1:
+        elif self.crTransaction:  # self.Cr == 1:
             # decrement , if Cr (Credit)
-            #super.decrement(self.total, amount)
+            #super.decrement(self.totalBalance, amount)
             super(CreditAccount, self).increment(amount)
             self.resetAccountState()  # followed by a reset state, back to `None`
-        elif self.Dr == None and self.Cr == None:  # If both none, then do nothing
+        elif self.drTransaction == None and self.crTransaction == None:  # If both none, then do nothing
             pass
         else:
             raise Exception(
                 "Unexpected Error Occured , please try again later")
 
-    #Behaviors:
+    # Behaviors:
 # bank.credit [crAccount.credit] [+]
     def debit(self, amount=100):  # 0.0): # dr CreditAccount [-]
         # self.Dr == 1:            #amount > 0:
-        super()._debit() # set debit flags 
-        
-        if self.drTransaction == 1  and amountIsPositive(amount):
+        super()._debit()  # set debit flags
+
+        if self.drTransaction == 1 and amountIsPositive(amount):
 
             # self.decrement(amount)
             #super(CreditAccount, self).decrement(amount)
@@ -942,17 +972,18 @@ class CreditAccount(Account):  # , Enum):
             ##creditAccount = super(CreditAccount, self)
             # TODO: should return the cash-flow
 
-            #decrement(creditAccount.total, amount)
-            newTotal = decrement(self.total, amount)
-            self.cashFlow  = calcDifference(self.total, newTotal) # max(self.total, newTotal ) -    min(self.total, newTotal) 
-            
-            self.total = newTotal
-            
+            #decrement(creditAccount.totalBalance, amount)
+            newTotal = decrement(self.totalBalance, amount)
+            # max(self.totalBalance, newTotal ) -    min(self.totalBalance, newTotal)
+            self.cashFlow = calcDifference(self.totalBalance, newTotal)
+
+            self.totalBalance = newTotal
+
             self.resetAccountState()  # reset state
             """
-                    if self.Cr == 1:
+                    if self.crTransaction == 1:
                         self.increment(amount)
-                    elif self.Dr == 1:
+                    elif self.drTransaction == 1:
                         self.decrement(amount)
                 """
         else:
@@ -960,27 +991,28 @@ class CreditAccount(Account):  # , Enum):
 
     def credit(self, amount=100):  # 0.0): # # cr CreditAccount [+]  #<------
         # and amountIsPositive(amount): #self.Cr == 1: # amountIsPositive(amount): #amount > 0:
-        super()._credit() # added _credit 
+        super()._credit()  # added _credit
         if self.crTransaction == 1:
             # self.cr
             # .increment(amount)  #<-------
             ##creditAccount = super(CreditAccount, self)
 
             # TODO: should return the cash-flow
-            #increment(creditAccount.total, amount)
+            #increment(creditAccount.totalBalance, amount)
 
-            newTotal = increment(self.total, amount)
+            newTotal = increment(self.totalBalance, amount)
 
-            self.cashFlow  = calcDifference(self.total, newTotal) # max(self.total, newTotal ) -    min(self.total, newTotal) 
-            self.total = newTotal 
-            
+            # max(self.totalBalance, newTotal ) -    min(self.totalBalance, newTotal)
+            self.cashFlow = calcDifference(self.totalBalance, newTotal)
+            self.totalBalance = newTotal
+
             self.resetAccountState()  # reset state, back to `None`
 
             """
-                    if self.Dr == 1:
+                    if self.drTransaction == 1:
                         self.decrement(amount)
         
-                    elif self.Cr == 1:
+                    elif self.crTransaction == 1:
                         self.increment(amount)
                     """
 
@@ -994,14 +1026,16 @@ class CreditAccount(Account):  # , Enum):
 # Liability : CreditAccount
 class Liability(CreditAccount):
 
-    def __init__(self, Name, total):
-        super(Liability, self).__init__(Name, total)
+    def __init__(self, Name, totalBalance):
+        super(Liability, self).__init__(Name, totalBalance)
         self.tag = "Liability"
-#==========================================
+# ==========================================
+
+
 class Capital(CreditAccount):
 
-    def __init__(self, Name, total):
-        super(Capital, self).__init__(Name, total)
+    def __init__(self, Name, totalBalance):
+        super(Capital, self).__init__(Name, totalBalance)
         self.tag = "Capital"
 
 # ===============================================================================
@@ -1009,10 +1043,10 @@ class Capital(CreditAccount):
 # Revenue [Statement of Comprehensive Income (SOCI ) object ]
 
 
-class Revenue(Capital): #  Revenue is a Capital account 
+class Revenue(Capital):  # Revenue is a Capital account
 
-    def __init__(self, Name, total):
-        super(Revenue, self).__init__(Name, total)
+    def __init__(self, Name, totalBalance):
+        super(Revenue, self).__init__(Name, totalBalance)
         self.tag = "Revenue"
 
 # Debit Accounts
@@ -1030,18 +1064,18 @@ class Revenue(Capital): #  Revenue is a Capital account
 class Asset(DebitAccount):
     """ an asset, is an object, that stores value , at a given period of time """
 
-    def __init__(self, Name, total):
-        super(Asset, self).__init__(Name, total)
+    def __init__(self, Name, totalBalance):
+        super(Asset, self).__init__(Name, totalBalance)
         self.tag = "Asset"
 
 ##  Expense : DebitAccount
 
 
-class Expense(Asset): # Expense is a
+class Expense(Asset):  # Expense is a
     """ an Expense shows a `Value Outflow` of an account, for a given period of time """
 
-    def __init__(self, Name, total):
-        super(Expense, self).__init__(Name, total)
+    def __init__(self, Name, totalBalance):
+        super(Expense, self).__init__(Name, totalBalance)
         self.tag = "Expense"
 
 # ==============================================================
@@ -1055,15 +1089,29 @@ class transaction():
         # Assignment
         self.firstAccount = Acc1
         self.secondAccount = Acc2
-        # q. do we need enforce a decorator or wrapper?
+
+        # dichotomy detected:
+        # Q. is Acc1 , Acc2 classes already initialized?  if so then (assuming it already got some previous value )
+        # set totalBalance
+
+        # Acc1.totalBalance = #amount #or += amount
+        # Acc2.totalBalance = #amount #or += amount
+
+        # Check if such Amount Exists
+
+        # self.firstAccount.totalBalance
+
+        # Q. do we need enforce a decorator or wrapper?
         # Condition check
-        self.amount = round(amount, 2)
-        # DebitAccount.Dr = 1 and CreditAccount == 1
+        #self.amount = round(amount, 2)
+        # DebitAccount.drTransaction = 1 and CreditAccount == 1
         # TODO: Specify all possible combination of Accounts
 
-        if Acc1.Dr == 1 and Acc2.Cr == 1:  # <-----------
-            Acc1.__class__ = DebitAccount(Acc1.Name, Acc1.total)
-            Acc2.__class__ = CreditAccount(Acc2.Name, Acc2.total)
+        if Acc1.drTransaction == 1 and Acc2.CrTransaction == 1:  # Dr == 1 and Acc2.Cr == 1:  # <-----------
+            Acc1.__class__ = DebitAccount(
+                Acc1.Name, Acc1.totalBalance)  # Set Debit Account
+            Acc2.__class__ = CreditAccount(
+                Acc2.Name, Acc2.totalBalance)  # Set Credit Account
             print("Transaction:\ntype(Acc1) = ", type(
                 Acc1), " type(Acc2) = ", type(Acc2))
 
@@ -1072,45 +1120,59 @@ class transaction():
 
             # self.Acc1 = Acc1
             # self.Acc2 = Acc2
+
             Acc1.debit(amount)
             Acc2.credit(amount)
 
             Acc1.credit(amount)
             Acc2.debit(amount)
 
-        elif Acc1.Cr == 1 and Acc2.Dr == 1:
+        # the following
+        # == 1 and Acc2.crTransaction == 1:
+        elif Acc1.crTransaction and Acc2.Transaction:
 
             # Acc2 =(Debit) Acc2
             # Acc1 = (Credit) Acc1
 
-            Acc1.__class__ = CreditAccount(Acc1.Name, Acc1.total)
-            Acc2.__class__ = DebitAccount(Acc2.Name, Acc2.total)
+            Acc1.__class__ = CreditAccount
+            Acc2.__class__ = CreditAccount
+
+            # Return a User-Friendly Message to the User
+            print("InvalidInput: both accounts are of class CreditAccount")
+            pass
+
+        elif Acc1.drTransaction and Acc2.drTransaction:  # == 1 and Acc2.drAcc == 1:
+            # pass always
+            # Acc2 =(Debit) Acc2
+            # Acc1 = (Credit) Acc1
+
+            Acc1.__class__ = DebitAccount
+            Acc2.__class__ = DebitAccount
+
+            # Return a User-Friendly Message to the User
+            print("InvalidInput: both accounts are of class DebitAccount")
+            pass
+
+        """
+        elif Acc1.crTransaction == 1 and Acc2.drTransaction == 1:
+
+            # Acc2 =(Debit) Acc2
+            # Acc1 = (Credit) Acc1
+
+            Acc1.__class__ = CreditAccount(Acc1.Name, Acc1.totalBalance)
+            Acc2.__class__ = DebitAccount(Acc2.Name, Acc2.totalBalance)
             Acc1.debit(amount)
             Acc2.credit(amount)
         """
-        elif Acc1.Cr == 1 and Acc2.Cr == 1:
-
-                    # Acc2 =(Debit) Acc2
-                    # Acc1 = (Credit) Acc1
-
-                Acc1.__class__ = Credit
-                Acc2.__class__ = Credit
-        
-        elif Acc1.Dr == 1 and Acc2.Dr == 1:
-
-                # Acc2 =(Debit) Acc2
-                #Acc1 = (Credit) Acc1
-    
-                Acc1.__class__ = Debit
-                Acc2.__class__ = Debit
         """
         print("type(Acc1) = ", type(Acc1), "type(Acc2) = ", type(Acc2))
         self.Acc1 = Acc1
-        self.Acc2 = Acc2
+        self.Acc2 = Acc2"""
 
 # initialize Account
 # Compiles
 # Transaction simulation:
+
     """the following simulates a Transaction with:
     A DebitAccount (Cash) [Tangible: Phyiscal, also, real ]
     
@@ -1139,51 +1201,57 @@ cash = DebitAccount("cash ", 100)   # 100 [+100]
 
 #============
 1.3 Herbert's
-Account Receivable Herbert = DebitAccount("Mr. Herbert's A/c Receivable ",100)
+Account Receivable Herbert = DebitAccount("Mr. Herbert's A/c Receivable ",100) 
 
 
 
-#transaction 3  
+# Transaction 3  
 
 dr cash 100                 # increment 100 [+100]
 
     cr AccountReceivable Pip 100 # decrement  [ -100]
 
-Comment: Being Herbert's Debt A/R for Service Rendered, 100 shillings")
+Comment: Being Herbert's Debt A/R for Service Rendered, 100 shillings") 
 
 #Initialize accounts, by  Adding a debt Account (Expense) for Mr. Herbert
 
-    herbertDebt = AccountRecievable("Herbert's Debt","Herbert", 100)  [+100]
-    serviceRendered = RevenueAccount("Service Rendered", 100)  [+100]
+herbertDebt = AccountRecievable("Herbert's Debt","Herbert", 100) # [+100]
+serviceRendered = RevenueAccount("Service Rendered", 100)  # [+100]
 
-    Comment: Being Herbert's Debt A/R for Service Rendered, 100 shillings
+# Comment: Being Herbert's Debt A/R for Service Rendered, 100 shillings
 #===================
 
-transaction 4 : BadDebt Expense 
+# Transaction 4 : BadDebt Expense 
 
 
-dr BadDebt Expense 
+dr BadDebt Expense  100
 
-cr 
+cr herbertDebt 100 
 
 dr BadDebt Expense 100 [+100] #[Expenditure, to SOCI]
 
-cr herbertDebt [-100] # [now Closed ]
+cr herbertDebt [-100] # [now Closed (herbertDebt = 0) ]
+
+#TODO: report back that account `herbertDebt` is now closed 
+
+
 
 """
-
+# ==============================================================
+# Demo
 # 1 Transaction of Incrementation:
 
-# Transaction of transfer 
-# between an abstract account i.e. bank and a real account i.e. cash 
+# Transaction of transfer
+# between an abstract account i.e. bank and a real account i.e. cash
+
 
 # DebitAccount  # correcrt #comment: increments a debitAccount, `DebitAccount` ,  `cash`,
-cash = DebitAccount("cash", 1000) 
+cash = DebitAccount("cash", 1000)
 # CreditAccount # correct #comment: increments a creditAccount, `CreduitAccount` ,  `bank`,
-bank = CreditAccount("bank", 1000) #  compiles properly 
+bank = CreditAccount("bank", 1000)  # compiles properly
 
-print("cash.total", cash.total )    # display cash 
-print("bank.total", bank.total )   # display 
+print("cash.totalBalance", cash.totalBalance)    # display cash
+print("bank.totalBalance", bank.totalBalance)   # display
 
 # ===============================================
 
@@ -1192,13 +1260,15 @@ print("bank.total", bank.total )   # display
 print("cash = ", cash)
 print("bank = ", bank)
 
-print("cash.total = ", cash.total, " bank.total = ", bank.total)
+print("cash.totalBalance = ", cash.totalBalance,
+      " bank.totalBalance = ", bank.totalBalance)
 
 # returns type(Acc1) =  <class 'enum.EnumMeta'> type(Acc2) =  <class 'enum.EnumMeta'>
 # Transaction(Account1, Account2 , amount)
 transaction(DebitAccount, CreditAccount, 100)
 
-print("cash.total = ", cash.total, " bank.total = ", bank.total)
+print("cash.totalBalance = ", cash.totalBalance,
+      " bank.totalBalance = ", bank.totalBalance)
 
 
 # Increment
@@ -1210,10 +1280,10 @@ print("try 1:")
 cash.debit(100)
 bank.credit(100) # Issue while using this function with this function # 
 
-""" 
+"""
 
-print("cash's total = ", cash.total)
-print("Bank's total = ", bank.total)
+print("cash's totalBalance = ", cash.totalBalance)
+print("Bank's totalBalance = ", bank.totalBalance)
 
 
 # try 2 : ( debugs)
@@ -1221,28 +1291,135 @@ print("try 2:")
 cash.increment(100)
 bank.increment(100)
 
-print("cash's total = ", cash.total)
-print("Bank's total = ", bank.total)
+print("cash's totalBalance = ", cash.totalBalance)
+print("Bank's totalBalance = ", bank.totalBalance)
 
 # try 3 : ( debugs)
 print("try 3:")
 cash.decrement(100)
 bank.decrement(100)
 
-print("cash's total = ", cash.total)
-print("Bank's total = ", bank.total)
-#Comment: increment &  decrement, along with `DebitAccount` & `CreditAccount` function properly 
+print("cash's totalBalance = ", cash.totalBalance)
+print("Bank's totalBalance = ", bank.totalBalance)
+# Comment: increment &  decrement, along with `DebitAccount` & `CreditAccount` function properly
+# =====================
 
-#=====================
+# Inherits DebitAccount #TODO: apply `Personal Account`
+
+
+class AccountReceivable(DebitAccount):
+
+    # takes
+    def __init__(self, entityDesc, DebtorName, amount):
+        """
+        it's about a payer i.e. DebtorName & 
+        a payee : the proprietor 
+
+        Parameters
+        ----------
+        entityDesc : str
+            Provides an account Description, user-friendly
+        DebtorName : TYPE
+            DESCRIPTION.
+        amount : TYPE
+            DESCRIPTION.
+
+        Returns
+        -------
+        None.
+
+        """
+        super().__init__(entityDesc, amount)
+        # self.Name = entityName  #Debtor's Name
+        # Object , of type DebitAccount
+        # self.Receivable = AccountReceivable #unsure about this
+        # amount (decimal, to 2 places)
+        #self.amount =  round(amount,2)
+
+        # Debit For DebtorName
+        self.DebtorName = DebtorName  # new
+
+
+# Inherits DebitAccount #TODO: apply `Personal Account` [as it should be ]
+class AccountPayable(CreditAccount):
+
+    # takes
+    def __init__(self, entityDesc, CreditorName, amount):
+        """
+        it's about a payee i.e. CreditorName
+        & 
+        a  payer : the proprietor 
+       (for an amount loaned, or on credit )
+
+        Parameters
+        ----------
+        entityDesc : str
+            the name Describing the entity account 
+        CreditorName : TYPE
+            A name of the creditor, providing credit to Proprietor (by cash , or other  mediums of `asset`s, Agreed upon by both parties )
+        amount : TYPE
+            quantity , sum of money
+
+        Returns
+        -------
+        None.
+
+        """
+        super().__init__(entityDesc, amount)
+        # self.Name = entityName  #Debtor's Name
+        # Object , of type DebitAccount
+        # self.Receivable = AccountReceivable #unsure about this
+        # amount (decimal, to 2 places)
+        #self.amount =  round(amount,2)
+
+        # adding info For CeditorName
+        self.CreditorName = CreditorName  # new
+# =======================================
+
+# capital classes
+
+# RevenueAccount
+
+class RevenueAccount(Capital):  # CreditAccount):
+    """ 
+    - RevenueAccount is a gain in Capital.
+    - from 
+    - It is  not an income, but to calculate it:
+    find the difference between the account's `totalBalance`, for a certain period 
+    & its previous period income, at a previous time:
+        -- if loss account :"""
+
+    def __init__(self, entityName, amount):
+        super().__init__(entityName, amount)
+        self.tag = "Revenue"
+
+# ExpenditureAccount
+
+class ExpenditureAccount(DebitAccount):
+    """
+    - ExpenditureAccount is a loss in Capital.
+    """
+
+    def __init__(self, entityName, amount):
+        super().__init__(entityName, amount)
+        self.tag = "Expenditure"
+# in the US GAAP: the counter accounts are called `Contra`
+    """
+    def __init__(name,totalBalance):
+        super().__init(name,totalBalance)
+        
+
+#barnettInn  Barnett Inn's
+"""
+# =======================================
+
+
+# =======================================
 # Demo
-#note: only in Demo , 
-"""pip's Debt is am expense for **Barnett's Inn** or `barnettInn` i.e. 
+# note: only in Demo , cash is cashbarnettInn
+"""pip's Debt is an expense for **Barnett's Inn**, or `barnettInn` i.e. 
 he has to pay for it  ( in  return of service rendered i.e. the liquor had at Barnett's Inn)
 
-Accounting Equation 
-DebitAccount = CreditAccount 
-Assets =  Liabilities + capital 
-       
 types of reports
 Balance Sheet: most important report , with it we (accountant)  can verify & Test  accounting is balanced (& correct)
 
@@ -1261,24 +1438,15 @@ payer: who pays
 payee: who recieves the payment 
 
 
- 2. on-account [payment medium: creditCard/avvound Recie] 
+ 2. on-account [payment medium: creditCard/ Recie] 
  
- 3. in-installments #TODO
-    especially if the sum is hefty  & large, installments would be practical 
+ 3. in-installments: #TODO
+    especially if the sum is hefty  & large, payment with  installments would be practical 
     (involves a down-payment, then other payments, monthly usually at start or end of period 
      (has to have the agreements of both parties, beforehand ) )
      - balance is debited when the payer repays a portion ( or the rest of the sum)
 
-# Liability 
 
-- There are 2 types of a Liability account : 
-    
-    Short-Term Liability : within 1 year (this account belings to, as it's of a small sum, for the beers offered )
-    Long-Term Liability : returnable  with a period of more than 1 year 
-    
-    
-    Liabilities normally have a `fee` (for carrying the liability)
-    (in which is a crucial feature: has to be fulfilled  #TODO ) 
 
      
 # back to the story: from Barnett Inn's Perspective,we'd see how to write accounts 
@@ -1288,296 +1456,471 @@ payee: who recieves the payment
   
 #================
 """
-
+# AccountReceivable is a
 # import accounting  # correctly imported [But other files (in the same Dir) cannot read it, on Windows ]
 
-class AccountReceivable(DebitAccount): #Inherits DebitAccount #TODO: apply `Personal Account`
 
-    # takes
-    def __init__(self, entityDesc, DebtorName ,amount):
-        """
-        
+# =======================================
+# cashBarnettInn.totalBalance = increment(cashBarnettInn.totalBalance, 100) # dr cashBarnettInn 100  [+100]
 
-        Parameters
-        ----------
-        entityDesc : str
-            Provides an account Description, user-friendly
-        DebtorName : TYPE
-            DESCRIPTION.
-        amount : TYPE
-            DESCRIPTION.
+def demoEasyAccounting():
 
-        Returns
-        -------
-        None.
+    # Transaction 1
+    """
+    Transaction 1 : the Value Increasing Transaction 
+    Because of a 
+    certain `Action` performed (sell of a `product` or `service`  rendered (Tendered)
+    # Debit & Credit are incremented , by a 100
 
-        """
-        super().__init__(entityDesc, amount)
-		#self.Name = entityName  #Debtor's Name
-		#Object , of type DebitAccount	
-		#self.Receivable = AccountReceivable #unsure about this 
-		# amount (decimal, to 2 places)
-		#self.amount =  round(amount,2)  
-		
-        # Debit For DebtorName
-        self.DebtorName = DebtorName #new 
+    """
 
-class AccountPayable(CreditAccount): #Inherits DebitAccount #TODO: apply `Personal Account` [as it should be ]
+    """
+    Dr Accounts Receivable (from Pip) 100
 
-    # takes
-    def __init__(self, entityDesc, CreditorName ,amount):
-        """
-        
+    	Cr Service Rendered 100
 
-        Parameters
-        ----------
-        entityDesc : str
-            Describes the 
-        CreditorName : TYPE
-            A name of the creditor, providing credit (by cash , or other mediums, accepted upon by both parties )
-        amount : TYPE
-            DESCRIPTION.
+    commment: (Being Serice Rendered to Mr. pip, on account) 
 
-        Returns
-        -------
-        None.
+    """
 
-        """
-        super().__init__(entityDesc, amount)
-		#self.Name = entityName  #Debtor's Name
-		#Object , of type DebitAccount	
-		#self.Receivable = AccountReceivable #unsure about this 
-		# amount (decimal, to 2 places)
-		#self.amount =  round(amount,2)  
-		
-        # Debit For DebtorName
-        self.CreditorName = CreditorName #new 
-# 
-"""
-#============================
-#Tangible Expense: 
-Expense : Asset  [in the ReportingObject : Balance Sheet]
-	
-Expense  By the Proprietor 
-(by him running business (Operations Expense), Personal Expense, Recurring Expense [Utility bill Expense , ,Tax on Proprietor]  ) 
-	
-#============================
-# Intangible Expense: 
-	
-Expenditure : - Capital (counter Capital account i.e., DebitAccount) [in the ReportingObject: Income and Loss , Comprehensive Incom [SOCI] ]
-	
-Expense for the Proprietor  (by other entities i.e., creditors) 
-(Expense caused by other entities i.e., Creditors on the proprietor) 
-i.e
-Subtracted from the Capital (at the end of the current `Accounting Period`)
-	
-Loss:  is total expense, difference  between expense in this 
-
-#============================
-"""
-#here's an account and it's 
-#  RevenueAccount
-
-
-     # Liability + Capital[Cr][: + Revene[Cr] - Expenditure[Dr] ]
-     #note: Expenditure always negative, hence it's the opposite of a Credit ( a Debit)
-     # acts  the same way as an Expense 
+    """
+    Description:
+    # pip makes a promise, to return back his Debt 
+      of 100 shillings to `barrerttInn` as serviceRendered [CreditAccount]  (in exchange of service rendered )
      
-# capital classes 
-class RevenueAccount(Capital): #CreditAccount):
-    """ RevenueAccount is not an income, to calculate it:
-    find the difference between this account's total, & it's counter-account , loss account """
-    def __init__(self, entityName,amount):
-        super().__init__(entityName, amount)
-        self.tag = "Revenue"
+    Note: service rendered in an 'abstract' accounting object, a 'CreditAccount'
+    # Instantiate accountReceivable by 100 ( is a  DebitAccount) that pip should pay
+    # instantiate a CreditAccount 100 (serviceRendered) 100
 
-class ExpenditureAccount(DebitAccount): # 
-    """
+    Note: pipdebt is an instance of  AccountRecievable class (an Asset for Proprietor, Barnett Inn's)
+     It will stay the same, for the rst of the demoo (but it helps adding clarity, clearing confusion )
+
+    From the BarnettInn's Perspective, they must the following: 
         
     """
-    def __init__(self, entityName,amount):
-        super().__init__(entityName, amount)
-        self.tag = "Expenditure"
-# in the US GAAP: the counter accounts are called `Contra`    
+    print("Transaction 1:\n")
+    # pipDebt = DebitAccount("pip's Debt", 100) # Dr Expense Account   by 100 [+100]
+    # serviceRendered = CreditAccount("Service Rendered", 100) #Cr Credit Account  by 100 [+100]
+
+    # accountReceivable = DebitAccount( "pip's Debt (Accounts Recievable)",100) # increment [100]
+    # sericeRendered = CreditAccount("Service Rendered",100) # increment [100] (to SOCI report )
+
+    # Instantiate pipDebt, from AccountsRecievable[Dr] , serviceRendered from RevenueAccount [Cr]
+
+    # increment [+100] (to Balance Sheet) [Dr ]
+    pipDebt = AccountReceivable("Pip's Debt", "Pip", 100)
+
+    # increment [+100] (to SOCI report ) [Cr]
+    serviceRendered = RevenueAccount("Service Rendered", 100)
+
+    print("pipDebt = ", pipDebt.totalBalance)
+    print("serviceRendered = ", serviceRendered.totalBalance)
+
+    # **note :** Revenue is not Income (It is equal to serviceRendered)
+    # Comment: Being Payment of Service Rendered, by Mr. Pip, on Account
+    print("Comment: Being Payment of Service Rendered, by Mr. Pip, on Account ")
+
+    # ============================
+    # Transaction 2:
+    print("Transaction 2:\n")
     """
-    def __init__(name,total):
-        super().__init(name,total)
+    decrement(pipDebt.totalBalance, 100)  # Dr pipDebt 100
+    increment(barnettInn.totalBalance, 100) # Cr B. Inn 100
+    """
+    # Transaction 2: `Balancing  Transaction`
+    #  `pip` pays back his debt , to `Barnett's Inn, in full [or BarnettInn Receives cash from Mr. Pip ]
+    # Crucial Note: Use `cashBarnettInn` instead of cash already used [ Demo, only]
+
+    # Create a cash account for barnettInn  i.e.  cashBarnettInn add 100
+    # cashBarnettInn =
+    # used instead of  Cash [as `cashBarnettInn`] # [+100] #up by 100 [+100] #  Dr barnettInn 100
+    cashBarnettInn = DebitAccount("Cash", 100)
+
+    # down by 100 [-100]  # Cr pipDebt 100 # [-100]
+    pipDebt.totalBalance = decrement(pipDebt.totalBalance, 100)
+
+    # =============================
+    # 2
+    """
+    cashBarnettInn = DebitAccount("Cash", 100) # used instead of  Cash [as `cashBarnettInn`] # [+100] #up by 100 [+100] #  Dr barnettInn 100
+
+    pipDebt.credit(100) # down by 100 [-100] # pipDebt.totalBalance = 0
+    """
+    # =============================
+    # [100] # Dr  cashBarnettInn
+    print("cashBarnettInn.totalBalance = ", cashBarnettInn.totalBalance)
+    print("pipDebt.totalBalance = ", pipDebt.totalBalance)  # [-100] #
+
+    # Comment: Being Payment by Mr. Pip in full, by cash
+    print("Comment: Being Payment by Mr. Pip in full, by cash")  # [-100] #
+
+    # ============================
+    # Transaction 3
+    #
+    print("Transaction 3:\n")
+    # pipDebt.credit(100)
+
+    # RevenueAccount increments the Capital `Owner's Equity`
+
+    # acccount for debt for Mr. Hurbert, for service rendered
+
+    # Initialize accounts, by  Adding a debt Account (Expense) for Mr. Herbert
+    herbertDebt = AccountReceivable(
+        "Herbert's Debt", "Herbert", 100)  # up 100 [+100]
+    serviceRendered = RevenueAccount(
+        "Service Rendered", 100)  # creditAcc up by 100
+    print("herbertDebt.totalBalance", herbertDebt.totalBalance, " open")  # 100
+    print("serviceRendered.totalBalance", serviceRendered.totalBalance)
+
+    print("Comment: being payment on service rendered, on Account ")
+    # ===============================
+    # ======
+    # WARNING: IFRS Debt Handling Method : `Direct Write-Off`
+    """
+    The Dichotomy of Debt Handling
+
+    1. Direct Write-off [IFRS] (World-wide)
+        we wait, until debitor either:
+            1. pay us back: we close his account [& problem is solved]
+            2. debitor defaults (files for bankrupcy):
+                the whole sum is **non-recoverable**
+                and 
         
-#==============
-#accounting Objects: 
+    2. GAAP (US):
+        [Note1: DATE handling is required, as a pre-requisite ]
+        if we are at the year end, account-balancing is needed
+        
+        - Gaap standards suggests estimating a non-recovereable sum (`out of the bat`)
+        for the AccountRecievable totalBalance. 
+        
+        - this means: proprietor have to estimate a proportion of losses,
+        in this example, 
+        if HerbertDebt is not paid back at the end of the accounting period (month, year)
+        1. the proprietor has to take a part of account recievable (may include HerbertDebt, along with other debtors)
+        2. the proprietor trasfer it to `Doubtful Debts`
+        
+        as time moves on, the proprietor continues taking off proportions of accountrecievable, 
+        (specifically those who are not paying back )
+        
+        
+        
+        
+        Note2: this **may not** apply to small Businesses 
+        
+        
+    """
+    # Transaction 4
+    # Bad Debt Example:
+    # ExpenditureAccount decreases the Capital
 
-#accounting formula     
-DebitAccount = CreditAccount
+    # Transaction 4 # Balancing Transaction
+    print("Transaction 4:\n")
 
-# DebitAccounts 
+    # Description:
+    # -------------
 
-## Assets 
+    # Herbert is unable to payback his Debt
+    # Debt becoming an Expenditure (badDebtExpense)
+    # closing account for `Mr. Herbert` (with a loss incurred )
 
-### cash (cashBarnettInn)        # when paid in-full
-#================================
-## Expenses 
-### AccountsReceivable [PayerName]  # when payment will be recieved later 
+    # badDebtExpense doesn't exist: create an ExpenditureAccount (contra- capital Debit Account )
 
-#### herbertBadDebt : an instance of AccountsRecievable
+    badDebtExpense = ExpenditureAccount(
+        "Bad Debt Expense", 100)  # [+100] #[Expenditure, to SOCI]
 
-#CreditAccounts
+    # decrement(barnettInn.totalBalance, 100) #down by 100 #  Dr barnettInn 100
+    # down by 100  # Cr herbertDebt 100 [-100] # # [now Closed ]
+    herbertDebt.totalBalance = decrement(herbertDebt.totalBalance, 100)
 
-## Liabilities 
+    print("badDebtExpense", badDebtExpense.totalBalance)
 
-### accountsPayable 
- 
+    print("Comment: Being Bad Debt Recovered \n")
 
-## Capital  
-#barnettInn  Barnett Inn's
-"""
-#=======================
-# Transaction 1 
-"""
-Transaction 1 : the Value Increasing Transaction 
-Because of a 
-certain `Action` performed (sell of a `product` or `service` tendered)
-# Debit & Credit are incremented , by a 100
+    print("herbertDebt.totalBalance", herbertDebt.totalBalance, "<Closed>")
+
+    print("Comment: Being Debt as a badDebt Expense\n")
+
+    # ===============================
+    print("Transaction 5\n")
+    # Transaction 5 (helping transaction )
+    # move the badDebt Expense to Losses Account
+    """
+    Transfers badDebtExpense from BalanceSheet to Statement of Comprehenisve Income [SOCI]
+    at the end of the Accounting Period 
+    """
+
+    # We don't have LossAccount, but an Expenditure (account, which at the end of a period,
+    # the account is calculated, & checked :
+    # (1) Expenditure Account < 0:  *Loss Incurred*
+    # (2) Expenditure Account == 0:  & the account is henceforth, closed .
+    # ------------------
+    #pipDebt = DebitAccount("pip's Debt", 100)
+    #barnettInn = CreditAccount("Barnett's Inn", 100)
+
+    # Transaction 5 # increment Transaction
+    # pip pays back his debt ,in cash, to Barnett's Inn
+    # pip pays off the transfered account, out of pocket
+
+    cashBarnettInn.totalBalance = increment(
+        cashBarnettInn.totalBalance, 100)  # dr cashBarnettInn 100  [+100]
+    herbertRepayment = RevenueAccount(
+        "Herbert's Debt repayment ", 100)  # [+100] (to SOCI)
+
+    print("cashBarnettInn", cashBarnettInn.totalBalance)
+    print("herbertRepayment.totalBalance", herbertRepayment.totalBalance,
+          " To SOCI report, In-Flow (+100)")
+
+    print("Comment: Being Debt repayment \n")
+
+    # bad Debt Recovered
+    """
+    Transaction 6
+    now we got the back the anoub
+    Undoes & Removes the badDebt Expense [100]
+
+    Dr  Bad Debt Recovered [+100] 
+    cr bad Debt Expense [-100] #this removes the bad Debt: badDebtExpense= 100 - 100 = 0 <Closed>
+
+
+    """
+
+    # Transaction 6
+
+    # badDebtRecovered doesn't exist, create a Debit Account for it, sum of 100
+    # to close badDebtExpense Credit the account, by a 100
+
+    # Dr badDebtRecovered # account states that  a bad debt has been recovered []
+    badDebtRecovered = DebitAccount("Bad Debt Recovered", 100)
+
+    # Cr badDebtExpense 100  [- 100] : badDebtExpense = 100 (before ) - 100 (now ) = 0 <Account Closed>
+    badDebtExpense.totalBalance = decrement(badDebtExpense.totalBalance,  100)
+    print("Comment: Being BadDebt Recovered", 100)
+
+    return pipDebt, serviceRendered, herbertDebt, badDebtExpense, cashBarnettInn, herbertRepayment, badDebtRecovered
+
+
+def demoIntermetiateAccounting(pipDebtBalance=100, cashBarnettInnBalance=100):
+
+    # 1  Dr pipDebt , Cr serviceRendered 100
+    """
+    # Transaction Cause: A Service, for Mr. Pip
+    # Transaction Effect: Mr. pip Debt
+    """
+    # pipDebt does not exist , create it, as an AccountReceivable [inheriting from a DebitAccount]
+    # serviceRendered does not exist, create is, as a RevenueAccount  [inheriting from a ]
+
+    # increment [+100] (to Balance Sheet) [Dr ]  in-flow: pipDebtBalance +100
+    pipDebt = AccountReceivable("Pip's Debt", "Pip", pipDebtBalance)
+    # increment [+100] (to SOCI report ) [Cr]
+    serviceRendered = RevenueAccount("Service Rendered", pipDebtBalance)
+
+    print("Comment:  Service Rendered for Mr. Pip, for 100 Shillings \n")
+
+    # 2  Dr Cash 100 , Cr pipDebt 100
+    # `cashBarnettInn` does not exist, create it, as a DebitAccount , with 100
+    # `pipDebt` exists, as an AccountReceivable [Debit Account] , decrement it by 100, by crediting it [cr pipDebt 100 ]
+
+    # [+100] totalBalance = 100
+    cashBarnettInn = DebitAccount("Cash", cashBarnettInnBalance)
+
+    # down by 100 [-100]  # out-flow: pipDebtBalance -100, pipDebt = 100 - 100 = 0 <Closed>
+    pipDebt.credit(pipDebtBalance)
+
+    print("Comment:  Being Cash Received, 100 Shillings, from Mr. Pip\n")
+
+    # 3
+    # `herbertDebt` doesn't exist: create it, as an AccountReceivable [DebitAccount],  with sum of 100
+    # `serviceRendered` doesn't exist: create it, as a RevenueAccount [CreditAccount], with sum of 100
+
+    herbertDebt = AccountReceivable(
+        "Herbert's Debt", "Herbert", 100)  # up 100 [+100]
+
+    serviceRendered = RevenueAccount(
+        "Service Rendered", 100)  # creditAcc up by 100
+
+    print("Comment:  Service Rendered, for 100 Shillings, for Mr. Herbert\n")
+
+    # 4
+
+    # `badDebtExpense` doesn't exist, create it, as an `ExpenditureAccount` [ counter (Contra) Capital, as  a DebitAccount ], with sum of 100
+    # `herbertDebt` exists, as a Account's Receivable , decrement it by a 100, via crediting it, by a 100
+
+    badDebtExpense = ExpenditureAccount(
+        "Bad Debt Expense", 100)  # [+100] #[Expenditure, to SOCI]
+
+    herbertDebt.credit(100)
+    print("Comment: Being Writing Off a  Bad Debt Expense\n")
+
+    # 5 Pip Cash repayment (for friend Herbert )
+
+    # `cashBarnettInn` exists, as a `DebitAccount`, increment it by a 100, via debiting it, by a 100 [Dr cashBarnettInn 100]
+    # `herbertRepayment` doesn't exist, create it, as a `RevenueAccount` [of a `CreditAccount`] with a sum of 100
+
+    cashBarnettInn.debit(100)  # [+100]  totalBalance = 200
+    herbertRepayment = RevenueAccount(
+        "Herbert's Debt repayment ", 100)  # [+100] (to SOCI)
+    print("Comment: Being Debt repayment \n")
+
+    # 6  Bad Debt Recovered
+    # Dr badDebtRecovered # account states that  a bad debt has been recovered []
+    badDebtRecovered = DebitAccount("Bad Debt Recovered", 100)
+    badDebtExpense.credit(100)
+
+    # badDebtExpense.decrement( badDebtExpense.totalBalance,  100) # Cr badDebtExpense 100  [- 100] : badDebtExpense = 100 (before ) - 100 (now ) = 0 <Account Closed>
+    badDebtExpense.totalBalance = badDebtExpense.credit(100)
+    print("Comment: Being BadDebt Recovered", 100)
+
+    return pipDebt, serviceRendered, herbertDebt, badDebtExpense, cashBarnettInn, herbertRepayment, badDebtRecovered
+
+# resetdemo
+
+def demoReset():
+    pipDebt = None
+    serviceRendered = None
+
+    # 2
+
+    cashBarnettInn = None
+    #pipDebt = None
+
+    # 3
+
+    herbertDebt = None
+    serviceRendered = None
+
+    # 4
+
+    badDebtExpense = None
+    herbertDebt = None
+
+    # 5
+    cashBarnettInn = None
+    herbertRepayment = None
+
+    return pipDebt, serviceRendered, herbertDebt, badDebtExpense, cashBarnettInn, herbertRepayment
+
+def demoProrietorPip(): #TODO: Continue
     
-"""
+    #===============
+    #Pip is the Proprietor
 
-"""
-Dr Accounts Receivable (from Pip) 100
+    #===============
+    # Transaction 1
+    # Pip writes in his `book` the creditor name 
 
-	Cr Service Rendered 100
+    """
+    The entity for whom he owes money to 
 
-commment: (Being Serice Rendered to Mr. pip, on account) 
+    Dr service rendered  100  [+100 ]
+    	Cr Account Payable [Barnett Inn's] [+100] 
+    """
+    #----------------
+    	
+    # Transaction 2 
+    """
 
-"""
+    Pip pays back Barnett Inn's , in full 
 
-print("Transaction 1:\n")
-"""
-# pip makes a promise, to return back his Debt 
-  of 100 shillings to `barrerttInn` as serviceRendered [CreditAccount]  (in exchange of service rendered )
- 
-Note: service rendered in an 'abstract' accounting object, a 'CreditAccount'
-# Instantiate accountReceivable by 100 ( is a  DebitAccount) that pip should pay
-# instantiate a CreditAccount 100 (serviceRendered) 100
+    Dr Account Payable [to Barnett Inn's] 100 [-100]
 
-Note: pipdebt is an instance of  AccountRecievable class (an Asset for Proprietor, Barnett Inn's)
- It will stay the same, for the rst of the demoo (but it helps adding clarity, clearing confusion )
-
-From the BarnettInn's Perspective, they must the following: 
-    
-"""
-#pipDebt = DebitAccount("pip's Debt", 100) # Dr Expense Account   by 100 [+100]
-#serviceRendered = CreditAccount("Service Rendered", 100) #Cr Credit Account  by 100 [+100] 
-
-##accountReceivable = DebitAccount( "pip's Debt (Accounts Recievable)",100) # increment [100] 
-##sericeRendered = CreditAccount("Service Rendered",100) # increment [100] (to SOCI report )
-
-##Instantiate pipDebt, from AccountsRecievable[Dr] , serviceRendered from RevenueAccount [Cr]
-
-pipDebt = AccountReceivable("Pip's Debt","Pip", 100) # increment [+100] (to Balance Sheet) [Dr ]
-
-serviceRendered = RevenueAccount("Service Rendered",100) # increment [+100] (to SOCI report ) [Cr]
+    Cr cash 100  [-100]
 
 
-print("pipDebt = ",pipDebt.total) 
-print("serviceRendered = ",serviceRendered.total)
+    """
+    #----------------
 
-## **note :** Revene is not Income ( equals to serviceRendered)
-# Comment: Being Payment of Service Rendered, by Mr. Pip, on Account 
-print("Comment: Being Payment of Service Rendered, by Mr. Pip, on Account ")
+    # Transaction 3 : 
+    """
+    Herbert's debt :
 
-#============================
-# Transaction 2:
-print("Transaction 2:\n")
-"""
-decrement(pipDebt.total, 100)  # Dr pipDebt 100
-increment(barnettInn.total, 100) # Cr B. Inn 100
-"""
-# Transaction 2: `Balancing  Transaction` 
-#  `pip` pays back his debt , to `Barnett's Inn, in full [or BarnettInn Receives cash from Mr. Pip ]
-# Crucial Note: Use `cashBarnettInn` instead of cash already used [ Demo, only]
+    Dr service rendered  100  [+100 ]
+    	Cr Account Payable [Barnett Inn's] [+100] 
 
-cashBarnettInn = DebitAccount("Cash", 100) # used instead of  Cash [as `cashBarnettInn`] # [+100] #up by 100 [+100] #  Dr barnettInn 100
-pipDebt.total = decrement(pipDebt.total, 100) # down by 100 [-100]  # Cr pipDebt 100 # [-100]
-
-print("cashBarnettInn.total = ", cashBarnettInn.total) # [100] # Dr  cashBarnettInn
-print("pipDebt.total = ", pipDebt.total) # [-100] # 
-
-#Comment: Being Payment by Mr. Pip in full, by cash
-print("Comment: Being Payment by Mr. Pip in full, by cash") # [-100] # 
-
-#============================
-# Transaction 3 
-#
-print("Transaction 3:\n")
-#pipDebt.credit(100)
-
-# RevenueAccount increments the Capital `Owner's Equity`
-
-#acccount for debt for Mr. Hurbert, for service rendered
-
-#Initialize accounts, by  Adding a debt Account (Expense) for Mr. Herbert
-herbertDebt = AccountReceivable("Herbert's Debt","Herbert", 100) # up 100 [+100]
-serviceRendered = RevenueAccount("Service Rendered", 100) #creditAcc up by 100
-print("herbertDebt.total", herbertDebt.total , " open") # 100
-print("serviceRendered.total",serviceRendered.total)
-
-print("Comment: being payment on service rendered, on Account ")
-#===============================
-#======
-# Transaction 4 
-#Bad Debt Example:
-# ExpenditureAccount decreases the Capital  
-
-# Transaction 4 # Balancing Transaction 
-print("Transaction 4:\n")
-
-# Description: 
-#-------------
-# Herbert is unable to payback his Debt
-# Debt becoming an Expenditure (badDebtExpense)
-# closing account for `Mr. Herbert` (with a loss incurred )
-badDebtExpense = ExpenditureAccount("Bad Debt Expense", 100) #   [+100] #[Expenditure, to SOCI]
+    """
 
 
-#decrement(barnettInn.total, 100) #down by 100 #  Dr barnettInn 100
-herbertDebt.total = decrement(herbertDebt.total, 100) # down by 100  # Cr herbertDebt 100 [-100] # # [now Closed ]
+    #---------------
+    # transaction 4 : 
+    """
+    Bad Debt Expense entry: 
 
-print("badDebtExpense",badDebtExpense.total)
-print("herbertDebt.total",herbertDebt.total, "<Closed>")
+    Where Herbert cannot pay back 
 
-print("Comment: Being Debt as a badDebt Expense\n")
 
-#===============================
-print("Transaction 5\n")
-#Transaction 5 (helping transaction )
-#move the badDebt Expense to Losses Account 
-"""
-transfers badDebtExpense from BalanceSheet to Statement of Comprehenisve Income [SOCI]
-at the end of the Accounting Period 
-"""
-#we don't have LossAccount, but an Expenditure (account, which at the end of a period, 
-# the account is calculated, & checked :
-# (1) Expenditure Account < 0:  *Loss Incurred*
-# (2) Expenditure Account == 0:  & the account is henceforth, closed . 
-#------------------
-#pipDebt = DebitAccount("pip's Debt", 100)
-#barnettInn = CreditAccount("Barnett's Inn", 100)
+    Dr Account Payable [Barnett Inn's]  100 [-100]
 
-# Transaction 5 # increment Transaction 
-#pip pays back his debt ,in cash, to Barnett's Inn
-# pip pays off the transfered account, out of pocket 
+    Cr Default Amount unpaid [Barnett Inn's] 100 [+100] #note: this must refer the the creditor 
 
-cashBarnettInn.total = increment(cashBarnettInn.total, 100) # dr cashBarnettInn 100  [+100]
-herbertRepayment = RevenueAccount("Herbert's Debt repayment ",100)  # [+100] (to SOCI)
 
-print("cashBarnettInn.total =",cashBarnettInn.total ) # cash = 200 
-print("herbertRepayment.total = ",herbertRepayment.total)
+    #Imagine: a scenario with full of creditors , each wants their piece 
+    # to distinguish between them , you must have a credotpr name in there,
+    as well 
+
+    Thus , a personal name (for debitor/ creditor ) 
+    is necessary to clearly distinguish them 
+
+    """
+    #----------------
+
+    # Transaction 5: 
+    """
+    Pip pays off herbert's debt 
+
+    pip's account: 
+    Pays money sum, back to Barnett Inn's 
+
+    Dr Expenditure  (payment to barnettInn) 100 [+100]
+        Cr cash  100 [- 100] 
+    """
+
+    #--------------
+    # Happens simultaneously, as pip pays off his friend's debt:
+
+    #Herbert's account: 
+    """
+    Dr Default Amount unpaid [Barnett Inn's] 100 [-100] # money owed to barnettInns is paid 
+        Cr  Account Payable [pip] 100  #liability to payback Mr.pip 
+
+    # 1. removes the default amount , on Mr. Herbert 
+    #2.  move the liability to pip
+
+    #----------------------
+    #Rewind: Intermediate level 
+    Observation: an account could affect 1 or more accounts 
+    (like domnios, falling because of on that caused them to move ) 
+
+    """
+# =======================================
+# Main 
+
+demoEasyAccounting()
+demoReset()
+demoIntermetiateAccounting()
+
+
+
+# ============================
+
+
+
+
+#print("cashBarnettInn.totalBalance =",cashBarnettInn.totalBalance)  # cash = 200
+#print("herbertRepayment.totalBalance = ", herbertRepayment.totalBalance)
 
 
 print("Comment: Being Herbert's Debt repayment, by Mr. Pip in full\n")
-##increment(pipDebt.total,100)
-#increment(cashBarnettInn.total,100) # Dr[cashBarnettInn : DebitAccount] 
+# increment(pipDebt.totalBalance,100)
+# increment(cashBarnettInn.totalBalance,100) # Dr[cashBarnettInn : DebitAccount]
 
-#=====================
+"""
+
+Final Notes
+
+Bad Debt handling has a deeper meaning than stated () 
+Elaboration in demo would further complicate things 
+
+"""
+# =====================
 print("successfully finished the accounting usecase")
 
 """increasing a Debit account is by debiting it, 
@@ -1586,21 +1929,40 @@ increasing a Credit Account is by crediting it
 """
 print("demo2:\n")
 
-cashSales = RevenueAccount("cashSales",100) # Cr Account
-print("cashSales = ", cashSales.total)
+cashSales = RevenueAccount("cashSales", 100)  # Cr Account
+print("cashSales = ", cashSales.totalBalance)
 
-cashSales.debit(50) # = 50 # [-50]
-print("cashSales = ", cashSales.total )
+cashSales.debit(50)  # = 50 # [-50]
+print("cashSales = ", cashSales.totalBalance)
 cashSales.credit(150)
 
-print("cashSales = ", cashSales.total )
-#=============
+print("cashSales = ", cashSales.totalBalance)
+# =============
+
+# Barnett Inn's is the Proprietor
+
+# Print
+# inint DebitAccount: Account Receivable for Barnett Inn's about Debtor Pip, for 100 Shillings
+print("Transaction 1: \n")
+# increment [+100] (to Balance Sheet) [Dr ]
+pipDebt = AccountReceivable("Pip's Debt", "Pip", 100)
+
+# increment [+100] (to SOCI report ) [Cr]
+serviceRendered = RevenueAccount("Service Rendered", 100)
 
 
+print("pipDebt = ", pipDebt.totalBalance)
+print("serviceRendered = ", serviceRendered.totalBalance)
 
-#===============
+print("Transaction 2: \n")
+
+
+# ===============
+# Pip is the Proprietor
+
+# ===============
 # Transaction 1
-# Pip writes in his `book` the creditor name 
+# Pip writes in his `book` the creditor name
 
 """
 The entity for whom he owes money to 
@@ -1608,9 +1970,9 @@ The entity for whom he owes money to
 Dr service rendered  100  [+100 ]
 	Cr Account Payable [Barnett Inn's] [+100] 
 """
-#----------------
-	
-# Transaction 2 
+# ----------------
+
+# Transaction 2
 """
 
 Pip pays back Barnett Inn's , in full 
@@ -1621,9 +1983,9 @@ Cr cash 100  [-100]
 
 
 """
-#----------------
+# ----------------
 
-# Transaction 3 : 
+# Transaction 3 :
 """
 Herbert's debt :
 
@@ -1631,8 +1993,10 @@ Dr service rendered  100  [+100 ]
 	Cr Account Payable [Barnett Inn's] [+100] 
 
 """
-#---------------
-# transaction 4 : 
+
+
+# ---------------
+# transaction 4 :
 """
 Bad Debt Expense entry: 
 
@@ -1652,9 +2016,9 @@ Thus , a personal name (for debitor/ creditor )
 is necessary to clearly distinguish them 
 
 """
-#----------------
+# ----------------
 
-# Transaction 5: 
+# Transaction 5:
 """
 Pip pays off herbert's debt 
 
@@ -1662,22 +2026,116 @@ pip's account:
 Pays money sum, back to Barnett Inn's 
 
 Dr Expenditure  (payment to barnettInn) 100 [+100]
-Cr cash  100 [- 100] 
+    Cr cash  100 [- 100] 
 """
 
-#--------------
+# --------------
 # Happens simultaneously, as pip pays off his friend's debt:
 
-#Herbert's account: 
+# Herbert's account:
 """
 Dr Default Amount unpaid [Barnett Inn's] 100 [-100] # money owed to barnettInns is paid 
-Cr  Debt [pip] 100  #liability to payback Mr.pip 
+    Cr  Account Payable [pip] 100  #liability to payback Mr.pip 
 
 # 1. removes the default amount , on Mr. Herbert 
 #2.  move the liability to pip
 
 #----------------------
+#Rewind: Intermediate level 
 Observation: an account could affect 1 or more accounts 
 (like domnios, falling because of on that caused them to move ) 
 
+"""
+# =============
+# checkObjectIsaClass
+
+
+def isNone(_object):
+    if _object == None:
+        return True
+    elif _object != None:
+        return False
+    else:
+        raise Exception(msg)
+
+
+# requires: this function raises error if class is `None` , so check for `None`\
+# then, call this function
+def checkObjectIsaClass(_object, _classOrTuple):
+    """
+    checks whether the given object is of type class (or a tuple) 
+
+    Parameters
+    ----------
+    _object : TYPE
+        DESCRIPTION.
+    _classOrTuple : object or tuple
+        note: classor tuple cannot be `None`.
+
+    Raises
+    ------
+    Exception
+        DESCRIPTION.
+
+    Returns
+    -------
+    response : bool
+        returns true if object is of type of the mentioned class (or tuple).
+
+    """
+
+    response = None
+    if isinstance(_object, _classOrTuple):
+        print("Yes,", _object, " is a class of  ", _classOrTuple)
+        response = True
+    elif not isinstance(_object, _classOrTuple):
+        print("No, ", _object, " is NOT a class of  ", _classOrTuple)
+        response = False
+    else:
+        raise Exception(msg)
+    return response
+
+
+def checkObjectInClass(_object, _class):
+
+    isNullable = copy(isNone(_object))  # 1. check object is set to  `None`
+    # 2. check object is of type `_class`
+    isObjectAClass = copy(checkObjectIsaClass(_object, _class))
+
+    if isNullable:  # 1. is it None ?
+        # if True, then it's new object, hence, create it [require additional info: AccountType: Asset, Capital, ...]
+        pass  # TODO: Instantiate a new object, from a given AccountType
+
+    elif not isNullable and isObjectAClass:  # 2. is it an object of that class?
+        pass
+
+    # 3. last part # maybe, it's  an object of another class
+    elif not (isNullable and isObjectAClass):
+        pass
+        print("object", _object, " is of another class from ", _class)
+    else:
+        raise Exception(msg)
+
+
+#isNullable = copy(isNone(cashBarnettInn))
+#isObjectAClass = copy(checkObjectIsaClass(cashBarnettInn, DebitAccount))
+"""
+if isNullable:  # is it None
+    # if True then it's new, thus create it [require additional info: AccountType:Asset, Capital, ...]
+    pass  # TODO: Instantiate a new object, from a given AccountType
+# check if this object is of this type:
+
+elif isNullable:  # and
+    # checkObjectIsaClass(cashBarnettInn, DebitAccount ) # 2nd argument can't be None
+    pass
+
+# https://stackoverflow.com/questions/16709879/how-can-i-get-previous-month-and-year-using-python/16710165#16710165
+"""
+""" experimental 
+def getPrevMonth(_year=2012, _month=3, _day=1):
+    return date(_year, _month, _day)+relativedelta(years=-1)
+
+
+def getPrevMonthN(n, _Year=2012, _month=3, _day=1):
+    return date(2012, 3, 1)+relativedelta(years=-n)
 """
