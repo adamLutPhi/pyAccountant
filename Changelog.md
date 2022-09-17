@@ -231,8 +231,8 @@ it can be product purchased `purchases`
 
 ### fixed 
 
-The 5  account transactions, and checked their output. Everything seems to be working as expected,  
-in an orderly manner. further improvements would be to coat & wrap increment decrement 
+The `5`  account transactions, and checked their output. Everything seems to be working as expected,  
+in an orderly manner. further improvements would be to coat & wrap `increment`, `decrement` 
 into its respective  `Debit` or `Credit` static account.
 - now can focus on the accounts difference: the `cash Flows`: `cash-inflows`, `cash-outflows`
 
@@ -240,39 +240,63 @@ into its respective  `Debit` or `Credit` static account.
 ### Updated 
 
 `Account.credit` now works , as expected 
-note: only debugged, until got it working  (hence, though things I looked at looks good 
+Note: only debugged, until got it working  (hence, though things I looked at looks good 
 
-I am Unsure if there are other hidden aspects  that got, somehow, `overlooked`)
+Unsure if there are other hidden aspects  that got, somehow, `overlooked`)
 
 ## 9-8-2022
 
 ### fixed 
 
-- `tot` not defined. An Unexpected hiccup in the latest upload.
+* - `tot` not defined. An Unexpected hiccup , is replaced by `total`
 
-- By now, file is debugged, & running, alng with accounts of type
-`Account.credit` & `account.debit` . with a *humble*
-debugging demo, at the end   
+* - By now, file is debugged, & running, along with accounts with a behaviour
+`Account.credit` & `account.debit` . with 
+debugging [demo](https://github.com/adamwillisMastery/pyAccountant/wiki), at the end   
 
 ## 9-09-2022
 
 ### Action Plan 
+
 To contemplate upon counter Accounts.
-There are accounts that must complement existing Accounts 
+There are accounts that must **complement existing Accounts** 
 `accountReceivable`, for example, should be complemented by `accountPayable`
 for the other party 
-in the Great Expectations example: that would be 
-pip on describing his debt to **Barnett Inn's** `barnettInn` would be reflected in his **Book**
-as `acccountPayable` as a counter-part of `accountReceivable` in the **book** of
- `barnettInn`
-- That would be `money owed` to vendors (or supplier) [or a bar, a restaurant, or a Bank],
- for `Service Rendered`  (or seemingly `Product Purchased`)
+in the *Great Expectations* example: 
+
+That would be `pip` on writing his debt to **Barnett Inn's** `barnettInn`, reflected in his **Book**
+Along with `acccountPayable` as a counter-part of `accountReceivable`. e.g.
+
+* In `barnettInn`'s ** book** the debt going to be recieved by Mr. `Pip` is recorded  as `accountReceivable` (`DebitAccount` or an `Asset`): 
+- that would be money `owed by` debitors ( clients, )
+
+* In `pip`'s **book** , writing a debt for `barnettInn`, seemingly, on the other part , recorded as `accountPayable` (`CreditAccount` or a `Liability`)
+ 
+* `Double Accounting`: by not only (limited to) writing twice , but also writing the transaction, in (2) different books owned by (2) different partiees 
+helps in ensuring the integrity of an `accounting Transaction`
+ 
+- That would be the sum `owed to` Creditors,  (or vendors, suppliers) (as well as a bar, a restaurant, or a Bank),
+ for `Service Rendered`  (or `Product Purchased`)
  
 ### Observation 
-As trivial as it could be , & simpler as it can be represented
-things could get messy quickly, hence, there is a need to precisely model 
+As trivial as it could be , it's simpler too,  
+as things could get messy quick, hence, there is a need to precisely model 
 the `interactions between accounts` , with **Pristine diamond clarity**, as possible
 
  
  
- 
+## 9-17-2022
+
+### Action Plan 
+
+#### Updated
+
+    `drTransaction` ,  `crTransaction ` are now bool 
+-    `demoIntermetiateAccounting` , `demoEasyAccounting` , `demoReset`
+
+#### Added 
+-     `BadDebtRecovered` 
+    transaction 6 , that removes `badDebt` for` Mr. Herbert `
+- 
+
+    
