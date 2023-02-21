@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Sep 16 11:06:36 2022
-
-@author: Ahmad Lutfi
-"""
-
 # Accounting Equation 
 `DebitAccounts = CreditAccounts`
 
@@ -12,7 +5,7 @@ The `Left Hand` side must be equal to the `Right Hand`
 
 `Assets =  Liabilities + Capital `
 
-Assets Equal to capital (bank accounts), plus `Liabilities` what we owe to others
+`Assets` Equal to `capital` (i.e. bank accounts), `Liabilities` (sum owed to sa third-party )
 
 
 # Accounting reports types 
@@ -37,7 +30,6 @@ or out-flow of expenditures
 
 #Reason: to Report it (to stakeholders: proprietor(s), taxation entity )
 
-#==============
 # Accounting Objects: 
 
 ## Accounting Formula     
@@ -57,7 +49,6 @@ DebitAccount = CreditAccount
 ### cash (cashBarnettInn)         
 when paid in-full
 
-#================================
 ## Expenses 
 ### AccountsReceivable [PayerName]   
 where payment will be recieved later 
@@ -139,7 +130,6 @@ Tax is proportional : the `GST`
 
 Source: (Revenue Agenct)[https://www.canada.ca/en/revenue-agency.html]
 
-#============================
 ## Intangible Expense: 
  
  Includes expenses on Capital accounts 
@@ -160,5 +150,4 @@ Subtracted from the Capital (at the end of the current `Accounting Period`)
 	
 Loss:  is totalBalance expense, difference  between expense in this 
 
-#============================
 """
