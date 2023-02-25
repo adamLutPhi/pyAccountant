@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sun Aug  7 08:15:23 2022
 
 @author: Ahmad Lutfi 
 
@@ -136,7 +135,7 @@ def calcDifference(_first, _second):
 # Account Class
 
 
-# debugging
+# debugged
 
 # static methods
 
@@ -188,7 +187,7 @@ def decrement(totalBalance, amount):
     return totalBalance
     # return outflow
 
-
+# mini-demo:
 tot = 1000
 tot = increment(tot, 100)
 
@@ -238,8 +237,10 @@ class Account:
     """
 
     # pass
-    # The following Naming attributes solves "inherited child does not have this attribute" AttributeError
-    # iniitally, an account has as neutral Nullable state (Dr or Cr) set
+    # The following Naming attributes solves 
+    #"inherited child does not have this attribute" AttributeError
+    # initially, an account has as neutral Nullable sateless state `None`
+    #or a stateful state (`Dr` or `Cr`) set
 
     # stateful-actions:
     #Dr = None
@@ -361,6 +362,18 @@ class Account:
          return totalBalance
      """
 
+    def isClosed(self):
+        balance = copy(self.totalBalance)
+        if balance == 0:
+            self.AccountClosed = True
+            return self.AccountClosed
+        elif balance != 0:
+            self.AccountClosed = False
+            return self.AccountClosed
+        else: 
+            raise Exception(msg)
+        
+        
     # amount condition specification
 
     # amount Is Negative
@@ -1310,7 +1323,7 @@ print("Bank's totalBalance = ", bank.totalBalance)
 class AccountReceivable(DebitAccount):
 
     # takes
-    def __init__(self, entityDesc, DebtorName, amount):
+    def __init__(self, transactionName, DebtorName,proprietorName, amount):
         """
         it's about a payer i.e. DebtorName & 
         a payee : the proprietor 
@@ -1329,7 +1342,7 @@ class AccountReceivable(DebitAccount):
         None.
 
         """
-        super().__init__(entityDesc, amount)
+        super().__init__(transactionName, amount)
         # self.Name = entityName  #Debtor's Name
         # Object , of type DebitAccount
         # self.Receivable = AccountReceivable #unsure about this
@@ -1339,12 +1352,14 @@ class AccountReceivable(DebitAccount):
         # Debit For DebtorName
         self.DebtorName = DebtorName  # new
 
+        self.proprietorName = proprietorName
+        
 
 # Inherits DebitAccount #TODO: apply `Personal Account` [as it should be ]
 class AccountPayable(CreditAccount):
 
     # takes
-    def __init__(self, entityDesc, CreditorName, amount):
+    def __init__(self, transactionName, creditorName,proprietorName, amount):
         """
         it's about a payee i.e. CreditorName
         & 
@@ -1353,8 +1368,8 @@ class AccountPayable(CreditAccount):
 
         Parameters
         ----------
-        entityDesc : str
-            the name Describing the entity account 
+        transactionName : str
+            the name Describing the transaction 
         CreditorName : TYPE
             A name of the creditor, providing credit to Proprietor (by cash , or other  mediums of `asset`s, Agreed upon by both parties )
         amount : TYPE
@@ -1365,7 +1380,7 @@ class AccountPayable(CreditAccount):
         None.
 
         """
-        super().__init__(entityDesc, amount)
+        super().__init__(transactionName, amount)
         # self.Name = entityName  #Debtor's Name
         # Object , of type DebitAccount
         # self.Receivable = AccountReceivable #unsure about this
@@ -1373,7 +1388,22 @@ class AccountPayable(CreditAccount):
         #self.amount =  round(amount,2)
 
         # adding info For CeditorName
-        self.CreditorName = CreditorName  # new
+        self.creditorName = creditorName  # new
+        self.proprietorName = proprietorName
+        
+        
+    def init2(self, transactionName, CreditorName,proprietorName, amount):
+        super().__init__(transactionName, amount)
+        # self.Name = entityName  #Debtor's Name
+        # Object , of type DebitAccount
+        # self.Receivable = AccountReceivable #unsure about this
+        # amount (decimal, to 2 places)
+        #self.amount =  round(amount,2)
+
+        # adding info about CeditorName
+        self.creditorName = CreditorName  # new
+
+        
 # =======================================
 
 # capital classes
@@ -1411,6 +1441,20 @@ class ExpenditureAccount(DebitAccount):
 
 #barnettInn  Barnett Inn's
 """
+
+class badDebtRecovered(DebitAccount):
+    
+    def __init__(self,transactionName, proprietor,debtor, payer, amount):
+        
+        super(Revenue, self).__init__(transactionName, amount)
+        
+        self.proprietor = proprietor 
+        self.debtor = debtor
+        self. payer 
+        
+        
+        
+    
 # =======================================
 
 
@@ -1762,6 +1806,9 @@ def demoIntermetiateAccounting(pipDebtBalance=100, cashBarnettInnBalance=100):
     print("Comment: Being Debt repayment \n")
 
     # 6  Bad Debt Recovered
+    #Intent: 
+    #1. removes badDeb as `Expense` `badDebtExpense` replacing it with 
+    #2. shows it has been recovered in `badDebtRecovered`
     # Dr badDebtRecovered # account states that  a bad debt has been recovered []
     badDebtRecovered = DebitAccount("Bad Debt Recovered", 100)
     badDebtExpense.credit(100)
@@ -1775,6 +1822,9 @@ def demoIntermetiateAccounting(pipDebtBalance=100, cashBarnettInnBalance=100):
 # resetdemo
 
 def demoReset():
+    """ resets the demo associated with the "Great Expectations" proprietor is BarnettInn's""" 
+   
+    # 1 
     pipDebt = None
     serviceRendered = None
 
@@ -1794,10 +1844,15 @@ def demoReset():
     herbertDebt = None
 
     # 5
-    cashBarnettInn = None
+    cashBarnettInn  = None
     herbertRepayment = None
+    
+    #6 
+    badDebtRecovered = None 
+    #badDebtExpense  = None
+    return pipDebt, serviceRendered, herbertDebt, badDebtExpense, cashBarnettInn, herbertRepayment,badDebtRecovered
 
-    return pipDebt, serviceRendered, herbertDebt, badDebtExpense, cashBarnettInn, herbertRepayment
+
 
 def demoProrietorPip(): #TODO: Continue
     
@@ -1823,7 +1878,7 @@ def demoProrietorPip(): #TODO: Continue
 
     Dr Account Payable [to Barnett Inn's] 100 [-100]
 
-    Cr cash 100  [-100]
+        Cr cash 100  [-100]
 
 
     """
@@ -1834,6 +1889,7 @@ def demoProrietorPip(): #TODO: Continue
     Herbert's debt :
 
     Dr service rendered  100  [+100 ]
+    
     	Cr Account Payable [Barnett Inn's] [+100] 
 
     """
@@ -1849,7 +1905,8 @@ def demoProrietorPip(): #TODO: Continue
 
     Dr Account Payable [Barnett Inn's]  100 [-100]
 
-    Cr Default Amount unpaid [Barnett Inn's] 100 [+100] #note: this must refer the the creditor 
+        Cr Default Amount unpaid [Barnett Inn's] 100 [+100] 
+                              #note: this must refer the the creditor 
 
 
     #Imagine: a scenario with full of creditors , each wants their piece 
@@ -2097,6 +2154,26 @@ def checkObjectIsaClass(_object, _classOrTuple):
 
 
 def checkObjectInClass(_object, _class):
+    """
+    if isNullable:  # is it None
+        # if True then it's new, thus create it [require additional info: AccountType:Asset, Capital, ...]
+        pass  # TODO: Instantiate a new object, from a given AccountType
+    # check if this object is of this type:
+
+    elif isNullable:  # and
+        # checkObjectIsaClass(cashBarnettInn, DebitAccount ) # 2nd argument can't be None
+        pass
+
+    # https://stackoverflow.com/questions/16709879/how-can-i-get-previous-month-and-year-using-python/16710165#16710165
+    """
+    """ experimental 
+    def getPrevMonth(_year=2012, _month=3, _day=1):
+        return date(_year, _month, _day)+relativedelta(years=-1)
+
+
+    def getPrevMonthN(n, _Year=2012, _month=3, _day=1):
+        return date(2012, 3, 1)+relativedelta(years=-n)
+    """
 
     isNullable = copy(isNone(_object))  # 1. check object is set to  `None`
     # 2. check object is of type `_class`
@@ -2119,23 +2196,3 @@ def checkObjectInClass(_object, _class):
 
 #isNullable = copy(isNone(cashBarnettInn))
 #isObjectAClass = copy(checkObjectIsaClass(cashBarnettInn, DebitAccount))
-"""
-if isNullable:  # is it None
-    # if True then it's new, thus create it [require additional info: AccountType:Asset, Capital, ...]
-    pass  # TODO: Instantiate a new object, from a given AccountType
-# check if this object is of this type:
-
-elif isNullable:  # and
-    # checkObjectIsaClass(cashBarnettInn, DebitAccount ) # 2nd argument can't be None
-    pass
-
-# https://stackoverflow.com/questions/16709879/how-can-i-get-previous-month-and-year-using-python/16710165#16710165
-"""
-""" experimental 
-def getPrevMonth(_year=2012, _month=3, _day=1):
-    return date(_year, _month, _day)+relativedelta(years=-1)
-
-
-def getPrevMonthN(n, _Year=2012, _month=3, _day=1):
-    return date(2012, 3, 1)+relativedelta(years=-n)
-"""
