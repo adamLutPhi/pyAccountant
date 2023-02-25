@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sun Aug 7 08:15:23 2022
+
 @author: Ahmad Lutfi 
 
 this version is prefered, to continue to work on, & further develop: 
@@ -1450,9 +1451,8 @@ class badDebtRecovered(DebitAccount):
         
         self.proprietor = proprietor 
         self.debtor = debtor
-        self. payer 
-        
-        
+        self.payer = payer 
+
         
     
 # =======================================
