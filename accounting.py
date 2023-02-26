@@ -2,6 +2,7 @@
 """
 Created on Sun Aug 7 08:15:23 2022
 
+
 @author: Ahmad Lutfi 
 
 this version is prefered, to continue to work on, & further develop: 
@@ -1323,7 +1324,11 @@ print("Bank's totalBalance = ", bank.totalBalance)
 
 class AccountReceivable(DebitAccount):
 
+
+    # takes
+
     # i.e. transactionName = Pip's Debt", DebtorName = "Pip", proprietorName 
+
     def __init__(self, transactionName, DebtorName,proprietorName, amount):
         """
         it's about a payer i.e. DebtorName & 
@@ -2226,7 +2231,7 @@ def checkObjectInClass(_object, _class):
 #isNullable = copy(isNone(cashBarnettInn))
 #isObjectAClass = copy(checkObjectIsaClass(cashBarnettInn, DebitAccount))
 
-
 # Demo
 
 pipDebt, serviceRendered, herbertDebt, badDebtExpense, cashBarnettInn, herbertRepayment, badDebtRecovered =demoIntermetiateAccounting()
+
