@@ -2,6 +2,7 @@
 """
 Created on Sun Aug 7 08:15:23 2022
 
+
 @author: Ahmad Lutfi 
 
 this version is prefered, to continue to work on, & further develop: 
@@ -1323,11 +1324,15 @@ print("Bank's totalBalance = ", bank.totalBalance)
 
 class AccountReceivable(DebitAccount):
 
+
     # takes
+
+    # i.e. transactionName = Pip's Debt", DebtorName = "Pip", proprietorName 
+
     def __init__(self, transactionName, DebtorName,proprietorName, amount):
         """
         it's about a payer i.e. DebtorName & 
-        a payee : the proprietor 
+        a payee i.e. proprietor
 
         Parameters
         ----------
@@ -1426,15 +1431,29 @@ class RevenueAccount(Capital):  # CreditAccount):
 
 # ExpenditureAccount
 
-class ExpenditureAccount(DebitAccount):
+class ExpenditureAccount(DebitAccount): # Contra- Asset account
     """
-    - ExpenditureAccount is a loss in Capital.
+    - ExpenditureAccount it is a Contra-Asset Account 
+    while an asset increases by a `Debit` `Dr` , decreases by a `Credit`, `Cr`)
+    this Contra-Asset Accout increases by a `Credit`, decreases by a `Debit`    
+    why it is a contra: 
+    As it's responsible for decreasing (i.e. eating up) a `DebitAccount`
+        
+
     """
 
     def __init__(self, entityName, amount):
         super().__init__(entityName, amount)
         self.tag = "Expenditure"
-# in the US GAAP: the counter accounts are called `Contra`
+        
+    #Note: ExpenditureAccount` as a `Contra-` Account : it constitutes that 
+    def debit(self, entityName, amount): #as an asset increases by a debit (i.e + 100)
+        super().credit(amount) # a contra_account increases by a credit (i.e. -100 )
+        
+    def Credit(self, entityName, amount): # seemingly , same logic follows 
+        super().debit(amount) 
+
+#Note:  in the US `GAAP`: the counter accounts are called `Contra`
     """
     def __init__(name,totalBalance):
         super().__init(name,totalBalance)
@@ -1465,9 +1484,9 @@ class badDebtRecovered(DebitAccount):
 he has to pay for it  ( in  return of service rendered i.e. the liquor had at Barnett's Inn)
 
 types of reports
-Balance Sheet: most important report , with it we (accountant)  can verify & Test  accounting is balanced (& correct)
+1.Balance Sheet: most important report , with it we (accountant)  can verify & Test  accounting is balanced (& correct)
 
-SOCI (Statement of Comprehensive Income)
+2.SOCI (Statement of Comprehensive Income)
 
 Payment Players:
     a `payer` who pays, & a payee: who recieves the payment (in exchange of 
@@ -1478,9 +1497,19 @@ a `product` or a service)
 there are 2 types of payment 
  
  1. in full [payment medium: cash /debtCard ]
-payer: who pays 
+payer: who pays
 payee: who recieves the payment 
 
+Meaning of Accounts Recievable
+
+here> the proprietory `BarnettInn` that had a debor account `pip` of `100` shellings, 
+ `100` from the debtor `pip` is to be recieved ( 
+     note: account reviebale is a current Asset account: meaningp
+     the proprietor `BarnettInn` expects its Debtor `pip` to pay back the amount, 
+     in exchange for the service rendered ( at one time in a `BarnettInn` pub).
+     Hence, `Pip` the Debtor now has a debt of 100 shillings, to pay back to proprietor `BarnettInn`
+     within this year.
+     
 
  2. on-account [payment medium: creditCard/ Recie] 
  
@@ -1493,14 +1522,17 @@ payee: who recieves the payment
 
 
      
-# back to the story: from Barnett Inn's Perspective,we'd see how to write accounts 
+# Back to the story: from Barnett Inn's Perspective,we'd see how to write accounts 
 #Note : A/c is a short-hand for Account
 #curcial note : each transaction happens at a specific time specified, 
 `Date` won't be of a concern ( temporarily , for now )
   
 #================
 """
-# AccountReceivable is a
+#Notes: 
+    
+# `AccountReceivable` is an `Asset` account 
+
 # import accounting  # correctly imported [But other files (in the same Dir) cannot read it, on Windows ]
 
 
@@ -1551,8 +1583,10 @@ def demoEasyAccounting():
 
     # Instantiate pipDebt, from AccountsRecievable[Dr] , serviceRendered from RevenueAccount [Cr]
 
-    # increment [+100] (to Balance Sheet) [Dr ]
-    pipDebt = AccountReceivable("Pip's Debt", "Pip", 100)
+    # increment [+100] (to Balance Sheet) [Dr  AccountReceivable (from Debtor `Pip` to Proprietor `BarnettInn` )]
+    #                "Transaction" , "DebtorName", "ProprietorName, 100 ) 
+    
+    pipDebt = AccountReceivable("Pip's Debt", "Pip","BarnettInn", 100)
 
     # increment [+100] (to SOCI report ) [Cr]
     serviceRendered = RevenueAccount("Service Rendered", 100)
@@ -1610,7 +1644,7 @@ def demoEasyAccounting():
 
     # Initialize accounts, by  Adding a debt Account (Expense) for Mr. Herbert
     herbertDebt = AccountReceivable(
-        "Herbert's Debt", "Herbert", 100)  # up 100 [+100]
+        "Herbert's Debt", "Herbert","BarnettInn", 100)  # up 100 [+100]
     serviceRendered = RevenueAccount(
         "Service Rendered", 100)  # creditAcc up by 100
     print("herbertDebt.totalBalance", herbertDebt.totalBalance, " open")  # 100
@@ -1754,7 +1788,7 @@ def demoIntermetiateAccounting(pipDebtBalance=100, cashBarnettInnBalance=100):
     # serviceRendered does not exist, create is, as a RevenueAccount  [inheriting from a ]
 
     # increment [+100] (to Balance Sheet) [Dr ]  in-flow: pipDebtBalance +100
-    pipDebt = AccountReceivable("Pip's Debt", "Pip", pipDebtBalance)
+    pipDebt = AccountReceivable("Pip's Debt", "Pip","BarnettInn", pipDebtBalance) 
     # increment [+100] (to SOCI report ) [Cr]
     serviceRendered = RevenueAccount("Service Rendered", pipDebtBalance)
 
@@ -1777,7 +1811,7 @@ def demoIntermetiateAccounting(pipDebtBalance=100, cashBarnettInnBalance=100):
     # `serviceRendered` doesn't exist: create it, as a RevenueAccount [CreditAccount], with sum of 100
 
     herbertDebt = AccountReceivable(
-        "Herbert's Debt", "Herbert", 100)  # up 100 [+100]
+        "Herbert's Debt", "Herbert","BarnettInn", 100)  # up 100 [+100]
 
     serviceRendered = RevenueAccount(
         "Service Rendered", 100)  # creditAcc up by 100
@@ -2002,7 +2036,7 @@ print("cashSales = ", cashSales.totalBalance)
 # inint DebitAccount: Account Receivable for Barnett Inn's about Debtor Pip, for 100 Shillings
 print("Transaction 1: \n")
 # increment [+100] (to Balance Sheet) [Dr ]
-pipDebt = AccountReceivable("Pip's Debt", "Pip", 100)
+pipDebt = AccountReceivable("Pip's Debt", "Pip", "BarnettInn" ,100)
 
 # increment [+100] (to SOCI report ) [Cr]
 serviceRendered = RevenueAccount("Service Rendered", 100)
@@ -2196,3 +2230,8 @@ def checkObjectInClass(_object, _class):
 
 #isNullable = copy(isNone(cashBarnettInn))
 #isObjectAClass = copy(checkObjectIsaClass(cashBarnettInn, DebitAccount))
+
+# Demo
+
+pipDebt, serviceRendered, herbertDebt, badDebtExpense, cashBarnettInn, herbertRepayment, badDebtRecovered =demoIntermetiateAccounting()
+
