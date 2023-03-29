@@ -590,13 +590,14 @@ totalEquity = subTotalEquity2020
 
 #def calc_grossMargin():
 
-# Income Statement 
+# Income Statement [#TODO: move to new  module]
         
 def calcCogs(subTotals):
 
     cogs = iterateSubtotals(subTotals)
     return cogs
-# Bal sheet 
+
+# Balnace sheet [static ] methods 
 
 def isEqual(totalAssets, totalLiabilities, totalEquity ):
     """
@@ -731,33 +732,39 @@ print("try1: is equal = ",isEqual(totalAssets, totalLiabilities, totalEquity ))
 # source: https://www.investopedia.com/terms/b/balancesheet.asp
 
 
-# current Assets 
+#1.1 current Assets 
 ca2020 = [38016, 52927, 16120, 4061, 21325, 11264]
 subtotal1 = iterateSubtotals(ca2020)
 print(subtotal1)
 
+#1.2. nonCurrent Assets
 nca2020 = [100887, 36766, 42522]
 subtotal2 = iterateSubtotals(nca2020)
-# total non-current Assets
 print(subtotal2)
 
+#2. Total Assets:
 totalAssets = subtotal1 + subtotal2
 print("total Assets", totalAssets) # 323888
 
 #--
+#1.1 currentLiabilities 
 cL2020 = [42296, 42684, 6643, 4996, 8773]
 subtotalL1 = iterateSubtotals(cL2020)
 print(subtotalL1)
 
+#1.2 nonCurrent Liabilities 
 ncL2020 = [98667, 54490]
 subtotalL2 = iterateSubtotals(ncL2020)
 print(subtotalL2)
+#2. Total Liabilities
 totalLiabilities = subtotalL1 +subtotalL2 
 print("total Liabilities", totalLiabilities) # 258549
 
 #Capital [ (Owner's) Equity ]
 
+#1. Current Equities
 equity2020 = [50779, 14966, -406]
+#2. Total Equities
 totalEquities = iterateSubtotals(equity2020)
 
 print("totalEquities = ", totalEquities) # 65339
@@ -1015,32 +1022,88 @@ class balanceSheet:
      # lvl1
 
     # Working Capital  
-    def workingCapital(self): #TODO: check 
+    def workingCapital(self):
+        """
+    1. A Short-Term measure: of overall liquidity (source:https://www.causal.app/whats-the-difference/working-capital-vs-net-working-capital)
+    2.Working capital is the amount of money used to facilitate the operations of the business.
+    calculated by:
+     Current Assets less Current Liabilities.
+
+     pros:
+     allows to set short term -goals
+     (by meeting short-term obligations (i.e. current Liabilities, within a year)
+
+     pros : of being a strong woerking capital position
+     "Strong Working Capital" position,
+     it may be able to take advantage of a supplier's
+     offer to extend terms from 30 days to 60 days.
+     This would free up cash ( that could be
+     used for other purposes.)
+
+     cons:
+     1. a strong capital may mean that lots of assets are stored
+     in a form of inventories (in warehouses, instead of liquid cash)
+     thus, it is less likeliky to take advantage of opportunities,
+     requiring "quick cash investment"
+     
+    """
 
         self.workingCapital = self.currentAssetsSubTotal - self.currentLiabilitiesSubTotal
 
         return self.workingCapital
 
     # Net Worth
+
+
+    def calcNetWorth(self): # takes 0 parameters
+
+        """
+        - Is a Long-Term measure: of Proprietor's overall `liquidity`
+        Note: the sucess of running this function tightly depends on whether previously we have calculated the subTotals of : Assets, liabilites
+            (otherwise, it wouldn't function, as expected)
+        - is also called : the `Net Working Capital`
+
+        pros: advantages over working capital
+        1. provides a big pitcture of proprietor's liquidity,
+        taking into account both
+        1.1 short-term
+        1.2 long-term obligations
+        2. it is a forward-looking measure:
+        it includes all of proprietor's assets (not only short-term ones)
+        Infer: thus, it provides a more comprehensive picture of proprietor's value
+
+        cons:
+        It may give a False sense of Security
+        Because proprietor's overall liquidy can drastically change
+        (Even if its net worth is strong)
+        
+        """
+
+        #get assets and liabilities , assign them to NetWorth
+
+        self.NetWorth = self.totalAssets - self.totalLiabilities  #self.totalAssets - self.totalLiabilities
+
+        return self.NetWorth
     
-    def calcNetWorth(self): # takes 1 parameter 
+    def calcNetWorth2(self, _totalAssets, _totalLiabilities):
 
-        #get assets and liabilities 
-        _totalAssets = self.totalAssets
-        _totalLiabilities = self.totalLiabilities
+        self.NetWorth = _totalAssets - _totalLiabilities 
 
-        self.NetWorth = _totalAssets - _totalLiabilities  #self.totalAssets - self.totalLiabilities
-
-    def calcNetworth2(self, _currentAssets, _nonCurrentAssets): # ok
+        return self.NetWorth
+    
+    def calcNetworth3(self, _currentAssets, _nonCurrentAssets, _currentLiabilities, _nonCurrentLiabilities): # ok
 
         # 1 calc totalAssets
         self.calcAssets( _currentAssets, _nonCurrentAssets )
 
         #2. calc totalLiabilities
-        self.calcLiabilities() # this should also compile
+        self.calcLiabilities(_currentLiabilities,_nonCurrentLiabilities) # this should also compile
 
+        #3. calc NetWorth
         self.NetWorth =  self.totalAssets - self.totalLiabilities
-        
+
+        return self.NetWorth
+    
     # Verify Net Worth
     """
     def verifyNetWorth(self, _networth): #practical 
@@ -1075,7 +1138,14 @@ class balanceSheet:
         elif _networth != totalEquities:
             return False
         else: raise ValueError("Please Check Input then try again, later")
-        
+
+    def setTitle( self, title="Consolidated Balance Sheets", optionalDesc=None):
+
+        if not optionalDesc is None:
+            self.description = optionalDesc
+
+        self.title = title
+        return title
         
 # DEMO
 
@@ -1111,7 +1181,8 @@ print("Net Worth = ", _networth)
 
 print("Demo:  class Demo , of APPL 2022")
 
-# Balance sheet, year , title 
+# Balance sheet, year , title
+# At start: set a Title and a year, for the `BalanceSheet`
 bSheet= balanceSheet("2020", "APPLE INC `APPL`")
 
 #Assets
@@ -1131,49 +1202,151 @@ ncL2020 = [98667, 54490]    # non-current liability list (2020)
 equity2020 = [50779, 14966, -406] #current-Equity list (2020)
 
 # 
-#subtotals
-
+#SubTotals:
+#1. currentAssets
 currentAssetsSubTotal = bSheet.calcCurrentAssetsSubTotal(ca2020)
-print(currentAssetsSubTotal)
+print("currentAssetsSubTotal = ", currentAssetsSubTotal)
 
+#2. nonCurrentAssets' Subtotal
 nonCurrentAssetsSubTotal = bSheet.calcNonCurrentAssetsSubTotal(nca2020)
-print("nonCurrentAssetsSubTotal")
+print("nonCurrentAssetsSubTotal = ", nonCurrentAssetsSubTotal)
 
-#currentLiability Subtotal
-bSheet.calcCurrentLiabilitiesSubTotal( ca2020)
+#3. currentLiabilities' Subtotal
+print("bSheet.calcCurrentLiabilitiesSubTotal( cL2020) = ", bSheet.calcCurrentLiabilitiesSubTotal( cL2020) )
 
-#non-current Liability Subtotal
-bSheet.calcNonCurrentLiabilitiesSubTotal(nca2020)
+#non-current Liabilities' Subtotal
+print("bSheet.calcNonCurrentLiabilitiesSubTotal(ncL2020)  = ",bSheet.calcNonCurrentLiabilitiesSubTotal(ncL2020))
 
 #currentEquity Subtotal
-bSheet.currentAssetsSubTotal
+#User can also view CurrentAsset Subtotal
+print("bSheet.currentAssetsSubTotal = ", bSheet.currentAssetsSubTotal )
+
 
 #Totals
+# A user can: 
 # 1.TotalAssets
+#1. Calculate the Assets' `Total` by calcAssets(currentAssets, nonCurrentAssets)
 totalAssets = bSheet.calcAssets(ca2020,nca2020 )
+print("totalAssets = ", totalAssets)
+
 # 2.TotalLiabilities
-Liabilities = bSheet.calcTotalLiabilities(cL2020, ncL2020)
+#2. Calculate the Liabilities' `Total by `calcTotalLiabilities(currentLiabilities, nonCurrentLiabilities)
+totalLiabilities = bSheet.calcTotalLiabilities(cL2020, ncL2020)
+print("totalLiabilities = ", totalLiabilities)
 
 #3. TotalEquities
+#3. Calculate the Equiries' `Total` by `calcEquities(currentEquity)`
 Equities = bSheet.calcEquities(equity2020) # calcEquities(equity2020) 
+print("Equities =", Equities) 
+#end of Lvl 0
 
-#lvl1
-# Working Capital
+#lvl1: Analysis
+#1. Working Capital
 
 workingCapital = bSheet.workingCapital() # #no error (check why)
 
-# Net Worth
+print("workingCapital = ", workingCapital)
+#2. Net Worth
 
 #NetWorth = bSheet.calcNetWorth2( ca2020, nca2020) #bSheet.getNetWorth()
 
+bSheet.calcNetWorth2(totalAssets, totalLiabilities)
+print("bSheet.NetWorth = ",bSheet.NetWorth)
+
 #Is NetWorth
 
-
-IsNetWorth = bSheet.verifyNetWorth( _networth) #should compile 
+IsNetWorthVerified = bSheet.verifyNetWorth( _networth) #should compile 
+print("IsNetWorthVerified = ", IsNetWorthVerified)
 # IsNetWorth = bSheet.verifyNetWorth(_networth, totalEquities) # bSheet.verifyNetWorth()
+
+
+# DEMO2:
+#Source: https://www.investopedia.com/ask/answers/09/does-balance-sheet-always-balance.asp
+ca2017names = ["Cash & Cash equivalents", "Short-term marketable Securities",
+          "Accounts recievable, less alloances of 58 and 53 respectively",
+          "Inventories", "vendor non-trade Recievables", "Other Current Assets"]
+ca2017 = [20289, 53892, 17874, 4855, 17799, 13936]
+nca2017names = ["Long-term Marketable Securities","Property, Plant , Equipment,net", "Goodwill",
+                "Acquiried Intangible Assets, net", "other Non-Current Assets"]
+nca2017 = [193714, 33783, 5717, 2296, 10162]
+
+cl2017names=["Accounts payable","Accrued Expenses", "Deferred Revenue", "Commercial Paper", "Current portion of long-term Debt"]
+cl2017 = [49049, 25744, 7548, 11977, 6496]
+
+ncl2017names = ["Deferred revenue, non-current", "Long-term Debt",
+                "Other, Non-Current Liabilities"]
+ncl2017 = [2836, 97207, 40415]
+
+## Equity 2017
+equity2017 = [35867, 98330, -150] #current-Equity list (2020)
+
+bSheet2 = balanceSheet(2017,proprietor="APPLE INC APPL")
+bSheet2.setTitle("Consolidated Balance Sheets","(in millions, except number of shareswhich are reflected in thousands and per value")
+
+#SubTotals:
+#1. currentAssets
+currentAssetsSubTotal = bSheet2.calcCurrentAssetsSubTotal(ca2017)
+print("currentAssetsSubTotal = ", currentAssetsSubTotal)
+
+#2. nonCurrentAssets' Subtotal
+nonCurrentAssetsSubTotal = bSheet2.calcNonCurrentAssetsSubTotal(nca2017)
+print("nonCurrentAssetsSubTotal = ", nonCurrentAssetsSubTotal)
+
+#3. currentLiabilities' Subtotal
+print("bSheet.calcCurrentLiabilitiesSubTotal( cL2020) = ", bSheet.calcCurrentLiabilitiesSubTotal( cl2017) )
+
+#non-current Liabilities' Subtotal
+print("bSheet.calcNonCurrentLiabilitiesSubTotal(ncL2020)  = ",bSheet.calcNonCurrentLiabilitiesSubTotal(ncl2017))
+
+#currentEquity Subtotal
+#User can also view CurrentAsset Subtotal
+print("bSheet.currentAssetsSubTotal = ", bSheet.currentAssetsSubTotal )
+
+
+#Totals
+# A user can: 
+# 1.TotalAssets
+#1. Calculate the Assets' `Total` by calcAssets(currentAssets, nonCurrentAssets)
+totalAssets = bSheet.calcAssets(ca2017,nca2017 )
+print("totalAssets = ", totalAssets)
+
+# 2.TotalLiabilities
+#2. Calculate the Liabilities' `Total by `calcTotalLiabilities(currentLiabilities, nonCurrentLiabilities)
+totalLiabilities = bSheet.calcTotalLiabilities(cl2017, ncl2017)
+print("totalLiabilities = ", totalLiabilities)
+
+#3. TotalEquities
+#3. Calculate the Equiries' `Total` by `calcEquities(currentEquity)`
+Equities = bSheet.calcEquities(equity2017) # calcEquities(equity2020) 
+print("Equities =", Equities) 
+#end of Lvl 0
+
+#lvl1: Analysis
+#1. Working Capital
+
+workingCapital = bSheet2.workingCapital() # #no error (check why)
+
+print("workingCapital = ", workingCapital)
+#2. Net Worth
+
+#NetWorth = bSheet.calcNetWorth2( ca2020, nca2020) #bSheet.getNetWorth()
+
+bSheet.calcNetWorth2(totalAssets, totalLiabilities)
+print("bSheet.NetWorth = ",bSheet.NetWorth)
+
+#Is NetWorth
+
+IsNetWorthVerified = bSheet.verifyNetWorth( _networth) #should compile 
+print("IsNetWorthVerified = ", IsNetWorthVerified)
+# IsNetWorth = bSheet.verifyNetWorth(_networth, totalEquities) # bSheet.verifyNetWorth()
+
+
 
 #the end
 
+class printReport:
+    def __init__(bSheet):
+        pass # encapsulated the `printed values` above 
 class StockholderEquity:
     """ stock holder equity: is calculated iff:
 
