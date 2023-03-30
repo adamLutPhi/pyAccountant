@@ -1,7 +1,7 @@
 class partialEntry:
 
     # 5.1.1. Using Lists as Stacks
-    """
+    """ 
     The list methods make it very easy to use a list as a stack, where the last element added is the first element retrieved (“last-in, first-out”). To add an item to the top of the stack, use append(). To retrieve an item from the top of the stack, use pop() without an explicit index. For example:
 
             >>>
@@ -34,9 +34,6 @@ class partialEntry:
         lst.
         thislist = ["apple", "banana", "cherry"]
         thislist.append("orange")
-
-
-    
         pass 
     def print():
 
@@ -83,7 +80,7 @@ _total = _sum
 print(' Total: \t  \t  {0} \n '.format(_total))
 
 
-import operator
+#import operator
 # import operators 
 
 names = ['Mortgage/Rent', 'Home/Rental Insurance ', 'Electricity', 'Gas/Oil', 'Water/Sewer/Traash', 'Phone', 'Cable/Satellite', 'other']
@@ -127,8 +124,6 @@ def printValue(val):
     #todo: variable name 
     print(f" {val}  = ", percentSub)
 
-
-
 # remainder = _total - _sub
 remainder = getRemainder(_total, _sub)
 
@@ -143,12 +138,11 @@ def getDiff(percentAdd, percentSub):
     print("diff = +", diff, " %")
     return diff
 
-def getGap(_total, _sub):
+def getPercentGap(_total, _sub):
 
     #1. Get % Sub
     percentSub = getPercentage(_total, _sub)
     print("percentSub= ", percentSub, " %")
-
 
     percentTotal = 100
     # 2. Get % Add
@@ -161,7 +155,7 @@ def getGap(_total, _sub):
     diff = percentAdd - percentSub
 
     print("diff = +", diff, " %")
-    return diff
+    return diff, percentAdd, percentSub
 
 
 
@@ -191,9 +185,43 @@ diff = getDiff(percentAdd, percentSub) # percentAdd - percentSub
 
 print("diff = +", diff, " %") # 9%
 
-
+#Idea:
 class partialEntry:
-    pass
+    """ captures a specific part of a `transaction` which can  either assume the  drSide or the crSide
+    Purpose: acts as a bridge between a Report (balanceSheet in this instance` and a transction (of a Journal Entry )
+
+    - Hint: only if we can add this as a form of function, in a transaction class, instead, that would have made things more "Straight-Forward, & easier
+            (For all users: developers & end-users alike)
+    """
+    #pass
+    def __init__(self):
+        pass
+    def __init__(self, drSide, crSide, amount, isDebit=True, MsgError="Unexpected Error Occured, please recheck input, then retry"):
+
+        # Check `isDebit` flag , if so, return the debitSide Object & the amount
+        if isDebit == True:
+            self.transactionSide = drSide
+            self.amount = amount
+            return self.transactionSide, self.amount
+        # otherwise, return `crSide` and the amount provided (in the consructor 
+        elif isDebit == False:
+            self.transactionSide = crSide
+            self.amount = amount
+            return self.transactionSide, self.amount
+
+        else:
+            raise ValueError(MsgError)
+
+# Now we can capture any part (of any transaction ) with its corresponding amount, accordingly
+# take the debit side (of a transaction) with its amount
+pEntry1 = partialEntry("cash","bankAccount", 100, isDebit=True)
+
+# take the credife side (of a transaction) with its amount
+pEntry2 = partialEntry("cash","bankAccount", 100, isDebit=False)
+
+#e.g. for balashe sheet: can take cash, add it into i.e. currentAssetNames list, with its amount, and `bankAmount` into currentEquities` list with its amount, as well.
+        
+        
 """
 name: str price : double
 
@@ -204,164 +232,7 @@ name: str price : double
 
 
 """
-    # stmt-1
 
-    # stmt-2
-
-    # stmt-3
-
-
-# class object
-
-class MyClass:
-    """A simple example class
-
-then MyClass.i and MyClass.f are valid attribute references,
-returning an integer and a function object,
-respectively. Class attributes can also be assigned to,
-so you can change the value of MyClass.i by assignment. __doc__ is also a valid attribute,
-returning the docstring belonging to the class: "A simple example class".
-
-Class instantiation uses function notation.
-Just pretend that the class object is a parameterless function
-that returns a new instance of the class. For example (assuming the above class):
-"""
-    i = 12345
-
-    def f(self):
-        return 'hello world'
-
-#create class object
-x = MyClass()
-"""
-Creates a new instance of the class and assigns this object
-to the local variable x.
-
-The instantiation operation (“calling” a class object)
-Creates an "empty object".
-Many classes like to
-"create objects"
-with instances customized to a specific "initial state".
-Therefore a class may define a special method named "__init__()",
-
-like this:
-
-"""
-
-#def __init__(self):
-##    self.data = []
-
-"""
-When a class defines an __init__() method,
-class instantiation automatically invokes __init__()
-for the newly created class instance. So in this example,
-a new, initialized instance can be obtained by:
-"""
-
-"""
-for greater flexibility :
-
-__init__() method have arguments:
-in that case: arguments given to the class instantiation operator
-passed on to __init__()
-"""
-
-class Complex:
-    def __init__(self, realpart, imagpart):
-        self.r = realpart
-        self.i = imagpart
-
-x = Complex(3.0, -4.5)
-
-print("x.r = ", x.r, " x.i = ", x.i)
-# (3.0, -4.5)
-
-# 9.3.3. Instance Objects
-
-"""
-Now what can we do with instance objects?
-The only operations understood by instance objects are attribute
-references. There are two kinds of valid attribute names:
-data attributes and methods.
-
-data attributes correspond to “instance variables” in `Smalltalk`,
-and to “data members” in C++. Data attributes need not be declared;
-like local variables, they spring into existence when they are first
-assigned to. For example, if x is the instance of MyClass created above,
-the following piece of code will print the value 16,
-without leaving a trace:
-
-
-"""
-"""
-x.counter = 1
-while x.counter < 10:
-    x.creater = x.counter * 2
-    
-print("count = ", x.counter)
-del x.counter
-"""
-
-"""
-
-Now what can we do with instance objects? The only operations understood by instance objects are attribute
-references. There are two kinds of valid attribute names:
-data attributes and methods.
-
-data attributes correspond to “instance variables” in Smalltalk,
-and to “data members” in C++. Data attributes need not be declared;
-like local variables, they spring into existence when they are first assigned to.
-For example, if x is the instance of MyClass created above,
-the following piece of code will print the value 16,
-without leaving a trace:
-
-# 9.3.4. Method Objects
-Usually, a method is called right after it is bound:
-
-"""
-
-# x.f()
-
-"""
-In the MyClass example, this will return the string 'hello world'.
-However, it is not necessary to call a method right away: x.f is a method object,
-and can be stored away and called at a later time. For example:
-
-"""
-
-#xf = x.f
-#while True :
-#    print(xf())
-
-"""
-will continue to print hello world until the end of time.
-
-What exactly happens when a method is called? You may have noticed that x.f()
-was called without an argument above, even though the function definition for f()
-specified an argument. What happened to the argument? Surely Python raises an exception when a function
-that requires an argument is called without any — even if the argument isn’t actually used…
-
-Actually, you may have guessed the answer: the special thing about methods is that the instance object
-is passed as the first argument of the function. In our example, the call x.f() is exactly equivalent to MyClass.
-
-f(x). In general, calling a method with a list of n arguments is equivalent to calling the corresponding function
-with an argument list that is created by inserting the method’s instance object before the first argument.
-
-If you still don’t understand how methods work, a look at the implementation can perhaps clarify matters.
-
-When a non-data attribute of an instance is referenced, the instance’s class is searched.
-
-If the name denotes a valid class attribute that is a function object, a method object is created by packing
-(pointers to) the instance object and the function object just found together in an abstract object:
-this is the method object. When the method object is called with an argument list, a new argument list is constructed
-from the instance object and the argument list, and the function object is called with this new argument list.
-
-9.3.5. Class and Instance Variables
-Generally speaking, instance variables are for data unique to each instance and class variables are
-for attributes and methods shared by all instances of the class:
-
-
-"""
 
 class Report:
 
@@ -415,7 +286,6 @@ i.e. Dr cash    1000 [UP] [Asset grows]
 
         1. the bank account(virtual) grows by the Asset invested in it (cash) by 1000
         
-
         2. the bank account is increased the same amount of cash depositied into that account
 
         3. This context is limited to: the bank account (Personal)
@@ -485,8 +355,7 @@ totalAssets = subTotalCA2020 + subTotalNonCurrentAssets
 
 print("total Assets  2020 = ", totalAssets)
 
-#print()
-
+#Ratios:
 def cashRatio(cash , CurrentLiabilities):
     """Cash Ratio = Cash / Current Liabilities.""" 
     return cash / CurrentLiabilities
@@ -507,11 +376,7 @@ def quickRatio( cashEquivalents, aRecievable, currentLiabilities):
     
 
     """
-    
-
     cashRecievable = cashEquivalents+ aRecievable
-    
-
     quickRatio = cashRecievable / currentLiabilities
     return quickRatio
     # quickRatio = (cashRecievable / currentLiabilities )
@@ -521,14 +386,23 @@ def quickRatio( cashEquivalents, aRecievable, currentLiabilities):
     Cash & Equivalents + A/R) / CurrentLiabilities
     """
 
-""" 
+""" Ratios:
 CashRatio = cash / CurrentLiabilities
 CurrentRatio = CurrentAssets / CurrentLiabilities.
-Quick Ratio = (Cash & Equivalents + A/R) / CurrentLiabilities
+Quick Ratio = (Cash & Equivalents + Accounts Receivable (A/R) / CurrentLiabilities
 
 """
 
-"We want estimated Doubtful Debt, first:"
+"""
+first:
+We want to estimate Doubtful Debt:
+Source: https://www.indeed.com/career-advice/career-development/allowance-for-doubtful-accounts#:~:text=It%20estimates%20the%20allowance%20for,10%2C000%20x%200.05%20%3D%20500
+stimates the allowance for doubtful accounts by multiplying the accounts receivable by:
+"appropriate percentage" for the aging period
+and then adds those two totals together.
+For example: 2,000 x 0.10 = 200.
+10,000 x 0.05 = 500.
+"""
 
 # for item in Assets
 ### total assets 2020 , 2019 
@@ -538,8 +412,6 @@ assets2020 = [CAprice2019  , nCA2020 ] #TODO: try running the function ,for diff
 #for item in assets2020:
     
 #    item
-    
-
 # subtotal:
 
 # totalAssets
@@ -548,170 +420,154 @@ assets2020 = [CAprice2019  , nCA2020 ] #TODO: try running the function ,for diff
 ##Current Liabilities:
 
 currentLiabilities = [ "AccountsPayable", "other current Liabilities", "Deferred revenue", "Commercial paper", "Term Debt"]
-cL2020= [42296, 42684, 6643, 4996, 8773]
+cl2020= [42296, 42684, 6643, 4996, 8773]
 
 # Noncurrent Liabilities
 nonCurrentLiabilities = ["Term debt", "Other non-current Liabilities"]
-nCL2020 = [98667, 54490]
+ncl2020 = [98667, 54490]
 
-subTotalCurrentLiabilities2020 = iterateSubtotals(cL2020)
+subTotalCurrentLiabilities2020 = iterateSubtotals(cl2020)
 
-subTotalNonCurrentLiabilities2020 = iterateSubtotals(nCL2020)
+subTotalNonCurrentLiabilities2020 = iterateSubtotals(ncl2020)
 
 totalLiabilities = subTotalCurrentLiabilities2020+ subTotalNonCurrentLiabilities2020
 
 print("totalLiabilities = ", totalLiabilities )
 
- 
 
 #---
-#Capital
-## Commitments & Contingencies
+#Capital : is about
+## Commitments & Contingencies , a.k.a
 ## Shareholder's equity
 
 shareholderEquity = ["Common Stock", "Retained Earnings", "Accumulated Other comprehensive income (loss)"]
-#
+
 shEquity2020 = [50779,14966, -406]
 
 shEquity2019 = [45174, 45898, -584]
 
-subTotalEquity2020 = iterateSubtotals(shEquity2020) # get equity 
-print("subTotalEquity2020 = ", subTotalEquity2020)
-totalEquity = subTotalEquity2020
+subTotalEquities2020 = iterateSubtotals(shEquity2020) # get equity 
+print("subTotalEquity2020 = ", subTotalEquities2020)
+totalEquities = subTotalEquities2020
 # subEquity2019 = iterateSubtotals(shEquity2019)
 
-
-#def __init__(self):
-#        pass
-
-#def __repr__(self):
-    #pass
-    
-
+#---
 #def calc_grossMargin():
-
-# Income Statement [#TODO: move to new  module]
+#class Income Statement 
         
 def calcCogs(subTotals):
 
     cogs = iterateSubtotals(subTotals)
     return cogs
-
+#def caclGrossMargin():
+#TODO: move to new  module]
+#---
+    
 # Balnace sheet [static ] methods 
 
-def isEqual(totalAssets, totalLiabilities, totalEquity ):
+def isEqual(totalAssets, totalLiabilities, totalEquity ): # +
     """
- # applying basic accounting equation:
-        Assets  = Liabilities + Equity
+     Applies the `Accounting Equation`
+    Assets  = Liabilities + Equity
+    """ 
+    condition = totalAssets + totalLiabilities == totalEquity
+    return condition 
 
-""" 
-    RHS =     totalAssets 
-    LHS = ( totalLiabilities  + totalEquity )
-    if RHS == LHS: # good 
-        
-        return True
-    
-    if RHS != LHS:
+def getDifference(LHS2, RHS2): # - 
+    """for networth 
+        totalAssets + totalLiabilities == totalEquities """
+    return abs(LHS2) - abs(RHS2)
 
-        return False
-
-    
-def getDifference(LHS, RHS):
+def setRhsLhs(totalAssets, totalLiabilities, totalEquities ): #+ 
+    """ sets the left & right, for the Cliassical Accounting Equation : A = L + E """
+    LHS =  totalAssets
+    RHS =  totalLiabilities + totalEquities
 
     return abs(LHS) - abs(RHS)
 
+def getDifference2(totalAssets, totalLiabilities, totalEquities ): #+
+    # totalAssets + totalLiabilities) == totalEquities
+    return setRhsLhs(totalAssets, totalLiabilities, totalEquities )
 
-def getDifference2(totalAssets, totalLiabilities, totalEquity ):
+# Note: setRhsLhs (getDifference) != getNetWorth as:
 
-    LHS = totalAssets
-    RHS =  totalLiabilities + totalEquity
+#Rule1: totalAssets + totalLiabilities) == totalEquities
+# Rule2: Networth: totalAssets - totalLiabilities == totalEquities
 
-    diff = getDifference( LHS, RHS  )
-    return diff
+def getNetWorth(totalAssets, totalLiabilities): #ok 
 
-      
-def getNetWorth(totalAssets, totalLiabilities):
-    """  networth (original) """
-    return totalAssets - totalLiabilities
+    """  calculates `NetWorth` (original):
+         NetWorth = totalAssets - totalLiabilities  ( == totalEquities ) """
+    LHS = totalAssets - totalLiabilities  # Rule: `Networth == totalEquities
+    RHS = totalEquities
+    return abs(LHS) - abs(RHS) # setRhsLhs(totalAssets, totalLiabilities, totalEquities)
 
-def verifyNetWorth1(networth):
+def isNetworth(totalAssets, totalLiabilities, totalEquities): #New
 
-    pass
+    return (totalAssets + totalLiabilities) - totalEquities
 
-def verifyNetWorth2(networth, totalEquity):
-    "NetWorth (in business) is also referred to as Equity "
-    if networth == totalEquity:
-        return True
-    elif networth != totalEquity:
-        return False
-    else: raise ValueError("Please Check Input then try again, later")
+def verifyNetWorth1(totalAssets, totalLiabilities, networth): #TODO: appply flip of `networth` parameter in implementation
+
+    """ verifies `NetWorth, by comparing it with `totalAssets` and `totalLiabilities` """
+    # networth = totalAssets -  totalLiabilities == totalEquities [both sides should be equal]
+    condition = networth  == getNetWorth(totalAssets, totalLiabilities) # totalAssets -  totalLiabilities
+    return condition 
+
+def verifyNetWorth2(networth, totalEquities ,ErrorMsg="Exception Raised: Value Error, please check all inputs, then retry"):
+
+    """verifies `NetWorth`against `totalEquities`
+    - Hint: NetWorth (in business) is also referred to as Equity
+    - Applying the 3 condition logic: if, elif, else (raises an  Error) 
+    - with error handling: `ValueError` exceptions 
+    """
+    try:
+        condition = networth == totalEquities  #networth>0 and totalEquities > 0
+        if condition == False:
+            #pass
+            return condition
+        elif condition == True:
+            pass
+            #condition = networth == totalEquities #True (or False)
+            return condition
+
+        else:
+         raise ValueError("Please Check Input then try again, later")
+
+    except ValueError:
+        print(ErrorMsg)
     
 def printIsEqual(totalAssets, totalLiabilities, totalEquity ):
-
-    RHS =     ( totalAssets + totalLiabilities )
-    LHS = totalEquity
+    """ Applying the accounting Equation : A = L + E
+    """
+    RHS = totalAssets
+    LHS = totalLiabilities + totalEquity
+    
     print("totalAssets = ",totalAssets)
     print("totalLiabilities = ",totalLiabilities)
     print("totalEquity = " , totalEquity)
 
-    boolIsEqual = printIsEqual2()
-    if RHS == LHS: # good 
-        
-        # accountant check if sides nbalances , but suntrating RHS from LHS :
-        
-        print(" Right side = ",RHS)
-        print(" Left side = ",LHS)
-        print("Difference = ", LHS-RHS) 
-        print("Accounts Balnce : totalAssets + totalLiabilities  = totalEquity \n",
-                RHS , "  ", LHS,  ) 
-        #boolIsEqual =  True
+    print("LHS = ", LHS)
+    print("RHS = ", RHS)
     
-    if RHS != LHS:
-        print("Assets: ", totalAssets ,"\n")
-        print("Liabilities: ", totalLiabilities  , "\n")
-        print("Total: ", totalAssets  +totalLiabilities )
-        print("Owner's Equity:", totalEquity, "\n")
-
-        print("Accounts do Not Balance")
-        print("Difference = ", LHS-RHS)
-        #boolIsEqual =  False 
+    boolIsEqual = printIsEqual2()
 
 def printIsEqual2(LHS, RHS):
-    
-    if RHS == LHS: # good 
-        
-        # accountant check have another way  of checking if sides balances (one way is by calculating Owner's networth = Assets - Liabilities)
+
+    """ checks if both sides are equal: an alternative way that accountance use to verify accounts
+        - by  calculating Owner's networth = Assets - Liabilities)
+
         #delete?: ins suntrating RHS from LHS :
-        
-            print(" Right side = ",RHS)
-            print(" Left side = ",LHS)
-            print("Difference = ", LHS-RHS) 
-            print("Accounts Balnce : totalAssets + totalLiabilities  = totalEquity \n",
-                RHS , "  ", LHS,  ) 
-        #return True
-    
-    if RHS != LHS:
-        print("Assets: ", totalAssets ,"\n")
-        print("Liabilities: ", totalLiabilities  , "\n")
-        print("Total: ", totalAssets  +totalLiabilities )
-        print("Owner's Equity:", totalEquity, "\n")
-
-        print("Accounts do Not Balance")
-        #return False
-    
-        #    print("Difference = ", LHS-RHS)  
-
-        #pass
-
-
+        """
+    condition = RHS == LHS
+    return condition
 
 RHS = totalAssets 
-LHS =  totalLiabilities + subTotalEquity2020
+LHS =  totalLiabilities + subTotalEquities2020
 
 print("RHS ==  LHS = ",RHS ==  LHS)
 RHS ==  LHS
 
-equals = isEqual(totalAssets, totalLiabilities, totalEquity)
+equals = isEqual(totalAssets, totalLiabilities, totalEquities)
 
 print("Accounts equal = ", equals ) 
 
@@ -723,7 +579,7 @@ print("Difference = ", LHS-RHS) # TODO: also do accounts balance (i.e. equal 0 )
 print("Accounts Balnce : totalAssets + totalLiabilities  = totalEquity \n",
                 "Right hand: Assets  = ",RHS, "\n" , "  ", "Left hand side =  Liabilities + Equity ", LHS,  ) 
 
-print("try1: is equal = ",isEqual(totalAssets, totalLiabilities, totalEquity ))
+print("try1: is equal = ",isEqual(totalAssets, totalLiabilities, totalEquities ))
 
 #1. Data Handling
 
@@ -772,12 +628,12 @@ print("totalEquities = ", totalEquities) # 65339
 # 2. Information Processing
 
 # 2.1 isEqual(totalAssets, totalLiabilities, totalEquity) 
-_flag_isequal = isEqual(totalAssets, totalLiabilities, totalEquity) #isEqual()
+_flag_isequal = isEqual(totalAssets, totalLiabilities, totalEquities) #isEqual()
 
 ## print("Accounts (in the accounting equation RHS = LHS : Assets+Liabilities = Equity",_flag_isequal)
 
 # 2.2. getDifference2(totalAssets, totalLiabilities, totalEquity)
-diff = getDifference2(totalAssets, totalLiabilities, totalEquity)
+diff = getDifference2(totalAssets, totalLiabilities, totalEquities)
 ## print("difference = ", diff)
 
 assets = 302083 #352755
@@ -804,6 +660,16 @@ class balanceSheet:
     finally, balance is important, as from it,we can get to the 
     """
 
+    #Helper functions:
+    # iterateSubtotals
+    def iterateSubtotals(self,subTotals,printFunction=None):
+
+        _sum = 0
+        for item in subTotals:
+            _sum += item
+
+        return _sum
+    
     def __init__(self, year : int, proprietor : str):
         """ at each triad, there is a Duo """
 
@@ -820,7 +686,7 @@ class balanceSheet:
 
         self.currentAssetsSubTotal = 0
         self.nonCurrentAssetsSubTotal = 0
-        self.totalAssets = 0
+        self.totalAssets = self.currentAssetsSubTotal + self.nonCurrentAssetsSubTotal  #0
         # which is defined by the Duo:
         
         self.currentLiabilities = []
@@ -828,18 +694,62 @@ class balanceSheet:
 
         self.currentLiabilitiesSubTotal = 0
         self.nonCurrentLiabilitiesSubTotal = 0
-        self.totalLiabilities = 0
+        self.totalLiabilities = self.currentLiabilitiesSubTotal + self.nonCurrentLiabilitiesSubTotal #0
         #self.equity
         # which is defined by the Duo:
         
         self.currentEquities = []
         #self.nonCurrentEquity = []
-
         self.currentEquitesSubTotal = 0
-        
         #self.nonCurrentEquitySubTotal = 0
-        self.totalEquities = 0
+
+        #Now: totalEquities == currentEquitiesSubtotal
+        self.totalEquities =  self.currentEquitesSubTotal #0
+
+    def __init__2(self, year : int, proprietor : str, currentAssets,nonCurrentAssets,currentLiabilities, nonCurrentLiabilities,
+                  currentEquities):
+        """ at each triad, there is a Duo """
+
+        self.proprietor = proprietor
+        self.year = year
         
+        #the sacred Triad of a BalanceSheet:
+        
+        #self.Assets : 
+        self.totalAssets = 0
+        
+        # which is defined by the Duo:
+        self.currentAssets = currentAssets #[]
+        self.nonCurrentAssets = nonCurrentAssets #[]
+
+        self.currentAssetsSubTotal = self.iterateSubtotals(self.currentAssets)
+        self.nonCurrentAssetsSubTotal = self.iterateSubtotals(self.nonCurrentAssets)
+        self.totalAssets = self.currentAssetsSubTotal + self.nonCurrentAssetsSubTotal
+
+        #self.Liabilities
+        self.totalLiabilities = 0
+
+        # which is defined by the Duo:
+        self.currentLiabilities = currentLiabilities #[]
+        self.nonCurrentLiabilities = nonCurrentLiabilities # []
+
+        self.currentLiabilitiesSubTotal = self.iterateSubtotals(self.currentLiabilities) 
+        self.nonCurrentLiabilitiesSubTotal = self.iterateSubtotals(self.nonCurrentLiabilities) 
+        self.totalLiabilities = self.currentLiabilitiesSubTotal + self.nonCurrentLiabilitiesSubTotal 
+
+        #self.equity
+        # which is defined by the Duo:
+        
+        self.currentEquities = currentEquities #[]
+        #self.nonCurrentEquity = []
+        
+        self.currentEquitesSubTotal = self.iterateSubtotals( self.currentEquities ) #0
+        #self.nonCurrentEquitySubTotal = 0
+        
+        #Now: totalEquities == currentEquitiesSubtotal
+        self.totalEquities =  self.currentEquitesSubTotal #0
+            
+    
     # get totals (easy path , Impractical ) 
 
     def getTotalAssets(self, _currentAssetsSubTotal, _nonCurrentAssetsSubTotal):
@@ -864,13 +774,13 @@ class balanceSheet:
             #3. Return 
             return self.totalLiabilities
 
-    def getTotalEquity(self, currentEquitySubTotal ) : #, nonCurrentEquitySubTotal):
+    def getTotalEquities(self, currentEquitySubTotal ) : #, nonCurrentEquitySubTotal):
             """ Assigns  currentEquitySubtotal """ 
             #1. Assign 
-            self.currentEquitySubTotal = currentEquitySubTotal
+            self.currentEquitiesSubTotal = currentEquitySubTotal
             # self.nonCurrentEquitySubTotal = nonCurrentEquitySubTotal
             #2. Assign #Add 
-            self.totalEquity = self.currentEquitySubTotal  # +  self.nonCurrentEquitySubTotal
+            self.totalEquities = self.currentEquitiesSubTotal  # +  self.nonCurrentEquitySubTotal
             #3. Return 
             return self.totalEquities
 
@@ -912,7 +822,7 @@ class balanceSheet:
             self.currentAssets = currentAssets
 
             #2. Calculate `currentAssetsSubTotal`
-            self.currentAssetsSubTotal = iterateSubtotals(self.currentAssets)
+            self.currentAssetsSubTotal = self.iterateSubtotals(self.currentAssets)
             #3. Return self.currentAssetsSubTotal
             return self.currentAssetsSubTotal
 
@@ -924,7 +834,7 @@ class balanceSheet:
             self.nonCurrentAssets = _nonCurrentAssets
 
             #2. Calculate `nonCurrentAssetsSubTotal`
-            self.nonCurrentAssetsSubTotal = iterateSubtotals(self.nonCurrentAssets)
+            self.nonCurrentAssetsSubTotal = self.iterateSubtotals(self.nonCurrentAssets)
 
             #3. Return `nonCurrentAssetsSubTotal` figure
             return self.nonCurrentAssetsSubTotal
@@ -955,7 +865,7 @@ class balanceSheet:
 
             # 2. Assign `currentLiabilitiesSubTotal` figure
 
-            self.currentLiabilitiesSubTotal = iterateSubtotals(self.currentLiabilities)
+            self.currentLiabilitiesSubTotal = self.iterateSubtotals(self.currentLiabilities)
 
             # 3. Return `currentLiabilitiesSubTotal` figure
             return self.currentLiabilitiesSubTotal
@@ -967,7 +877,7 @@ class balanceSheet:
         self.nonCurrentLiabilities = _nonCurrentLiabilities
 
         # 2. Assign `NonCurrentLiabilities` figure
-        self.nonCurrentLiabilitiesSubTotal = iterateSubtotals(self.nonCurrentLiabilities)
+        self.nonCurrentLiabilitiesSubTotal = self.iterateSubtotals(self.nonCurrentLiabilities)
 
         # 3. Return `currentLiabilitiesSubTotal` figure
         return self.nonCurrentLiabilitiesSubTotal
@@ -997,18 +907,28 @@ class balanceSheet:
         if  self.totalLiabilities is None:
             raise ValueError("Inappropriate value for `totalLiabilities`")
         return self.totalLiabilities
-    
+
+
+    def calcEquities(self,_currentEquities): #TODO: ERRONeous (Change) 
+        
+        if self.currentEquities is None:#not self.currentEquities is None:
+            
+            self.getEquities(_currentEquities) #call 
+            #self.currentEquities = self.iterateSubtotals(iterateSubtotals)#calcCurrentEquities(_currentEquities)
+            #self.totalEquities = getEquities(_currentEquities) #calcCurrentEquitiesSubtotal(_currentEquities)  #self.currentEquities
+        return self.totalEquities
     
     def calcCurrentEquitiesSubtotal(self,_currentEquities):
 
         """Assigns `currentEquities` list, calculates the figure of `nonCurrentEquity` Subtotal """
-        # 1. Assign
-        self.currentEquities = _currentEquities    # iterateSubtotals(currentEquity) 
-
+        
+        # 1. Assign to `currentEquities` 
+        self.currentEquities = self.iterateSubtotals( _currentEquities)
+        self.totalEquities = self.currentEquities 
         #2. currentEquitiesSubTotal
-        self.currentEquitiesSubTotal = iterateSubtotals(self.currentEquities)
+        self.currentEquitiesSubTotal =  self.currentEquities
 
-        #3. Assign
+        #3. Return subTotal
         return self.currentEquitiesSubTotal
 
     def getcurrentEquities(self):
@@ -1023,12 +943,14 @@ class balanceSheet:
     
     def getTotalEquities(self):
 
-        if not self.currentEquitiesSubtotal is None:
+        if self.currentEquitiesSubtotal is None: #not self.currentEquitiesSubtotal is None:
             self.totalEquities = self.currentEquitiesSubTotal
             
         return self.totalEquities
 
     def getTotalEquities2(self, totalEquities):
+        """overrides totalEquities """
+        
         self.totalEquities = totalEquities
         return self.totalEquities 
 
@@ -1037,29 +959,31 @@ class balanceSheet:
     # Working Capital  
     def workingCapital(self):
         """
-    1. A Short-Term measure: of overall liquidity (source:https://www.causal.app/whats-the-difference/working-capital-vs-net-working-capital)
-    2.Working capital is the amount of money used to facilitate the operations of the business.
-    calculated by:
-     Current Assets less Current Liabilities.
+        1. A Short-Term measure: of overall liquidity (source:https://www.causal.app/whats-the-difference/working-capital-vs-net-working-capital)
+        2.Working capital is the amount of money used to facilitate the operations of the business.
+        calculated by:
+         Current Assets less Current Liabilities.
 
-     pros:
-     allows to set short term -goals
-     (by meeting short-term obligations (i.e. current Liabilities, within a year)
+         pros:
+         1.allows to set short term -goals
+         (by meeting short-term obligations (i.e. current Liabilities, within a year)
 
-     pros : of being a strong woerking capital position
-     "Strong Working Capital" position,
-     it may be able to take advantage of a supplier's
-     offer to extend terms from 30 days to 60 days.
-     This would free up cash ( that could be
-     used for other purposes.)
+         pros : of being
+         working capital position
+         "Strong Working Capital" position,
+         it may be able to take advantage of a supplier's
+         
+         -it's ( possible to ) extend Debt terms from 30 to 60 days.
+         This would free up cash ( that could be
+         used for other purposes.)
 
-     cons:
-     1. a strong capital may mean that lots of assets are stored
-     in a form of inventories (in warehouses, instead of liquid cash)
-     thus, it is less likeliky to take advantage of opportunities,
-     requiring "quick cash investment"
-     
-    """
+         cons:
+         1. a large capital may mean that lots of assets are stored
+         in a form of inventories (in warehouses, instead of liquid cash)
+         thus, it is less likeliky to take advantage of opportunities,
+         requiring "quick cash investment"
+         
+        """
 
         self.workingCapital = self.currentAssetsSubTotal - self.currentLiabilitiesSubTotal
 
@@ -1071,8 +995,8 @@ class balanceSheet:
     def calcNetWorth(self): # takes 0 parameters
 
         """
-        - Is a Long-Term measure: of Proprietor's overall `liquidity`
-        Note: the sucess of running this function tightly depends on whether previously we have calculated the subTotals of : Assets, liabilites
+        - A Long-Term measure: of Proprietor's overall `liquidity`
+        Note: the sucess of running this function tightly depends on whether  we have previously calculated the `subTotals` of both: Assets, liabilites
             (otherwise, it wouldn't function, as expected)
         - is also called : the `Net Working Capital`
 
@@ -1086,9 +1010,10 @@ class balanceSheet:
         Infer: thus, it provides a more comprehensive picture of proprietor's value
 
         cons:
-        It may give a False sense of Security
-        Because proprietor's overall liquidy can drastically change
-        (Even if its net worth is strong)
+        It may give a `False Sense of Security`
+        Because proprietor's overall liquidity can  drastically change, (i.e. forex) from 1 timestamp, to another` 
+        (?)
+        
         
         """
 
@@ -1125,28 +1050,39 @@ class balanceSheet:
         return condition
     def verifyNetworth2(self):
         condition = self.getDifference() == 0
+
+    def getEquities(self, _currentEquities):
         
-    def calcCurrentEquities(self, _currentEquities):
+            self.currentEquities = self.iterateSubtotals(_currentEquities)#calcCurrentEquitiesSubtotal(_currentEquities) 
+            self.totalEquities = self.currentEquities
+            return self.totalEquities
+            
 
-        #1. calc currentEquities Subtotal (from `_currentEquities` list ) 
+    def calcEquities(self,_currentEquities): #TODO: ERRONeous (Change) 
+        
+        #if self.currentEquities is None:#not self.currentEquities is None:
+            
+        self.getEquities(_currentEquities) #call 
+            #self.currentEquities = self.iterateSubtotals(iterateSubtotals)#calcCurrentEquities(_currentEquities)
+            #self.totalEquities = getEquities(_currentEquities) #calcCurrentEquitiesSubtotal(_currentEquities)  #self.currentEquities
+        return self.totalEquities
 
-        self.currentEquities =  self.calcCurrentEquitiesSubtotal(_currentEquities) 
-        self.totalEquities =self.currentEquities
-        return self.currentEquities
+        def calcCurrentEquities(self, _currentEquities):
+
+            #1. call`getEquities` calc currentEquities Subtotal (from `_currentEquities` list ) 
+            self.getEquities(_currentEquities)
+            #self.currentEquities =  self.calcCurrentEquitiesSubtotal(_currentEquities)  
+            #self.totalEquities = self.currentEquities 
+            return self.currentEquities
     
     def calcTotalEquities(self, _currentEquities): # checked parameter name
 
         self.totalEquities = self.iterateSubtotals(_currentEquities) #calcCurrentEquitiesSubtotal(_currentEquities) 
         return self.totalEquities
 
-    def calcEquities(self,_currentEquities): #TODO: ERRONeous (Change) 
-        
-        if not self.currentEquities is None:
-            
-            self.currentEquities = self.calcCurrentEquities(_currentEquities)
-            self.totalEquities = self.currentEquities
-        return self.totalEquities
-    
+    def getEquities2(self):
+        return   bSheet2.calcEquities() # bSheet2.currentEquities # bSheet2.calcEquities()
+
     def getTotalEquities(self):
         """ returns totalEquities (from current """
         if not self.currentEquities is None:
@@ -1172,6 +1108,7 @@ class balanceSheet:
 
         self.title = title
         return title
+
 
     def getDifference(self):
         """ in best cases: difference =0 and all 3 major accounts
@@ -1209,8 +1146,8 @@ totalEquities = 65339 # totalEquity
 _equals = isEqual(totalAssets, totalLiabilities,  totalEquities)
 print("Equals = ", _equals )
 
-#LHS , RHS
-print( "difference = ", getDifference(323888, 258549 + 65339) )
+#LHS [Assets] , RHS[ Liabilities + Equities]
+print( "difference = ", getDifference(totalAssets, totalLiabilities + totalEquities) )
 # difference ( Assets, Liabilities, Equity)
 accountDifference = getDifference2(totalAssets, totalLiabilities , totalEquities)
 
@@ -1268,7 +1205,7 @@ print("bSheet.calcCurrentLiabilitiesSubTotal( cL2020) = ", bSheet.calcCurrentLia
 print("bSheet.calcNonCurrentLiabilitiesSubTotal(ncL2020)  = ",bSheet.calcNonCurrentLiabilitiesSubTotal(ncl2020))
 
 #currentEquity Subtotal
-print("bSheet.calcCurrentEquities(equities2020)  = ",bSheet.calcCurrentEquities(equities2020))
+print("bSheet.calcCurrentEquitiesSubtotal(equities2020)  = ",bSheet.calcCurrentEquitiesSubtotal(equities2020))
 
 #User can also view CurrentAsset Subtotal
 print("bSheet.currentAssetsSubTotal = ", bSheet.currentAssetsSubTotal )
@@ -1316,6 +1253,7 @@ print("IsNetWorthVerified = ", IsNetWorthVerified)
 #PS. in this example: current Assets seems to be missing exactly 2$ only
 
 #Source: https://www.investopedia.com/ask/answers/09/does-balance-sheet-always-balance.asp
+# the lists `XYearnames`, `xYear` to be zipped , as a dictionary at the end  
 ca2017names = ["Cash & Cash equivalents", "Short-term marketable Securities",
           "Accounts recievable, less alloances of 58 and 53 respectively",
           "Inventories", "vendor non-trade Recievables", "Other Current Assets"]
@@ -1334,12 +1272,18 @@ ncl2017names = ["Deferred revenue, non-current", "Long-term Debt",
 ncl2017 = [2836, 97207, 40415]
 
 ## Equity 2017
-equity2017 = [35867, 98330, -150] #current-Equity list (2020)
+equity2017 = [35867, 98330, -150] #current-Equity list (2017)
 
+#(static) balanceSheet methods
+
+# 1. constructor: balanceSheet(year: int, proprietor : str) 
 bSheet2 = balanceSheet(2017,proprietor="APPLE INC APPL")
+
+# 2. setTitle( title : str )
 bSheet2.setTitle("Consolidated Balance Sheets","(in millions, except number of shareswhich are reflected in thousands and per value")
 
 #SubTotals:
+
 #1. currentAssets
 currentAssetsSubTotal = bSheet2.calcCurrentAssetsSubTotal(ca2017)
 print("currentAssetsSubTotal = ", currentAssetsSubTotal)
@@ -1351,67 +1295,96 @@ print("nonCurrentAssetsSubTotal = ", nonCurrentAssetsSubTotal)
 #3. currentLiabilities' Subtotal
 print("bSheet.calcCurrentLiabilitiesSubTotal( cL2020) = ", bSheet2.calcCurrentLiabilitiesSubTotal( cl2017) )
 
-#non-current Liabilities' Subtotal
+#4.non-current Liabilities' Subtotal
 print("bSheet.calcNonCurrentLiabilitiesSubTotal(ncL2020)  = ",bSheet2.calcNonCurrentLiabilitiesSubTotal(ncl2017))
 
 #currentEquity Subtotal
 #User can also view CurrentAsset Subtotal
-print("bSheet.currentAssetsSubTotal = ", bSheet2.currentAssetsSubTotal )
+print("bSheet.currentAssetsSubTotal = ", bSheet2.currentAssetsSubTotal ) #TODO: currentEquitiesSubtotal()
 
 
 #Totals
-# A user can: 
+# A user can calculate: 
 # 1.TotalAssets
-#1. Calculate the Assets' `Total` by calcAssets(currentAssets, nonCurrentAssets)
+#1. Calculate the Assets' `Total`: calcAssets(currentAssets, nonCurrentAssets)
 totalAssets = bSheet2.calcAssets(ca2017,nca2017 )
 print("totalAssets = ", totalAssets)
 
 # 2.TotalLiabilities
-#2. Calculate the Liabilities' `Total by `calcTotalLiabilities(currentLiabilities, nonCurrentLiabilities)
+#2. Calculate the Liabilities' `Total: `calcTotalLiabilities(currentLiabilities, nonCurrentLiabilities)
 totalLiabilities = bSheet2.calcTotalLiabilities(cl2017, ncl2017)
 print("totalLiabilities = ", totalLiabilities)
 
 #3. TotalEquities
-#3. Calculate the Equiries' `Total` by `calcEquities(currentEquity)`
+#3. Calculate the Equities' `Total`: `calcEquities(currentEquity)`
 Equities = bSheet2.calcEquities(equity2017) # calcEquities(equity2020) 
 print("Equities =", Equities) 
-#end of Lvl 0
+#End of [Lvl 0]
 
-#lvl1: Analysis
+#[lvl1: Analysis]
+
 #1. Working Capital
-
-workingCapital = bSheet2.workingCapital() # #no error (check why)
-
+workingCapital = bSheet2.workingCapital() #compiles
 print("workingCapital = ", workingCapital)
-#2. Net Worth
 
+#2. Net Worth
+#2.1 calcNetWorth(): #Note: pre-supposes both `totalAssets`, `totalLiabilites` been: calculated,& stored in  `balanceSheet` instance [if not, use the other function]
+#2.2 calcNetWorth(totalAssets, totalLiabilities)
 bSheet2.calcNetWorth2(totalAssets, totalLiabilities)
 print("bSheet.NetWorth = ",bSheet2.NetWorth)
 
-#Is NetWorth
-
-IsNetWorthVerified = bSheet2.verifyNetWorth() #bSheet2.NetWorth) #should compile 
+#3. verifyNetWorth()
+IsNetWorthVerified = bSheet2.verifyNetWorth() #bSheet2.NetWorth) # compiles 
 print("IsNetWorthVerified = ", IsNetWorthVerified)
-# IsNetWorth = bSheet.verifyNetWorth(_networth, totalEquities) # bSheet.verifyNetWorth()
 
-print("Difference(Assets - liabilities) = ",bSheet2.getDifference() )
-print("bool is the same? = ", bSheet2.getDifference() == 0 ) # EXTRA #bSheet2.NetWorth) )
-#print("difference of difference" , abs(bSheet2.getDifference()) - bSheet2.verifyNetWorth( bSheet2.NetWorth) == bSheet2.calcEquities() )
-#the end
+
+#4. getDifference()
+print("Difference(Assets - (liabilities+ Equities) = ",bSheet2.getDifference() )
+#5.
+print("bool is the same (getDifference() ==0)? = ", bSheet2.getDifference() == 0 )
+# calcEquities
+print("1. bSheet2.calcCurrentEquitiesSubtotal(equity2017) = ",bSheet2.calcCurrentEquitiesSubtotal(equity2017)) # returns a list (of equities) 
+print("2. bSheet2.currentEquities = ",bSheet2.currentEquities)
+print("3. bSheet2.getEquities = ", bSheet2.getEquities(equity2017))#TODO
+
+print("bSheet2.NetWorth == bSheet2.calcEquities(equity2017)",bSheet2.NetWorth == bSheet2.calcEquities(equity2017))
+
+# print("difference of difference" , abs(bSheet2.getDifference()) - bSheet2.verifyNetWorth() == bSheet2.calcEquities(equity2017) )  # False 
+#print("difference of difference" , abs(bSheet2.getDifference()) - bSheet2.verifyNetWorth() == bSheet2.calcEquities() )  #bSheet2.NetWorth(NetWorth) == bSheet2.calcEquities() )
+#TODO:
+
+#1. check function  `calcEquities`
+# takes one Input argument: calcEquities(_currentEquities)
+
+#2. ensure function `getEquities` ,adding an attribute  `self.totalEquities`  (instead of the hassle of re-calculating `calcEquities(_currentEquities)` )
+
+#The End
+
+## def getEquities(self):
+##     return   self.calcEquities()  # bSheet2.currentEquities # bSheet2.calcEquities() #not currentEquities (list of Equities)
+
+#Extra:
+#class `printReport`
+#Encapsulates function above (including their different `lvl`s : lvl0, lvl1
 
 class printReport:
     def __init__(bSheet):
-        pass # encapsulated the `printed values` above 
-class StockholderEquity:
-    """ stock holder equity: is calculated iff:
+        pass # encapsulates the `printed values` above 
 
-    1. proprietor: is a `company`, small business (or so)
+class StockholderEquity: 
+    """ - The Capital 
+        - Stock holder equity:
+
+    1. proprietor: is 1. `personal` 2. `smallBusiness` 3. `company` (or so) #TODO:enum
+    
     2. calculated from :
     2.1. retainedEarnings : from the balances brought forward, at the start of each month (for the monthly) , Quarter (for the Quarterly) , year (for the Annual) Balance Sheet
-    2.2. capitalStock: current number of shares in the market
-    2.3. gains losses: calculated from the `Income Statement` or the `Statement of Comprehensive Income` Report's last figure , whether a company (or even a person, in the case of a small-business: single proprietorship, or partnership )
-    Whether they have incurred Gains (above break-even) or Incurred Losses (went below the Break-even point)
-
+    2.2. capitalStock[if proprietor is a `listed-company` ]: current number of shares in the market
+    2.3. Gains losses: calculated from: generating the Report: `Income Statement` (or the `Statement of Comprehensive Income`) Report's **Ending** figure, for a specific period (of time).
+         # In the following Scenarios: whether `User` is: a person (or even a company, in the case of a `small-business`, single proprietorship, or partnership )
+         # Whether they have incurred Gains (above break-even `0` ) or Incurred Losses (went below the Break-even point `0`)
+         # Hence the requirement for an `IncomeStatement` that boils down a year of Operations, including All -Immediate- Expenses Incurred, & `Gains` Realized, for specified period (month, Quarter, annum (year) ).
+         
     """
 
     class CapitalStock:
@@ -1427,11 +1400,18 @@ class StockholderEquity:
                 # pass 
 
         def __init__(self,capitalStock, retainedEarnings,GainsLosses):
+            """ Pass-in:
+            1.capital stock (from )
+            2. retainedEarnings: earnings in a period, that stays in buisness for further circulation, to capture and maximize benefits
+            - Note: [Tutor: Krassimir Petrov]: Also Account for `Dividends ( A company must set ); a `portion` from retained Earnings , given to `stockholders` #TODO
+            - Dividends: in otherwords, it is a contra-account [me:negative-Account] of `retainedEarnings` Account : an
+            that we (ethically) let go off , for the sake of `stockholders` ownerships of our `company`
+            
             self.capitalStock = capitalStock
             self.retainedEarnings = retainedEarnings
             self.GainsLosses = GainsLosses
             # pass
 
-        def calcStockHolderEquity(self):
-            self.StockholderEquity =  self.capitalStock + self.retainedEarnings + self.GainsLosses
-            
+            def calcStockHolderEquity(self):
+                self.StockholderEquity =  self.capitalStock + self.retainedEarnings + self.GainsLosses
+            """
