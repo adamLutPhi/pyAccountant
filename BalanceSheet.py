@@ -1119,7 +1119,7 @@ class balanceSheet:
 
         """
 
-        #get assets and liabilities , assign them to NetWorth
+       #get assets and liabilities , assign them to NetWorth
 
        # self.NetWorth = abs(self.totalAssets) - abs(self.totalLiabilities)  #self.totalAssets - self.totalLiabilities
 
