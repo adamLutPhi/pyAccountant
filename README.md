@@ -1,7 +1,8 @@
 # pyAccountant
 Accounting, in Python.
 Inspired by a Series of Lectures, by Prof. `Krassimir Petrov`
-
+[Principles of Accounting - Playlist 
+[YT]](https://www.youtube.com/playlist?list=PLesgViD0jhW8_Q5QfOribZqNrivFJ_evf)
 ## Credits
 
 to the only professor, that success couldn't have realized, without his helpful lectures,  the Professor of Money, Economics, & Accounting, Professor `Krassimir Petrov`. Thanks forwards , for the delightful lectures, which I wouldn't have **found success** without *( & special thanks, from *the heart*, for making Accounting Fun to watch)*
