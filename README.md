@@ -1,5 +1,7 @@
 # pyAccountant
-Accounting, in Python.
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7803969.svg)](https://doi.org/10.5281/zenodo.7803969)
+
+Accounting, in _Python_ and _Java_
 Inspired by a Series of Lectures, by Prof. `Krassimir Petrov`
 
 ## Credits
