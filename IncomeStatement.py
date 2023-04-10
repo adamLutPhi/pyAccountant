@@ -87,7 +87,7 @@ print("percentSub = ", x)
 
 
 # Add function that prints
-
+# shared
 def getDifference(LHS, RHS): # - 
     """for networth 
         totalAssets + totalLiabilities == totalEquities """
@@ -110,10 +110,10 @@ class IncomeStatement:
         return  x, p
         
     def getPercentage( p_sub, p_total):
-        """assumes _sub is 
+        """assumes p_sub is a the probability of event(sub)
 gets the percentage of sun (in relation to the sub (the expenses)
 
-- assumes _sub is 
+- assumes p_total is probability of event(total)
 gets the percentage of sun (in relation to the sub (the expenses) "
 
 
@@ -151,8 +151,8 @@ gets the percentage of sun (in relation to the sub (the expenses) """
         pass
 
 
-    def getRemainder(self,  _sub, _total):
-        return _total - _sub
+   # def getRemainder(self,  _sub, _total): # same as getDifference(LHSS, RHS)
+   #     return _total - _sub
 
 
     def printValue(self, val):
@@ -160,7 +160,7 @@ gets the percentage of sun (in relation to the sub (the expenses) """
         print(f" {val}  = ", percentSub)
 
 
-    def getDiff(self, percentAdd, percentSub):
+    def getpDiff(self, percentAdd, percentSub):
     
         # calculate the gap : diff  = %Add - %Sub
         diff = percentAdd - percentSub
@@ -304,6 +304,19 @@ def printWPrecision(total,precisionDigits: int =2):
     """ credit: Rex Logan, source:https://stackoverflow.com/questions/455612/limiting-floats-to-two-decimal-points """
     stringDigit=repr(precisionDigits)
     return("{:.2f}".format( round(total, precisionDigits)))
+
+def check_probability(x):
+    """ a probability, to be valid ,should be above 0 and below 1"""
+
+    condition = 0 <= x <= 1
+    if not condition :
+        return False
+    elif  condition :
+        return True
+    else:
+        raise ValeError
+
+
 _subtotal=3170.01
 """#UncommentMe In the end
 for itemName , itemPrice in zip( names , prices ):
@@ -337,9 +350,28 @@ print("difference(expectation - reality) = ", round(float(diff),2) )
 p_coke = cocaCola / subTotal
 
 p_pepsi = pepsi / subTotal
+check_probability(p_pepsi)
+# check_probability(p_pepsi)
+print(f"Is ProbabilityValid(Event(Pepsi)){check_probability(p_pepsi) }") 
+print(f"Is ProbabilityValid(Event(2 Cokes)){check_probability(2*p_coke) } ") # =  {check_probability(2*p_coke)} ") 
+
+#print( check_probability(2*p_coke) ) 
 
 print("p(pepsi) = ", p_pepsi)
 
 print("p(P_coke)= ",2*p_coke)
-print( 2*p_coke +p_pepsi == 1 ) 
+print( 2*p_coke +p_pepsi == 1 )
+
+val = p_pepsi + 2*p_coke
+print(f"total probaility { p_pepsi + 2*p_coke}")
+#condition = # sum#(enumerate(val)) == 1
+#if not condition:
+#     False
+#elif condition:
+#    True
+#else:
+#    raise ValueError("please recheck input, then try again later!")
+    
+
+
 
