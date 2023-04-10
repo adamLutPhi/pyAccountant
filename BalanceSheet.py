@@ -1,4 +1,9 @@
-# -*- coding: utf-8 -*-
+#Accounting Rules:
+## Rule1: Accounting Equation: totalAssets                     == totalLiabilities + totalEquities
+## Rule2: NetWorth           : totalAssets - totalLiabilities  == totalEquities
+##Note: the equations above are equivalent, in addition.
+## Rule3: bookValue of totalEquities calculated by : totalAssets less totalLiabilities. if its value is different than `totalEquities`
+
 """
 Created on Fri Apr  7 09:24:32 2023
 
