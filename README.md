@@ -1,7 +1,6 @@
 # pyAccountant
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7813678.svg)](https://doi.org/10.5281/zenodo.7813678)
-
+[![Gitee - pyAccountant](https://img.shields.io/badge/Gitee-pyAccountant-0B91F2)](https://gitee.com/lutfipro/py-accountant)
 
 Accounting, in _Python_ and _Java_
 Inspired by a Series of Lectures, by Prof. `Krassimir Petrov`
